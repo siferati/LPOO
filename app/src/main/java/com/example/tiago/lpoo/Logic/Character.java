@@ -98,5 +98,6 @@ public abstract class Character {
      */
     public void setPosition(Position position) {
         this.position = position;
+        int x;
     }
 }
