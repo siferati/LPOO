@@ -30,8 +30,7 @@ public abstract class Character {
     /**
      * Constructor
      */
-    public Character(int x, int y, Bitmap bitmap)
-    {
+    public Character(int x, int y, Bitmap bitmap) {
         position = new Position(x, y);
         this.bitmap = bitmap;
     }
@@ -39,8 +38,7 @@ public abstract class Character {
     /**
      * Default Constructor
      */
-    public Character()
-    {
+    public Character() {
         this(0, 0, null);
     }
 
@@ -54,6 +52,7 @@ public abstract class Character {
 
     /**
      * Getter
+     *
      * @return
      */
     public AnimationDrawable getAnimation() {
@@ -62,6 +61,7 @@ public abstract class Character {
 
     /**
      * Setter
+     *
      * @param animation
      */
     public void setAnimation(AnimationDrawable animation) {
@@ -70,6 +70,7 @@ public abstract class Character {
 
     /**
      * Getter
+     *
      * @return
      */
     public Bitmap getBitmap() {
@@ -78,6 +79,7 @@ public abstract class Character {
 
     /**
      * Setter
+     *
      * @param bitmap
      */
     public void setBitmap(Bitmap bitmap) {
@@ -86,6 +88,7 @@ public abstract class Character {
 
     /**
      * Getter
+     *
      * @return
      */
     public Position getPosition() {
@@ -94,10 +97,10 @@ public abstract class Character {
 
     /**
      * Setter
+     *
      * @param position
      */
     public void setPosition(Position position) {
         this.position = position;
-        int x;
     }
 }
