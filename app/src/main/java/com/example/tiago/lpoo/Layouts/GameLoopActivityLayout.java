@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.SystemClock;
+import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -51,8 +52,8 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
      *
      * @param context Context
      */
-    public GameLoopActivityLayout(Context context) {
-        super(context);
+    public GameLoopActivityLayout(Context context, AttributeSet attrs) {
+        super(context, attrs);
         thread = null;
         running = false;
         //load wizard's bitmap
