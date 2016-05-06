@@ -7,18 +7,31 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.SystemClock;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.tiago.lpoo.Logic.Wizard;
 import com.example.tiago.lpoo.R;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 /**
- * A class that represents the View where the game is running (game loop is located here)
+ * A class that represents the Custom View where the game is running (game loop is located here)
  */
 public class GameLoopActivityLayout extends SurfaceView implements Runnable {
 
     //Attributes:
+
+    /**
+     * Context of this view
+     */
+    Context context;
 
     /**
      * The separate thread where the game will run
@@ -45,6 +58,11 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
      */
     Wizard wizard;
 
+    /**
+     * Queue of inputs to process
+     */
+    ArrayList<MotionEvent> motionEvents;
+
     //Methods:
 
     /**
@@ -52,14 +70,25 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
      *
      * @param context Context
      */
-    public GameLoopActivityLayout(Context context, AttributeSet attrs) {
+    public GameLoopActivityLayout(final Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
         thread = null;
         running = false;
         //load wizard's bitmap
         Bitmap wizardAnimation = BitmapFactory.decodeResource(getResources(), R.drawable.wizard_animation);
         wizard = new Wizard(50, 50, wizardAnimation, null);
         surfaceHolder = getHolder();
+        motionEvents = new ArrayList<>();
+    }
+
+    /**
+     * Adds a Motion Event to the queue so it can be processed
+     *
+     * @param event Motion Event to be added to the queue
+     */
+    public void addMotionEvent(MotionEvent event) {
+        motionEvents.add(event);
     }
 
     /**
@@ -87,9 +116,8 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
             previous = current;
             //set lag to reflect the elapsed time since the last frame in the real world
             lag += elapsed;
-
-            //processInput();
-
+            //process motion events
+            processEvents();
             //i measures the number of updates made for each frame
             int i = 0;
             //while game's clock is behind the real world
@@ -114,6 +142,29 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
 
         }
 
+    }
+
+    /**
+     * Process motion events
+     */
+    private void processEvents() {
+        while (!motionEvents.isEmpty()) {
+            //get action
+            int action = motionEvents.get(0).getActionMasked();
+            switch (action) {
+                case MotionEvent.ACTION_DOWN:
+                    Log.w("Motion Event", "ACTION_DOWN");
+                    break;
+                case MotionEvent.ACTION_UP:
+                    Log.w("Motion Event", "ACTION_UP");
+                    break;
+                default:
+                    break;
+            }
+            //remove processed event from queue
+            motionEvents.remove(0);
+            Log.w("Array size", "" + motionEvents.size());
+        }
     }
 
     /**
