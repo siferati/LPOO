@@ -11,14 +11,10 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.tiago.lpoo.Logic.Wizard;
 import com.example.tiago.lpoo.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -76,8 +72,11 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         thread = null;
         running = false;
         //load wizard's bitmap
-        Bitmap wizardAnimation = BitmapFactory.decodeResource(getResources(), R.drawable.wizard_animation);
-        wizard = new Wizard(50, 50, wizardAnimation, null);
+        Bitmap wizardBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.wizard);
+        //load spell's bitmaps
+        Bitmap spellBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.earth_spell);
+        //initialize wizard
+        wizard = new Wizard(100, 100, wizardBitmap, spellBitmap);
         surfaceHolder = getHolder();
         motionEvents = new ArrayList<>();
     }
@@ -157,6 +156,8 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
                     break;
                 case MotionEvent.ACTION_UP:
                     Log.w("Motion Event", "ACTION_UP");
+                    //cast an earth spell
+                    wizard.castEarthSpell();
                     break;
                 default:
                     break;
@@ -186,7 +187,10 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         //lock the canvas
         canvas = surfaceHolder.lockCanvas();
         //draw all game objects to canvas
-        canvas.drawBitmap(wizard.getBitmap(), wizard.getPosition().x, wizard.getPosition().y, null);
+        //canvas.drawBitmap(wizard.getBitmap(), wizard.getPosition().x, wizard.getPosition().y, null);
+        wizard.render(canvas);
+        if (wizard.getSpell() != null)
+            wizard.getSpell().render(canvas);
         //unlock and post the canvas
         surfaceHolder.unlockCanvasAndPost(canvas);
     }

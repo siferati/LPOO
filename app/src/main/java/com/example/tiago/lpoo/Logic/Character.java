@@ -1,6 +1,7 @@
 package com.example.tiago.lpoo.Logic;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.drawable.AnimationDrawable;
 
 /**
@@ -49,6 +50,16 @@ public abstract class Character {
     {
         return (int) (dps * getResources())
     }*/
+
+    /**
+     * Render this object onto the screen
+     *
+     * @param canvas Canvas to draw to
+     */
+    public void render(Canvas canvas)
+    {
+        canvas.drawBitmap(bitmap, position.x, position.y, null);
+    }
 
     /**
      * Getter
