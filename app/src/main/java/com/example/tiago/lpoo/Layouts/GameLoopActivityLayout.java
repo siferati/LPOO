@@ -5,9 +5,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.os.SystemClock;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -76,7 +79,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         //load spell's bitmaps
         Bitmap spellBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.earth_spell);
         //initialize wizard
-        wizard = new Wizard(100, 100, wizardBitmap, spellBitmap);
+        wizard = new Wizard(250, 250, wizardBitmap, spellBitmap);
         surfaceHolder = getHolder();
         motionEvents = new ArrayList<>();
     }
