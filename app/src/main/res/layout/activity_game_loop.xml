@@ -12,10 +12,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageViewEarth"
-        android:layout_centerVertical="true"
+        android:src="@drawable/earth_button"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="100dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageViewFire"
+        android:src="@drawable/fire_button"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="15dp"
-        android:src="@drawable/earth_button"/>
+        android:layout_marginRight="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="100dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageViewWater"
+        android:src="@drawable/water_button"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="170dp"/>
 
 </RelativeLayout>

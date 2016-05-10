@@ -22,9 +22,14 @@ public class GameLoopActivity extends Activity {
     GameLoopActivityLayout layout;
 
     /**
-     * Image View of the Earth Spell
+     * Image View of the Earth Spell "Button"
      */
-    ImageView earthSpell;
+    ImageView earthButton;
+
+    /**
+     * Image View of the Fire Spell "Button"
+     */
+    ImageView fireButton;
 
     //Methods:
 
@@ -36,8 +41,16 @@ public class GameLoopActivity extends Activity {
         //fetch the custom view (where the game loop is running)
         layout = (GameLoopActivityLayout) findViewById(R.id.game_loop_activity_layout);
         //set spell listeners
-        earthSpell = (ImageView) findViewById(R.id.imageViewEarth);
-        earthSpell.setOnTouchListener(new View.OnTouchListener() {
+        earthButton = (ImageView) findViewById(R.id.imageViewEarth);
+        earthButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                layout.addMotionEvent(event);
+                return true;
+            }
+        });
+        fireButton = (ImageView) findViewById(R.id.imageViewFire);
+        fireButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 layout.addMotionEvent(event);
