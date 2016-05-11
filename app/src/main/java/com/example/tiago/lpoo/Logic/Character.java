@@ -114,4 +114,12 @@ public abstract class Character {
     public void setPosition(Position position) {
         this.position = position;
     }
+
+    /*
+     * Method - update position given a speed
+     */
+    public void updatePosition(int xspeed, int yspeed){
+        this.position.x += xspeed;
+        this.position.y += yspeed;
+    }
 }

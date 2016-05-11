@@ -15,6 +15,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.example.tiago.lpoo.Logic.Monster;
+import com.example.tiago.lpoo.Logic.Spawner;
 import com.example.tiago.lpoo.Logic.Wizard;
 import com.example.tiago.lpoo.R;
 
@@ -57,6 +59,11 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
      */
     Wizard wizard;
 
+    /*
+     * Spawner for a monster
+     */
+    ArrayList<Spawner> spawners;
+
     /**
      * Queue of inputs to process
      */
@@ -80,8 +87,10 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         Bitmap spellBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.earth_spell);
         //initialize wizard
         wizard = new Wizard(250, 250, wizardBitmap, spellBitmap);
+        Monster m = new Monster(500, 200, wizardBitmap, 100, 3, 3);
         surfaceHolder = getHolder();
         motionEvents = new ArrayList<>();
+        spawners = new ArrayList<Spawner>();
     }
 
     /**
@@ -143,7 +152,6 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
                 }
 
         }
-
     }
 
     /**
@@ -190,10 +198,12 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         //lock the canvas
         canvas = surfaceHolder.lockCanvas();
         //draw all game objects to canvas
+
         //canvas.drawBitmap(wizard.getBitmap(), wizard.getPosition().x, wizard.getPosition().y, null);
         wizard.render(canvas);
         if (wizard.getSpell() != null)
             wizard.getSpell().render(canvas);
+
         //unlock and post the canvas
         surfaceHolder.unlockCanvasAndPost(canvas);
     }
