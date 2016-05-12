@@ -5,9 +5,12 @@ import android.graphics.Bitmap;
 /**
  * A class that represents a Spell
  */
-public class Spell extends Character {
+public class Spell extends Entity {
 
     //Attributes:
+
+    //position
+    //spriteSheet
 
     //Methods:
 
@@ -20,13 +23,15 @@ public class Spell extends Character {
     }
 
     /**
-     * Constructor
-     * @param x X coord
-     * @param y Y coord
-     * @param bitmap bitmap
+     *
+     * @param x
+     * @param y
+     * @param xSpeed
+     * @param ySpeed
+     * @param bitmap
      */
-    public Spell(int x, int y, Bitmap bitmap)
+    public Spell(int x, int y, int xSpeed, int ySpeed, Bitmap bitmap)
     {
-        super(x, y, bitmap);
+        super(x, y, xSpeed, ySpeed, bitmap);
     }
 }

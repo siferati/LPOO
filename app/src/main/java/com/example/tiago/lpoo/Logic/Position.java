@@ -14,26 +14,35 @@ public class Position {
 
     /**
      * Y Coordinate of an Object's Position on the screen
-
      */
     public int y;
+
+    /**
+     * Speed along the X axis
+     */
+    public int xSpeed;
+
+    /**
+     * Speed along the Y axis
+     */
+    public int ySpeed;
 
     //Methods:
 
     /**
      * Default Constructor
      */
-    public Position()
-    {
-        this(0, 0);
+    public Position() {
+        this(0, 0, 0, 0);
     }
 
     /**
      * Constructor
      */
-    public Position(int x, int y)
-    {
+    public Position(int x, int y, int xSpeed, int ySpeed) {
         this.x = x;
         this.y = y;
+        this.xSpeed = xSpeed;
+        this.ySpeed = ySpeed;
     }
 }

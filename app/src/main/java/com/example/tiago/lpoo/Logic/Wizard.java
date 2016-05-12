@@ -1,26 +1,29 @@
 package com.example.tiago.lpoo.Logic;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 
-import com.example.tiago.lpoo.R;
+import java.util.ArrayList;
 
 /**
  * A class that represents the Wizard (main char)
  */
-public class Wizard extends Character {
+public class Wizard extends Entity {
 
     //Attributes:
 
+    //position
+    //bitmap
+
     /**
-     * Spell
+     * ArrayList of active spells at any given moment
      */
-    private Spell spell;
+    private ArrayList<Spell> spells;
 
     /**
      * Spell's bitmap
      */
-    private Bitmap bitmap_spell;
+    private Bitmap spellsSpriteSheet;
 
     //Methods:
 
@@ -29,23 +32,38 @@ public class Wizard extends Character {
      */
     public Wizard() {
         super();
-        spell = null;
+        spells = new ArrayList<>();
     }
 
     /**
      * Constructor
      */
-    public Wizard(int x, int y, Bitmap bitmap, Bitmap bitmap_spell) {
-        super(x, y, bitmap);
-        this.bitmap_spell = bitmap_spell;
-        spell = null;
+    public Wizard(int x, int y, int xSpeed, int ySpeed, Bitmap wizardSpriteSheet, Bitmap spellsSpriteSheet) {
+        super(x, y, xSpeed, ySpeed, wizardSpriteSheet);
+        spells = new ArrayList<>();
+        this.spellsSpriteSheet = spellsSpriteSheet;
+    }
+
+    /**
+     * Renders both Wizard and its active Spells onto the provided canvas
+     *
+     * @param canvas Canvas to draw to
+     */
+    @Override
+    public void render(Canvas canvas) {
+        //render wizard
+        super.render(canvas);
+        //render spells
+        for (Spell spell : spells)
+            spell.render(canvas);
     }
 
     /**
      * Casts an Earth Spell
      */
     public void castEarthSpell() {
-        spell = new Spell(position.x + 50, position.y + 50, bitmap_spell);
+        Spell earthSpell = new Spell(position.x + 50, position.y + 50, 0, 0, spellsSpriteSheet);
+        spells.add(earthSpell);
     }
 
     /**
@@ -53,17 +71,17 @@ public class Wizard extends Character {
      *
      * @return
      */
-    public Spell getSpell() {
-        return spell;
+    public ArrayList<Spell> getSpells() {
+        return spells;
     }
 
     /**
      * Setter
      *
-     * @param spell
+     * @param spells
      */
-    public void setSpell(Spell spell) {
-        this.spell = spell;
+    public void setSpells(ArrayList<Spell> spells) {
+        this.spells = spells;
     }
 
     /**
@@ -71,16 +89,16 @@ public class Wizard extends Character {
      *
      * @return
      */
-    public Bitmap getBitmap_spell() {
-        return bitmap_spell;
+    public Bitmap getSpellsSpriteSheet() {
+        return spellsSpriteSheet;
     }
 
     /**
      * Setter
      *
-     * @param bitmap_spell
+     * @param spellsSpriteSheet
      */
-    public void setBitmap_spell(Bitmap bitmap_spell) {
-        this.bitmap_spell = bitmap_spell;
+    public void setSpellsSpriteSheet(Bitmap spellsSpriteSheet) {
+        this.spellsSpriteSheet = spellsSpriteSheet;
     }
 }

@@ -59,7 +59,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
      */
     Wizard wizard;
 
-    /*
+    /**
      * Spawner for a monster
      */
     ArrayList<Spawner> spawners;
@@ -86,11 +86,11 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         //load spell's bitmaps
         Bitmap spellBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.earth_spell);
         //initialize wizard
-        wizard = new Wizard(250, 250, wizardBitmap, spellBitmap);
-        Monster m = new Monster(500, 200, wizardBitmap, 100, 3, 3);
+        wizard = new Wizard(250, 250, 0, 0, wizardBitmap, spellBitmap);
+        Monster m = new Monster(500, 200, 3, 3, wizardBitmap, 100);
         surfaceHolder = getHolder();
         motionEvents = new ArrayList<>();
-        spawners = new ArrayList<Spawner>();
+        spawners = new ArrayList<>();
     }
 
     /**
@@ -198,11 +198,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         //lock the canvas
         canvas = surfaceHolder.lockCanvas();
         //draw all game objects to canvas
-
-        //canvas.drawBitmap(wizard.getBitmap(), wizard.getPosition().x, wizard.getPosition().y, null);
         wizard.render(canvas);
-        if (wizard.getSpell() != null)
-            wizard.getSpell().render(canvas);
 
         //unlock and post the canvas
         surfaceHolder.unlockCanvasAndPost(canvas);
