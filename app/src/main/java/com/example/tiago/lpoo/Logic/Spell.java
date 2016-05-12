@@ -17,21 +17,20 @@ public class Spell extends Entity {
     /**
      * Default Constructor
      */
-    public Spell()
-    {
+    public Spell() {
         super();
     }
 
     /**
+     * Constructor
      *
-     * @param x
-     * @param y
-     * @param xSpeed
-     * @param ySpeed
-     * @param bitmap
+     * @param x           X coordinate
+     * @param y           Y coordinate
+     * @param xSpeed      Speed along the X axis
+     * @param ySpeed      Speed along the Y axis
+     * @param spriteSheet Sprite Sheet containing the Object's animations
      */
-    public Spell(int x, int y, int xSpeed, int ySpeed, Bitmap bitmap)
-    {
-        super(x, y, xSpeed, ySpeed, bitmap);
+    public Spell(int x, int y, int xSpeed, int ySpeed, Bitmap spriteSheet) {
+        super(x, y, xSpeed, ySpeed, spriteSheet);
     }
 }

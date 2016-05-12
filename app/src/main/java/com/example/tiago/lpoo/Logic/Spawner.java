@@ -1,7 +1,5 @@
 package com.example.tiago.lpoo.Logic;
 
-import android.graphics.Canvas;
-
 import java.util.ArrayList;
 
 public class Spawner {
@@ -18,48 +16,59 @@ public class Spawner {
      */
     private ArrayList<Monster> spawned;
 
-    /*
+    /**
      * Constructor
+     *
+     * @param prototype The monster that spawns.
      */
-    public Spawner(Monster prototype){
+    public Spawner(Monster prototype) {
         this.prototype = prototype;
-        this.spawned = new ArrayList<Monster>();
+        this.spawned = new ArrayList<>();
     }
 
-    /*
+    /**
      * Getter
      *
-     * @return the monter that spawns.
+     * @return The monster that spawns.
      */
-    public Monster getPrototype(){ return prototype; }
+    public Monster getPrototype() {
+        return prototype;
+    }
 
-    /*
+    /**
      * Getter
      *
-     * @return the spawned monsters.
+     * @return The spawned monsters
      */
-    public ArrayList<Monster> getSpawned(){ return spawned; }
+    public ArrayList<Monster> getSpawned() {
+        return spawned;
+    }
 
-    /*
-     * Setter
-     * @param the spawned monsters.
-     */
-    public void setSpawned( ArrayList<Monster> spawned) { this.spawned = spawned; }
-
-    /*
+    /**
      * Setter
      *
-     * @param the new monster
+     * @param spawned The spawned monsters.
      */
-    public void setPrototype(Monster prototype){
+    public void setSpawned(ArrayList<Monster> spawned) {
+        this.spawned = spawned;
+    }
+
+    /**
+     * Setter
+     *
+     * @param prototype The new monster
+     */
+    public void setPrototype(Monster prototype) {
         this.prototype = prototype;
     }
 
-    /*
-     * Method - Spawn a monster
+    /**
+     * Spawn a monster
+     *
+     * @return The spawned monster
      */
-    public Monster spawnMonster(){
-        Monster m = prototype.clone();
+    public Monster spawnMonster() {
+        Monster m = prototype.cloneMonster();
         spawned.add(m);
         return m;
     }

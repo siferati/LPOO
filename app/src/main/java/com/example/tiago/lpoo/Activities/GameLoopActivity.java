@@ -5,13 +5,14 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.tiago.lpoo.Layouts.GameLoopActivityLayout;
 import com.example.tiago.lpoo.R;
 
+/**
+ * Main Game Activity
+ */
 public class GameLoopActivity extends Activity {
 
     //Attributes:
@@ -30,6 +31,16 @@ public class GameLoopActivity extends Activity {
      * Image View of the Fire Spell "Button"
      */
     ImageView fireButton;
+
+    /**
+     * Image View of the Air Spell "Button"
+     */
+    ImageView airButton;
+
+    /**
+     * Image View of the Water Spell "Button"
+     */
+    ImageView waterButton;
 
     //Methods:
 
@@ -51,6 +62,22 @@ public class GameLoopActivity extends Activity {
         });
         fireButton = (ImageView) findViewById(R.id.imageViewFire);
         fireButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                layout.addMotionEvent(event);
+                return true;
+            }
+        });
+        airButton = (ImageView) findViewById(R.id.imageViewAir);
+        airButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                layout.addMotionEvent(event);
+                return true;
+            }
+        });
+        waterButton = (ImageView) findViewById(R.id.imageViewWater);
+        waterButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 layout.addMotionEvent(event);

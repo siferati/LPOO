@@ -36,7 +36,12 @@ public class Wizard extends Entity {
     }
 
     /**
-     * Constructor
+     * @param x                 X coordinate
+     * @param y                 Y coordinate
+     * @param xSpeed            Speed along the X axis
+     * @param ySpeed            Speed along the Y axis
+     * @param wizardSpriteSheet Sprite Sheet containing the Object's animations
+     * @param spellsSpriteSheet Sprite Sheet containing the Spells' animations
      */
     public Wizard(int x, int y, int xSpeed, int ySpeed, Bitmap wizardSpriteSheet, Bitmap spellsSpriteSheet) {
         super(x, y, xSpeed, ySpeed, wizardSpriteSheet);
@@ -69,7 +74,7 @@ public class Wizard extends Entity {
     /**
      * Getter
      *
-     * @return
+     * @return Active spells
      */
     public ArrayList<Spell> getSpells() {
         return spells;
@@ -78,7 +83,7 @@ public class Wizard extends Entity {
     /**
      * Setter
      *
-     * @param spells
+     * @param spells Active spells
      */
     public void setSpells(ArrayList<Spell> spells) {
         this.spells = spells;
@@ -87,7 +92,7 @@ public class Wizard extends Entity {
     /**
      * Getter
      *
-     * @return
+     * @return Spells' Sprite Sheet
      */
     public Bitmap getSpellsSpriteSheet() {
         return spellsSpriteSheet;
@@ -96,7 +101,7 @@ public class Wizard extends Entity {
     /**
      * Setter
      *
-     * @param spellsSpriteSheet
+     * @param spellsSpriteSheet Spells' Sprite Sheet
      */
     public void setSpellsSpriteSheet(Bitmap spellsSpriteSheet) {
         this.spellsSpriteSheet = spellsSpriteSheet;

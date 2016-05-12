@@ -38,6 +38,11 @@ public class Position {
 
     /**
      * Constructor
+     *
+     * @param x      X coordinate
+     * @param y      Y coordinate
+     * @param xSpeed Speed along the X axis
+     * @param ySpeed Speed along the Y axis
      */
     public Position(int x, int y, int xSpeed, int ySpeed) {
         this.x = x;

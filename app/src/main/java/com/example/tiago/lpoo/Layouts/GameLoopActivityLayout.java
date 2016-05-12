@@ -5,12 +5,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Point;
 import android.os.SystemClock;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -75,6 +72,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
      * Constructor
      *
      * @param context Context
+     * @param attrs   AttributeSet
      */
     public GameLoopActivityLayout(final Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -150,7 +148,6 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
         }
     }
 
@@ -163,10 +160,8 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
             int action = motionEvents.get(0).getActionMasked();
             switch (action) {
                 case MotionEvent.ACTION_DOWN:
-                    Log.w("Motion Event", "ACTION_DOWN");
                     break;
                 case MotionEvent.ACTION_UP:
-                    Log.w("Motion Event", "ACTION_UP");
                     //cast an earth spell
                     wizard.castEarthSpell();
                     break;
@@ -175,7 +170,6 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
             }
             //remove processed event from queue
             motionEvents.remove(0);
-            Log.w("Array size", "" + motionEvents.size());
         }
     }
 
@@ -199,7 +193,6 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         canvas = surfaceHolder.lockCanvas();
         //draw all game objects to canvas
         wizard.render(canvas);
-
         //unlock and post the canvas
         surfaceHolder.unlockCanvasAndPost(canvas);
     }

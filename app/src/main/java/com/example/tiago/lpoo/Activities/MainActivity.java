@@ -7,6 +7,9 @@ import android.view.View;
 
 import com.example.tiago.lpoo.R;
 
+/**
+ * Main Activity (opens when game is launched)
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -15,8 +18,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void ButtonPlayListener(View view)
-    {
+    /**
+     * Listener for playButton
+     *
+     * @param view View
+     */
+    public void ButtonPlayListener(View view) {
         Intent intent = new Intent(this, GameLoopActivity.class);
         startActivity(intent);
     }

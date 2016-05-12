@@ -11,12 +11,12 @@ public abstract class Entity {
     //Attributes:
 
     /**
-     * Coordinates of the Entity on the screen (in dps)
+     * Coordinates of the Entity on the screen and axis speed (in dps)
      */
     protected Position position;
 
     /**
-     * Bitmap
+     * Sprite Sheet containing the Object's animations
      */
     protected Bitmap spriteSheet;
 
@@ -24,10 +24,16 @@ public abstract class Entity {
 
     /**
      * Constructor
+     *
+     * @param x           X coordinate
+     * @param y           Y coordinate
+     * @param xSpeed      Speed along the X axis
+     * @param ySpeed      Speed along the Y axis
+     * @param spriteSheet Sprite Sheet containing the Object's animations
      */
-    public Entity(int x, int y, int xSpeed, int ySpeed, Bitmap bitmap) {
+    public Entity(int x, int y, int xSpeed, int ySpeed, Bitmap spriteSheet) {
         position = new Position(x, y, xSpeed, ySpeed);
-        this.spriteSheet = bitmap;
+        this.spriteSheet = spriteSheet;
     }
 
     /**
@@ -50,16 +56,14 @@ public abstract class Entity {
      *
      * @param canvas Canvas to draw to
      */
-    public void render(Canvas canvas)
-    {
+    public void render(Canvas canvas) {
         canvas.drawBitmap(spriteSheet, position.x, position.y, null);
     }
 
     /**
      * Updates current X and Y positions according to its speed
      */
-    public void update()
-    {
+    public void update() {
         position.x += position.xSpeed;
         position.y += position.ySpeed;
     }
@@ -67,7 +71,7 @@ public abstract class Entity {
     /**
      * Getter
      *
-     * @return
+     * @return Bitmap
      */
     public Bitmap getSpriteSheet() {
         return spriteSheet;
@@ -76,7 +80,7 @@ public abstract class Entity {
     /**
      * Setter
      *
-     * @param spriteSheet
+     * @param spriteSheet Bitmap
      */
     public void setSpriteSheet(Bitmap spriteSheet) {
         this.spriteSheet = spriteSheet;
@@ -85,7 +89,7 @@ public abstract class Entity {
     /**
      * Getter
      *
-     * @return
+     * @return Position
      */
     public Position getPosition() {
         return position;
@@ -94,7 +98,7 @@ public abstract class Entity {
     /**
      * Setter
      *
-     * @param position
+     * @param position Position
      */
     public void setPosition(Position position) {
         this.position = position;
