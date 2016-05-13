@@ -12,6 +12,16 @@ public class Spell extends Entity {
     //position
     //spriteSheet
 
+    /**
+     * This spell's current state
+     */
+    protected SpellState state;
+
+    /**
+     * How many frames this spell takes to cast
+     */
+    protected int castingDuration;
+
     //Methods:
 
     /**
@@ -19,6 +29,7 @@ public class Spell extends Entity {
      */
     public Spell() {
         super();
+        castingDuration = 0;
     }
 
     /**
@@ -32,5 +43,17 @@ public class Spell extends Entity {
      */
     public Spell(int x, int y, int xSpeed, int ySpeed, Bitmap spriteSheet) {
         super(x, y, xSpeed, ySpeed, spriteSheet);
+        castingDuration = 0;
+    }
+
+    @Override
+    public void update() {
+        super.update();
+        SpellState nextState = state.update(this);
+        if (nextState != null)
+        {
+            //free(state);
+            //state = nextState;
+        }
     }
 }
