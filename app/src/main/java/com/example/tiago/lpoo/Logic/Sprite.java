@@ -1,7 +1,9 @@
 package com.example.tiago.lpoo.Logic;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.Log;
 
 /**
  * A class (works like a C++ struct) that represents a sprite to draw
@@ -80,18 +82,100 @@ public class Sprite {
 
     public void update() {
         frameCount++;
+        if (frameCount > 30)
+        {
+            frameCount = 1;
+            nextSprite();
+        }
     }
 
     public void nextSprite() {
-        //if src.bottom yada yada
-
         //if it's the last sprite of a row
-        if (src.right == width - 1) {
-            int previousTop = src.top;
-            //choose the 1st sprite of the next row
-            src.offsetTo(0, previousTop + spriteHeight);
+        if (src.right >= width - 1) {
+            if (src.bottom >= height - 1)
+                src.offsetTo(0, 0); //if it's the last sprite of the sprite sheet, move to start again
+            else {
+                int previousTop = src.top;
+                //choose the 1st sprite of the next row
+                src.offsetTo(0, previousTop + spriteHeight);
+            }
         } else
-            src.offset(spriteWidth, 0);
+            src.offset(spriteWidth, 0); //move to next sprite (on its right)
+    }
 
+    public void render(Canvas canvas, Rect dest) {
+        canvas.drawBitmap(spriteSheet, src, dest, null);
+    }
+
+    public int getColumns() {
+        return columns;
+    }
+
+    public void setColumns(int columns) {
+        this.columns = columns;
+    }
+
+    public int getFrameCount() {
+        return frameCount;
+    }
+
+    public void setFrameCount(int frameCount) {
+        this.frameCount = frameCount;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public void setRows(int rows) {
+        this.rows = rows;
+    }
+
+    public int getSpriteHeight() {
+        return spriteHeight;
+    }
+
+    public void setSpriteHeight(int spriteHeight) {
+        this.spriteHeight = spriteHeight;
+    }
+
+    public Bitmap getSpriteSheet() {
+        return spriteSheet;
+    }
+
+    public void setSpriteSheet(Bitmap spriteSheet) {
+        this.spriteSheet = spriteSheet;
+    }
+
+    public int getSpriteWidth() {
+        return spriteWidth;
+    }
+
+    public void setSpriteWidth(int spriteWidth) {
+        this.spriteWidth = spriteWidth;
+    }
+
+    public Rect getSrc() {
+        return src;
+    }
+
+    public void setSrc(Rect src) {
+        this.src = src;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
     }
 }

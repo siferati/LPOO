@@ -63,6 +63,14 @@ public class Wizard extends Entity {
             spell.render(canvas);
     }
 
+    public void render2(Canvas canvas) {
+        //render wizard
+        super.render2(canvas);
+        //render spells
+        for (Spell spell : spells)
+            spell.render(canvas);
+    }
+
     /**
      * Casts an Earth Spell
      */

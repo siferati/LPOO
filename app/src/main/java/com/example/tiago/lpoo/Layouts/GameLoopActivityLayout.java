@@ -80,7 +80,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         thread = null;
         running = false;
         //load wizard's bitmap
-        Bitmap wizardBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.wizard);
+        Bitmap wizardBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.teste);
         //load spell's bitmaps
         Bitmap spellBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.earth_spell);
         //initialize wizard
@@ -177,7 +177,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
      * Updates all game objects
      */
     private void update() {
-
+        wizard.update();
     }
 
     /**
@@ -192,7 +192,8 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         //lock the canvas
         canvas = surfaceHolder.lockCanvas();
         //draw all game objects to canvas
-        wizard.render(canvas);
+        //wizard.render(canvas);
+        wizard.render2(canvas);
         //unlock and post the canvas
         surfaceHolder.unlockCanvasAndPost(canvas);
     }
