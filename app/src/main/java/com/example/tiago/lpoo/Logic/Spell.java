@@ -1,5 +1,6 @@
 package com.example.tiago.lpoo.Logic;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
 /**
@@ -35,23 +36,27 @@ public class Spell extends Entity {
     /**
      * Constructor
      *
-     * @param x           X coordinate
-     * @param y           Y coordinate
-     * @param xSpeed      Speed along the X axis
-     * @param ySpeed      Speed along the Y axis
-     * @param spriteSheet Sprite Sheet containing the Object's animations
+     * @param dps    TRUE if coordinates are in dps, FALSE if they are in pxls
+     * @param x      X coordinate
+     * @param y      Y coordinate
+     * @param xSpeed Speed along the X axis
+     * @param ySpeed Speed along the Y axis
+     * @param sprite Sprite Sheet containing the Object's animations
      */
-    public Spell(int x, int y, int xSpeed, int ySpeed, Bitmap spriteSheet) {
-        super(x, y, xSpeed, ySpeed, spriteSheet);
+    public Spell(Context context, boolean dps, int x, int y, int xSpeed, int ySpeed, Sprite sprite) {
+        super(context);
         castingDuration = 0;
+        this.sprite = sprite;
+        state = null;
+        //initialize positions
+        initPosition(dps, x, y, xSpeed, ySpeed);
     }
 
     @Override
     public void update() {
         super.update();
         SpellState nextState = state.update(this);
-        if (nextState != null)
-        {
+        if (nextState != null) {
             //free(state);
             //state = nextState;
         }

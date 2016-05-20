@@ -3,8 +3,6 @@ package com.example.tiago.lpoo.Logic;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.util.Log;
-
 /**
  * A class (works like a C++ struct) that represents a sprite to draw
  */
@@ -58,7 +56,7 @@ public class Sprite {
     private int frameCount;
 
     //Methods:
-
+    //TODO receber inicio e fim da selecçao da spritesheet no constructor
     /**
      * Constructor
      *

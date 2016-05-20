@@ -1,6 +1,6 @@
 package com.example.tiago.lpoo.Logic;
 
-import android.graphics.Bitmap;
+import android.content.Context;
 
 /**
  * Class that represents a Monster
@@ -14,19 +14,22 @@ public class Monster extends Entity {
      */
     protected int health;
 
+    //TODO fix all javadocs
     /**
      * Constructor
      *
-     * @param x           X coordinate
-     * @param y           Y coordinate
-     * @param xSpeed      Speed along the X axis
-     * @param ySpeed      Speed along the Y axis
-     * @param spriteSheet Sprite Sheet containing the Object's animations
-     * @param health      Monster's health
+     * @param x       X coordinate (in dps)
+     * @param y       Y coordinate (in dps)
+     * @param xSpeed  Speed along the X axis (in dps)
+     * @param ySpeed  Speed along the Y axis (in dps)
+     * @param context Context
+     * @param health  Monster's health
      */
-    public Monster(int x, int y, int xSpeed, int ySpeed, Bitmap spriteSheet, int health) {
-        super(x, y, xSpeed, ySpeed, spriteSheet);
+    public Monster(Context context, boolean dps, int x, int y, int xSpeed, int ySpeed, int health) {
+        super(context);
         this.health = health;
+        //initialize positions
+        initPosition(dps, x, y, xSpeed, ySpeed);
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.example.tiago.lpoo.Logic;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
 /**
@@ -25,8 +26,8 @@ public class EarthSpell extends Spell{
         castingDuration = 30;
     }
 
-    public EarthSpell(int x, int y, int xSpeed, int ySpeed, Bitmap spriteSheet) {
-        super(x, y, xSpeed, ySpeed, spriteSheet);
+    public EarthSpell(Context context, boolean dps, int x, int y, int xSpeed, int ySpeed, Sprite sprite) {
+        super(context, dps, x, y, xSpeed, ySpeed, sprite);
         castingDuration = 30;
         state = new CastingState(castingDuration);
     }

@@ -1,6 +1,6 @@
 package com.example.tiago.lpoo.Logic;
 
-import android.graphics.Bitmap;
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
@@ -12,59 +12,60 @@ public abstract class Entity {
     //Attributes:
 
     /**
-     * Coordinates of the Entity on the screen and axis speed (in dps)
+     * Coordinates of the Entity on the screen, its hitbox and axis speed (in pixels != dps)
      */
     protected Position position;
 
     /**
-     * Sprite Sheet containing the Object's animations
+     * Sprite containing the Object's animations
      */
-    protected Bitmap spriteSheet;
+    protected Sprite sprite;
 
     /**
-     * Sprite Sheet containing the Object's animations
+     * Context
      */
-    protected Sprite spriteSheet2;
-
-    /**
-     * Position2
-     */
-    protected Rect position2;
+    protected Context context;
 
     //Methods:
 
     /**
      * Constructor
      *
-     * @param x           X coordinate
-     * @param y           Y coordinate
-     * @param xSpeed      Speed along the X axis
-     * @param ySpeed      Speed along the Y axis
-     * @param spriteSheet Sprite Sheet containing the Object's animations
+     * @param context Context
      */
-    public Entity(int x, int y, int xSpeed, int ySpeed, Bitmap spriteSheet) {
-        position = new Position(x, y, xSpeed, ySpeed);
-        this.spriteSheet = spriteSheet;
-        //create sprite
-        spriteSheet2 = new Sprite(spriteSheet, 1, 3);
-        //position2
-        position2 = new Rect(x, y, x + spriteSheet2.getSpriteWidth(), y + spriteSheet2.getSpriteHeight());
+    public Entity(Context context) {
+        this.context = context;
+        sprite = null;
+        position = null;
     }
 
     /**
      * Default Constructor
      */
     public Entity() {
-        this(0, 0, 0, 0, null);
+        this(null);
+    }
+
+    protected void initPosition(boolean dps, int x, int y, int xSpeed, int ySpeed) {
+        if (dps) {
+            int x_dps = toPixels(x);
+            int y_dps = toPixels(y);
+            int xSpeed_dps = toPixels(xSpeed);
+            int ySpeed_dps = toPixels(ySpeed);
+            position = new Position(new Rect(x_dps, y_dps, x_dps + sprite.getSpriteWidth(), y_dps + sprite.getSpriteHeight()), xSpeed_dps, ySpeed_dps);
+        } else
+            position = new Position(new Rect(x, y, x + sprite.getSpriteWidth(), y + sprite.getSpriteHeight()), xSpeed, ySpeed);
     }
 
     /**
-     * Converter from DPs to PXs
+     * Convert from density pixels to pixels
+     *
+     * @param dps Density Pixels to convert
+     * @return Dps converted to pixels
      */
-    /*private int toPixels(float dps)
-    {
-        return (int) (dps * getResources())
-    }*/
+    protected int toPixels(float dps) {
+        return (int) (dps * context.getResources().getDisplayMetrics().density + 0.5f);
+    }
 
     /**
      * Render this object onto the screen
@@ -72,43 +73,15 @@ public abstract class Entity {
      * @param canvas Canvas to draw to
      */
     public void render(Canvas canvas) {
-        canvas.drawBitmap(spriteSheet, position.x, position.y, null);
-    }
-
-    /**
-     * Render this object onto the screen
-     *
-     * @param canvas Canvas to draw to
-     */
-    public void render2(Canvas canvas) {
-        spriteSheet2.render(canvas, position2);
+        sprite.render(canvas, position.position);
     }
 
     /**
      * Updates current X and Y positions according to its speed
      */
     public void update() {
-        position.x += position.xSpeed;
-        position.y += position.ySpeed;
-        spriteSheet2.update();
-    }
-
-    /**
-     * Getter
-     *
-     * @return Bitmap
-     */
-    public Bitmap getSpriteSheet() {
-        return spriteSheet;
-    }
-
-    /**
-     * Setter
-     *
-     * @param spriteSheet Bitmap
-     */
-    public void setSpriteSheet(Bitmap spriteSheet) {
-        this.spriteSheet = spriteSheet;
+        position.update();
+        sprite.update();
     }
 
     /**
