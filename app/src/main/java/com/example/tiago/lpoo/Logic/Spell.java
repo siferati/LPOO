@@ -1,12 +1,11 @@
 package com.example.tiago.lpoo.Logic;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 
 /**
  * A class that represents a Spell
  */
-public class Spell extends Entity {
+public abstract class Spell extends Entity {
 
     //Attributes:
 
@@ -55,10 +54,12 @@ public class Spell extends Entity {
     @Override
     public void update() {
         super.update();
-        SpellState nextState = state.update(this);
+        SpellState nextState = state.update();
         if (nextState != null) {
             //free(state);
-            //state = nextState;
+            state = nextState;
+            //call the enter action of the new state
+            state.enter(this);
         }
     }
 }

@@ -8,9 +8,6 @@ public class ActiveState extends SpellState {
 
     //Attributes:
 
-    //frameCount
-    //frameDuration
-
     //Methods:
 
     /**
@@ -20,5 +17,16 @@ public class ActiveState extends SpellState {
      */
     public ActiveState(int frameDuration) {
         super(frameDuration);
+    }
+
+    @Override
+    public void enter(Spell spell) {
+        //change sprite
+        spell.getSprite().init(30, 0, 0);
+    }
+
+    @Override
+    public SpellState update() {
+        return null;
     }
 }

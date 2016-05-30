@@ -58,7 +58,7 @@ public class Wizard extends Entity {
         Bitmap wizardSpriteSheet = BitmapFactory.decodeResource(context.getResources(), R.drawable.teste2);
         sprite = new Sprite(wizardSpriteSheet, 15, 2, 7, 0, 10);
         //load spell's sprite sheet
-        spellsSpriteSheet = BitmapFactory.decodeResource(context.getResources(), R.drawable.earth_spell);
+        spellsSpriteSheet = BitmapFactory.decodeResource(context.getResources(), R.drawable.teste);
         //initialize positions
         initPosition(dps, x, y, xSpeed, ySpeed);
     }
@@ -81,10 +81,19 @@ public class Wizard extends Entity {
      * Casts an Earth Spell
      */
     public void castEarthSpell() {
-        Sprite earthSpellSprite = new Sprite(spellsSpriteSheet, 30, 1, 1, 0, 0);
+        Sprite earthSpellSprite = new Sprite(spellsSpriteSheet, 30, 1, 3, 0, 2);
         //coordinates given are already in pxls (from wizard constructor), so boolean dps = false
         Spell earthSpell = new EarthSpell(context, false, position.position.left + toPixels(50), position.position.top + toPixels(50), 0, 0, earthSpellSprite);
         spells.add(earthSpell);
+    }
+
+    @Override
+    public void update() {
+        //update wizard
+        super.update();
+        //update spells
+        for (Spell spell : spells)
+            spell.update();
     }
 
     /**

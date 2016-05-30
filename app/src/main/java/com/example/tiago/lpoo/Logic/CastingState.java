@@ -7,9 +7,6 @@ public class CastingState extends SpellState {
 
     //Attributes:
 
-    //frameCount
-    //frameDuration
-
     //Methods:
 
     /**
@@ -22,11 +19,18 @@ public class CastingState extends SpellState {
     }
 
     @Override
-    public SpellState update(Spell spell) {
-        super.update(spell);
+    public SpellState update() {
+        //update frameCount
+        frameCount++;
         //if the entire animation as been played
-        if (frameCount > frameDuration)
-            return new ActiveState(frameDuration);
+        if (frameCount > stateDuration)
+            return new ActiveState(stateDuration);
         return null;
+    }
+
+    @Override
+    public void enter(Spell spell) {
+        //change sprite
+        spell.getSprite().init(30, 0, 2);
     }
 }

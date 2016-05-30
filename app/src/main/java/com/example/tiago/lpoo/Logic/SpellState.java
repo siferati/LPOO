@@ -1,9 +1,8 @@
 package com.example.tiago.lpoo.Logic;
 
-import javax.xml.datatype.Duration;
-
 /**
  * An abstract class that represents a spell's state
+ * State order: Casting State > Active State
  */
 public abstract class SpellState {
 
@@ -17,29 +16,33 @@ public abstract class SpellState {
     /**
      * How many frames this state lasts
      */
-    protected int frameDuration;
+    protected int stateDuration;
 
     //Methods:
 
     /**
      * Constructor
-     * @param frameDuration How many frames this state lasts
+     *
+     * @param stateDuration How many frames this state lasts
      */
-    public SpellState(int frameDuration) {
+    public SpellState(int stateDuration) {
         frameCount = 0;
-        this.frameDuration = frameDuration;
+        this.stateDuration = stateDuration;
     }
 
     /**
-     * Updates the spell's state
+     * Update Method
      *
-     * @param spell Spell
+     * @return next state
      */
-    public SpellState update(Spell spell)
-    {
-        //add 1 frame to the count
-        frameCount++;
-        return null;
-    }
+    public abstract SpellState update();
+
+    /**
+     * Methods called to enter the new state
+     *
+     * @param spell Spell to which this state belongs
+     */
+    public abstract void enter(Spell spell);
+
 }
 

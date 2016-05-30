@@ -101,4 +101,12 @@ public abstract class Entity {
     public void setPosition(Position position) {
         this.position = position;
     }
+
+    public Sprite getSprite() {
+        return sprite;
+    }
+
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
+    }
 }

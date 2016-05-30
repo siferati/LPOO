@@ -10,11 +10,6 @@ public class EarthSpell extends Spell{
 
     //Attributes:
 
-    //position
-    //spriteSheet
-    //state
-    //castingDuration
-
     //Methods:
 
     /**
@@ -23,12 +18,12 @@ public class EarthSpell extends Spell{
     public EarthSpell()
     {
         super();
-        castingDuration = 30;
+        castingDuration = 0;
     }
 
     public EarthSpell(Context context, boolean dps, int x, int y, int xSpeed, int ySpeed, Sprite sprite) {
         super(context, dps, x, y, xSpeed, ySpeed, sprite);
-        castingDuration = 30;
+        castingDuration = sprite.getNSprites() * sprite.getFrameDuration();
         state = new CastingState(castingDuration);
     }
 

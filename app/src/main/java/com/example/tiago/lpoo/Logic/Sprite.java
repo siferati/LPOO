@@ -71,6 +71,11 @@ public class Sprite {
      */
     private Rect last;
 
+    /**
+     * How many sprites(frames) this animation has
+     */
+    private int nSprites;
+
     //Methods:
 
     /**
@@ -90,6 +95,17 @@ public class Sprite {
         this.columns = columns;
         spriteHeight = height / rows;
         spriteWidth = width / columns;
+        init(frameDuration, first, last);
+    }
+
+    /**
+     * (Re)set certain sprite attributes
+     * @param frameDuration
+     * @param first
+     * @param last
+     */
+    public void init(int frameDuration, int first, int last)
+    {
         //aux variables
         int firstX = spriteWidth * (first % columns);
         int firstY = spriteHeight * (first / columns);
@@ -103,6 +119,7 @@ public class Sprite {
         src = new Rect(this.first);
         frameCount = 0;
         this.frameDuration = frameDuration;
+        nSprites = last - first + 1;
     }
 
 
@@ -207,5 +224,37 @@ public class Sprite {
 
     public void setWidth(int width) {
         this.width = width;
+    }
+
+    public Rect getFirst() {
+        return first;
+    }
+
+    public void setFirst(Rect first) {
+        this.first = first;
+    }
+
+    public int getFrameDuration() {
+        return frameDuration;
+    }
+
+    public void setFrameDuration(int frameDuration) {
+        this.frameDuration = frameDuration;
+    }
+
+    public Rect getLast() {
+        return last;
+    }
+
+    public void setLast(Rect last) {
+        this.last = last;
+    }
+
+    public int getNSprites() {
+        return nSprites;
+    }
+
+    public void setNSprites(int nSprites) {
+        this.nSprites = nSprites;
     }
 }
