@@ -4,8 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.util.Log;
 
 import com.example.tiago.lpoo.R;
 
@@ -55,11 +53,10 @@ public class Wizard extends Entity {
      */
     public Wizard(Context context, boolean dps, int x, int y, int xSpeed, int ySpeed) {
         super(context);
-        Log.w("Wizard Constructor", "finished super");
         spells = new ArrayList<>();
         //load wizard's sprite sheet
-        Bitmap wizardSpriteSheet = BitmapFactory.decodeResource(context.getResources(), R.drawable.teste);
-        sprite = new Sprite(wizardSpriteSheet, 1, 3);
+        Bitmap wizardSpriteSheet = BitmapFactory.decodeResource(context.getResources(), R.drawable.teste2);
+        sprite = new Sprite(wizardSpriteSheet, 15, 2, 7, 0, 10);
         //load spell's sprite sheet
         spellsSpriteSheet = BitmapFactory.decodeResource(context.getResources(), R.drawable.earth_spell);
         //initialize positions
@@ -84,7 +81,7 @@ public class Wizard extends Entity {
      * Casts an Earth Spell
      */
     public void castEarthSpell() {
-        Sprite earthSpellSprite = new Sprite(spellsSpriteSheet, 1, 1);
+        Sprite earthSpellSprite = new Sprite(spellsSpriteSheet, 30, 1, 1, 0, 0);
         //coordinates given are already in pxls (from wizard constructor), so boolean dps = false
         Spell earthSpell = new EarthSpell(context, false, position.position.left + toPixels(50), position.position.top + toPixels(50), 0, 0, earthSpellSprite);
         spells.add(earthSpell);

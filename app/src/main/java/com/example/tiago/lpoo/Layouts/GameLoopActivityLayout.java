@@ -2,12 +2,9 @@ package com.example.tiago.lpoo.Layouts;
 
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.SystemClock;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -77,10 +74,8 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         thread = null;
         running = false;
         //initialize wizard
-        Log.w("Constructor", "initializing wizard");
-        wizard = new Wizard(context, true, 50, 50, 0, 0);
+        wizard = new Wizard(context, true, 100, 50, 0, 0);
         //Monster m = new Monster(context, true, 500, 200, 3, 3, 100);
-        Log.w("Constructor", "finished initializing wizard");
         surfaceHolder = getHolder();
         motionEvents = new ArrayList<>();
         spawners = new ArrayList<>();

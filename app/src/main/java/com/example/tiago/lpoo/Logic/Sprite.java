@@ -3,6 +3,7 @@ package com.example.tiago.lpoo.Logic;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+
 /**
  * A class (works like a C++ struct) that represents a sprite to draw
  */
@@ -55,16 +56,33 @@ public class Sprite {
      */
     private int frameCount;
 
+    /**
+     * How many frames each sprite lasts
+     */
+    private int frameDuration;
+
+    /**
+     * First sprite of the animation requested
+     */
+    private Rect first;
+
+    /**
+     * Last sprite of the animation requested
+     */
+    private Rect last;
+
     //Methods:
-    //TODO receber inicio e fim da selecçao da spritesheet no constructor
+
     /**
      * Constructor
      *
      * @param spriteSheet The sprite sheet
      * @param rows        Number of rows in the sprite sheet
      * @param columns     Number of columns in the sprite sheet
+     * @param first       Index of first sprite of spritesheet (first sprite has index 0!)
+     * @param last        Index of last sprite of spritesheet
      */
-    public Sprite(Bitmap spriteSheet, int rows, int columns) {
+    public Sprite(Bitmap spriteSheet, int frameDuration, int rows, int columns, int first, int last) {
         this.spriteSheet = spriteSheet;
         height = spriteSheet.getHeight();
         width = spriteSheet.getWidth();
@@ -72,33 +90,47 @@ public class Sprite {
         this.columns = columns;
         spriteHeight = height / rows;
         spriteWidth = width / columns;
-        //set the source rectangle (1st sprite of the sprite sheet)
-        src = new Rect(0, 0, spriteWidth, spriteHeight);
+        //aux variables
+        int firstX = spriteWidth * (first % columns);
+        int firstY = spriteHeight * (first / columns);
+        int lastX = spriteWidth * (last % columns);
+        int lastY = spriteHeight * (last / columns);
+        //set first sprite
+        this.first = new Rect(firstX, firstY, firstX + spriteWidth, firstY + spriteHeight);
+        //set last sprite
+        this.last = new Rect(lastX, lastY, lastX + spriteWidth, lastY + spriteHeight);
+        //set the source rectangle (1st sprite of the animation requested)
+        src = new Rect(this.first);
         frameCount = 0;
+        this.frameDuration = frameDuration;
     }
 
 
     public void update() {
         frameCount++;
-        if (frameCount > 30)
-        {
+        if (frameCount > frameDuration) {
             frameCount = 1;
             nextSprite();
         }
     }
 
     public void nextSprite() {
-        //if it's the last sprite of a row
-        if (src.right >= width - 1) {
-            if (src.bottom >= height - 1)
-                src.offsetTo(0, 0); //if it's the last sprite of the sprite sheet, move to start again
-            else {
-                int previousTop = src.top;
-                //choose the 1st sprite of the next row
-                src.offsetTo(0, previousTop + spriteHeight);
-            }
-        } else
-            src.offset(spriteWidth, 0); //move to next sprite (on its right)
+        //if it's the last sprite
+        if (src.right >= last.right && src.bottom >= last.bottom)
+            src.set(first);
+        else {
+            //if it's the last sprite of a row
+            if (src.right >= width - 1) {
+                if (src.bottom >= height - 1)
+                    src.set(first); //if it's the last sprite of the sprite sheet, move to start again
+                else {
+                    int previousTop = src.top;
+                    //choose the 1st sprite of the next row
+                    src.offsetTo(0, previousTop + spriteHeight);
+                }
+            } else
+                src.offset(spriteWidth, 0); //move to next sprite (on its right)
+        }
     }
 
     public void render(Canvas canvas, Rect dest) {
