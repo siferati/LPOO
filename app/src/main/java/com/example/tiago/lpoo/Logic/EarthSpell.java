@@ -1,7 +1,6 @@
 package com.example.tiago.lpoo.Logic;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 
 /**
  * A class that represents an Earth Spell

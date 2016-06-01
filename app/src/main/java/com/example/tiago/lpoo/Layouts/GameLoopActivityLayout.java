@@ -3,6 +3,7 @@ package com.example.tiago.lpoo.Layouts;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -181,6 +182,8 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
             return;
         //lock the canvas
         canvas = surfaceHolder.lockCanvas();
+        //draw white canvas
+        canvas.drawColor(Color.WHITE);
         //draw all game objects to canvas
         wizard.render(canvas);
         //unlock and post the canvas

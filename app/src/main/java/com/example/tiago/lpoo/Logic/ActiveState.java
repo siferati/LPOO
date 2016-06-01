@@ -22,7 +22,7 @@ public class ActiveState extends SpellState {
     @Override
     public void enter(Spell spell) {
         //change sprite
-        spell.getSprite().init(30, 0, 0);
+        spell.getSprite().init(30, 9, 9);
     }
 
     @Override
