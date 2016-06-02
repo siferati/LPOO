@@ -4,10 +4,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.util.Log;
 
 import com.example.tiago.lpoo.R;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * A class that represents the Wizard (main char)
@@ -91,9 +93,17 @@ public class Wizard extends Entity {
     public void update() {
         //update wizard
         super.update();
+        //get it for spells
+        Iterator<Spell> it = spells.iterator();
         //update spells
-        for (Spell spell : spells)
+        while (it.hasNext())
+        {
+            Spell spell = it.next();
             spell.update();
+            //if spell is dead, remove it
+            if (!spell.isActive())
+                it.remove();
+        }
     }
 
     /**

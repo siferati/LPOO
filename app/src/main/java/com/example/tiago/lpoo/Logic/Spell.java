@@ -9,9 +9,6 @@ public abstract class Spell extends Entity {
 
     //Attributes:
 
-    //position
-    //spriteSheet
-
     /**
      * This spell's current state
      */
@@ -21,6 +18,11 @@ public abstract class Spell extends Entity {
      * How many frames this spell takes to cast
      */
     protected int castingDuration;
+
+    /**
+     * TRUE if spell is active, FALSE otherwise (When set to FALSE, means object is dead)
+     */
+    protected boolean active;
 
     //Methods:
 
@@ -49,17 +51,26 @@ public abstract class Spell extends Entity {
         state = null;
         //initialize positions
         initPosition(dps, x, y, xSpeed, ySpeed);
+        active = true;
     }
 
     @Override
     public void update() {
         super.update();
-        SpellState nextState = state.update();
+        SpellState nextState = state.update(this);
         if (nextState != null) {
             //free(state);
             state = nextState;
             //call the enter action of the new state
             state.enter(this);
         }
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

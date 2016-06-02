@@ -23,7 +23,7 @@ public class EarthSpell extends Spell{
     public EarthSpell(Context context, boolean dps, int x, int y, int xSpeed, int ySpeed, Sprite sprite) {
         super(context, dps, x, y, xSpeed, ySpeed, sprite);
         castingDuration = sprite.getNSprites() * sprite.getFrameDuration();
-        state = new CastingState(castingDuration);
+        state = new EarthCastingState();
     }
 
 }
