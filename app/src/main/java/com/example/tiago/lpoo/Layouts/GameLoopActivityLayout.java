@@ -5,6 +5,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -12,12 +15,15 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.example.tiago.lpoo.Logic.Entity;
 import com.example.tiago.lpoo.Logic.Monster;
+import com.example.tiago.lpoo.Logic.Position;
 import com.example.tiago.lpoo.Logic.Spawner;
 import com.example.tiago.lpoo.Logic.Wizard;
 import com.example.tiago.lpoo.R;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * A class that represents the Custom View where the game is running (game loop is located here)
@@ -34,12 +40,12 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
     /**
      * The separate thread where the game will run
      */
-    Thread thread;
+    Thread thread = null;
 
     /**
      * TRUE - the game is running | FALSE - the game is NOT running
      */
-    boolean running;
+    boolean running = false;
 
     /**
      * Canvas where the rendering is happening
@@ -62,6 +68,17 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
     ArrayList<Spawner> spawners;
 
     /**
+     * Total score
+     */
+    int score;
+
+    int wave;
+    int monstersToSpawn;
+    int spawnedCounter;
+    boolean newWave;
+    int waveTimeCounter;
+
+    /**
      * Queue of inputs to process
      */
     ArrayList<MotionEvent> motionEvents;
@@ -74,21 +91,27 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
      * @param context Context
      * @param attrs   AttributeSet
      */
-    public GameLoopActivityLayout(final Context context, AttributeSet attrs) {
+    public GameLoopActivityLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         thread = null;
         running = false;
+        score = 0;
+        wave = 1;
+        newWave = true;
+        monstersToSpawn = toSpawn();
+        spawnedCounter = 0;
+        waveTimeCounter = 0;
         //load wizard's bitmap
         Bitmap wizardBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.wizard);
         //load spell's bitmaps
         Bitmap spellBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.earth_spell);
         //initialize wizard
-        wizard = new Wizard(250, 250, 0, 0, wizardBitmap, spellBitmap);
-        Monster m = new Monster(500, 200, 3, 3, wizardBitmap, 100);
+        wizard = new Wizard(920, 500, 0, 0, wizardBitmap, spellBitmap);
+        spawners = new ArrayList<Spawner>();
+        createRandomSpawners(3);
         surfaceHolder = getHolder();
         motionEvents = new ArrayList<>();
-        spawners = new ArrayList<>();
     }
 
     /**
@@ -105,6 +128,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
      */
     @Override
     public void run() {
+
         //Updates Per Second (if the game ran at 30 FPS, it would be updated once every frame)
         final int UPS = 30;
         //how often (in milliseconds) an update is made
@@ -131,12 +155,18 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
             int i = 0;
             //while game's clock is behind the real world
             while (lag >= MS_PER_UPDATE && i < MAX_UPDATES_PER_FRAME) {
+                if (newWave) waveTimeCounter += elapsed;
+                else{
+                    newWave = false;
+                    waveTimeCounter = 0;
+                }
                 //update all game objects
                 update();
                 //set lag for next iteration
                 lag -= MS_PER_UPDATE;
                 //set i for next iteration
                 i++;
+
             }
             //interpolation - lag is divided by MS_PER_UPDATE in order to normalize the value
             render(lag / MS_PER_UPDATE);
@@ -176,8 +206,32 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
     /**
      * Updates all game objects
      */
-    private void update() {
-
+    private void update(){
+        Random r = new Random();
+        wizard.update();
+        for (Spawner s: spawners) {
+            for (Monster m : s.getSpawned()) {
+                m.hit(1);
+            }
+            s.updateHealth();
+            score += s.removeDead();
+        }
+        if (newWave && waveTimeCounter < 5000) {}
+        else{
+            newWave = false;
+            waveTimeCounter = 0;
+            if (spawnedCounter < monstersToSpawn) {
+                int index = r.nextInt(spawners.size());
+                while (spawners.get(index).update() != 1) {}
+                spawnedCounter++;
+            }
+            else{
+                wave++;
+                spawnedCounter = 0;
+                newWave = true;
+                monstersToSpawn = toSpawn();
+            }
+        }
     }
 
     /**
@@ -187,12 +241,27 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
      */
     private void render(float interpolation) {
         //if the surface is NOT valid, exit rendering
-        if (!surfaceHolder.getSurface().isValid())
+        if (!surfaceHolder.getSurface().isValid()){
             return;
+        }
+
         //lock the canvas
         canvas = surfaceHolder.lockCanvas();
         //draw all game objects to canvas
+
+        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+        for (Spawner s: spawners){
+            for (Monster m: s.getSpawned()){
+                m.render(canvas);
+            }
+        }
         wizard.render(canvas);
+        Paint p = new Paint();
+        p.setTextSize(100);
+        p.setColor(Color.LTGRAY);
+        canvas.drawText("Score: " + score, 100, 100, p);
+        canvas.drawText("Wave: " + (wave - 1), 1350, 100, p);
+
         //unlock and post the canvas
         surfaceHolder.unlockCanvasAndPost(canvas);
     }
@@ -227,4 +296,24 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         //start the thread
         thread.start();
     }
+
+    public void createRandomSpawners(int spawnerNumber){
+        int x, y;
+        Random rand = new Random();
+        for (int i = 0; i < spawnerNumber; i++) {
+            x = rand.nextInt(1000);
+            y = rand.nextInt(800);
+            Monster m = new Monster(x, y, 0, 0, wizard.getSpriteSheet(), 20);
+            m.setSpeedsToWizard(this.wizard.getPosition()); // TODO
+            spawners.add(new Spawner(m, 200, rand.nextInt(100) + 50));
+        }
+    }
+
+    public int toSpawn(){
+        if (wave < 5){
+            return wave;
+        }
+        else return wave + score % 4;
+    }
+
 }
