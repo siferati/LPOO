@@ -8,14 +8,13 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.os.SystemClock;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import com.example.tiago.lpoo.Logic.Entity;
-import com.example.tiago.lpoo.Logic.Position;
 import com.example.tiago.lpoo.Logic.Spawner;
 import com.example.tiago.lpoo.Logic.Wizard;
-
+import com.example.tiago.lpoo.Logic.Monster;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -97,7 +96,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         spawnedCounter = 0;
         waveTimeCounter = 0;
         //initialize wizard
-        wizard = new Wizard(context, true, 100, 50, 0, 0);
+        wizard = new Wizard(context, true, 300, 200, 0, 0);
         spawners = new ArrayList<Spawner>();
         createRandomSpawners(3);
         surfaceHolder = getHolder();
@@ -118,7 +117,6 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
      */
     @Override
     public void run() {
-
         //Updates Per Second (if the game ran at 30 FPS, it would be updated once every frame)
         final int UPS = 30;
         //how often (in milliseconds) an update is made
@@ -237,10 +235,6 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
 
         //lock the canvas
         canvas = surfaceHolder.lockCanvas();
-        //draw white canvas
-        canvas.drawColor(Color.WHITE);
-        //draw all game objects to canvas
-
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
         for (Spawner s: spawners){
             for (Monster m: s.getSpawned()){
@@ -293,9 +287,9 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         int x, y;
         Random rand = new Random();
         for (int i = 0; i < spawnerNumber; i++) {
-            x = rand.nextInt(1000);
-            y = rand.nextInt(800);
-            Monster m = new Monster(x, y, 0, 0, wizard.getSpriteSheet(), 20);
+            x = rand.nextInt(500);
+            y = rand.nextInt(200);
+            Monster m = new Monster(context, true, x, y, 0, 0, 20);
             m.setSpeedsToWizard(this.wizard.getPosition()); // TODO
             spawners.add(new Spawner(m, 200, rand.nextInt(100) + 50));
         }

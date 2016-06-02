@@ -3,6 +3,7 @@ package com.example.tiago.lpoo.Logic;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.Log;
 
 /**
  * A class that represents a Entity (monster, wizard, etc)
@@ -52,6 +53,9 @@ public abstract class Entity {
             int y_dps = toPixels(y);
             int xSpeed_dps = toPixels(xSpeed);
             int ySpeed_dps = toPixels(ySpeed);
+            Log.w("a", "x_dps: " + x_dps + ", y_dps: " + y_dps);
+            Log.w("a", "xSpeed_dps: " + xSpeed_dps + ", ySpeed_dps: " + ySpeed_dps);
+            Log.w("a", "spriteWidth: "+ sprite.getWidth() + ", spriteHeight: " + sprite.getSpriteHeight());
             position = new Position(new Rect(x_dps, y_dps, x_dps + sprite.getSpriteWidth(), y_dps + sprite.getSpriteHeight()), xSpeed_dps, ySpeed_dps);
         } else
             position = new Position(new Rect(x, y, x + sprite.getSpriteWidth(), y + sprite.getSpriteHeight()), xSpeed, ySpeed);

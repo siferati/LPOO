@@ -1,10 +1,14 @@
 package com.example.tiago.lpoo.Logic;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+
+import com.example.tiago.lpoo.R;
 
 /**
  * Class that represents a Monster
@@ -38,6 +42,8 @@ public class Monster extends Entity {
         super(context);
         this.health = health;
         this.corpseDur = 20;
+        Bitmap monsterSpriteSheet = BitmapFactory.decodeResource(context.getResources(), R.drawable.wizard);
+        this.sprite = new Sprite(monsterSpriteSheet, 1, 1, 1, 0, 0);
         //initialize positions
         initPosition(dps, x, y, xSpeed, ySpeed);
     }
@@ -119,8 +125,11 @@ public class Monster extends Entity {
      * @return this monster, with new x, y
      */
     protected Monster cloneMonster(int x, int y){
-        Monster clone = new Monster(this.position.x, this.position.y, this.position.xSpeed, this.position.ySpeed, this.spriteSheet, this.health);
-        clone.setPosition(new Position(x, y, this.position.xSpeed, this.position.ySpeed));
+        Monster clone = new Monster();
+        clone.setSprite(this.sprite);
+        clone.setPosition(this.position);
+        clone.initPosition(false, x, y, this.position.xSpeed, this.position.ySpeed);
+        clone.setHealth(this.health);
         return clone;
     }
 
@@ -128,17 +137,17 @@ public class Monster extends Entity {
     public void render(Canvas canvas) {
         //render monster
         super.render(canvas);
-        int middle = this.position.x + this.spriteSheet.getWidth() / 2;
+        int middle = this.getPosition().position.centerX();
         int total = this.health * 5;
         Paint p = new Paint();
         p.setColor(Color.RED);
-        canvas.drawRect(new Rect(middle - total / 2, this.position.y, middle + total / 2, this.position.y + 5), p);
+        canvas.drawRect(new Rect(middle - total / 2, this.position.position.top, middle + total / 2, this.position.position.top + 5), p);
 
     }
 
     public void setSpeedsToWizard(Position wizard_position){
-        int dif_x = position.x - wizard_position.x;
-        int dif_y = position.y - wizard_position.y;
+        int dif_x = position.position.centerX() - wizard_position.position.centerX();
+        int dif_y = position.position.centerY() - wizard_position.position.centerY();
 
         int factor = 50; // TODO
 

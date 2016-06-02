@@ -144,7 +144,7 @@ public class Spawner {
         Random r = new Random();
         int newx = r.nextInt(this.spawnRadius);
         int newy = r.nextInt(this.spawnRadius);
-        Monster m = prototype.cloneMonster(this.prototype.getPosition().x + newx, this.prototype.getPosition().y + newy);
+        Monster m = prototype.cloneMonster(this.prototype.getPosition().position.left + newx, this.prototype.getPosition().position.top + newy);
         spawned.add(m);
         return m;
     }
