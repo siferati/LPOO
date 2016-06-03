@@ -85,6 +85,12 @@ public class Monster extends Entity {
     public int getCorpseDur() {return corpseDur;}
 
     /**
+     *
+     * @param context the context
+     */
+    public void setContext (Context context) {this.context = context;}
+
+    /**
      * Setter
      *
      * @param corpseDur new corpse duration
@@ -129,6 +135,7 @@ public class Monster extends Entity {
      */
     protected Monster cloneMonster(int x, int y){
         Monster clone = new Monster();
+        clone.setContext(this.context);
         clone.setSprite(this.sprite);
         clone.setPosition(this.position);
         clone.initPosition(false, x, y, this.position.xSpeed, this.position.ySpeed);
@@ -141,10 +148,10 @@ public class Monster extends Entity {
         //render monster
         super.render(canvas);
         int middle = this.getPosition().position.centerX();
-        int total = this.health * 5;
+        int total = toPixels(this.health);
         Paint p = new Paint();
         p.setColor(Color.RED);
-        canvas.drawRect(new Rect(middle - total / 2, this.position.position.top, middle + total / 2, this.position.position.top + 5), p);
+        canvas.drawRect(new Rect(middle - total / 2, this.position.position.top, middle + total / 2, this.position.position.top + toPixels(2)), p);
 
     }
 
