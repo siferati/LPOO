@@ -19,6 +19,7 @@ import com.example.tiago.lpoo.Logic.Wizard;
 import com.example.tiago.lpoo.Logic.Monster;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
@@ -181,6 +182,11 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
             int i = 0;
             //while game's clock is behind the real world
             while (lag >= MS_PER_UPDATE && i < MAX_UPDATES_PER_FRAME) {
+                if (monstersInCriticalArea() >= 1) {
+                    writeScoreFile("Scores.txt");
+                    Log.w("ASDAS", "Writing...");
+                }
+                Log.w("ASDASDASDASDA", readScoreFile("Scores.txt"));
                 if (newWave) waveTimeCounter += elapsed;
                 else{
                     newWave = false;
@@ -347,22 +353,22 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         Random rand = new Random();
 
         // North
-        Monster m = new Monster(context, true, 350, 0, 0, 0, 100);
+        Monster m = new Monster(context, true, 350, 0, 0, 0, 150);
         m.setSpeedsToWizard(this.wizard.getPosition());
         spawners.add(new Spawner(m, 200, rand.nextInt(50) + 20));
 
         // South
-        Monster s = new Monster(context, true, 350, 400, 0, 0, 100);
+        Monster s = new Monster(context, true, 350, 400, 0, 0, 150);
         s.setSpeedsToWizard(this.wizard.getPosition());
         spawners.add(new Spawner(s, 200, rand.nextInt(50) + 20));
 
         // East
-        m = new Monster(context, true, 700, 200, 0, 0, 100);
+        m = new Monster(context, true, 700, 200, 0, 0, 150);
         m.setSpeedsToWizard(this.wizard.getPosition());
         spawners.add(new Spawner(m, 200, rand.nextInt(50) + 20));
 
         // West
-        m = new Monster(context, true, 0, 200, 0, 0, 100);
+        m = new Monster(context, true, 0, 200, 0, 0, 150);
         m.setSpeedsToWizard(this.wizard.getPosition());
         spawners.add(new Spawner(m, 200, rand.nextInt(50) + 20));
 
@@ -406,7 +412,6 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
     public void writeScoreFile(String filename){
         File path = context.getFilesDir();
         File file = new File(path, filename);
-        Log.w("AS", "" + path.toString());
         FileOutputStream outputStream;
         try{
             outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
@@ -418,6 +423,21 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         }
     }
 
-    public void readScoreFile(){
+    public String readScoreFile(String filename){
+        File path = context.getFilesDir();
+        File file = new File(path, filename);
+        int length = (int) file.length();
+        byte[] bytes = new byte[length];
+        try {
+            FileInputStream in = new FileInputStream(file);
+            in.read(bytes);
+            in.close();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        String contents = new String(bytes);
+        return contents;
     }
 }
