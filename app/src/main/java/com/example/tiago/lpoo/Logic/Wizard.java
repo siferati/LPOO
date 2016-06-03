@@ -85,7 +85,7 @@ public class Wizard extends Entity {
     public void castEarthSpell() {
         Sprite earthSpellSprite = new Sprite(spellsSpriteSheet, 4, 4, 4, 0, 8);
         //coordinates given are already in pxls (from wizard constructor), so boolean dps = false
-        Spell earthSpell = new EarthSpell(context, false, position.position.left + toPixels(150), position.position.top + toPixels(150), 0, 0, earthSpellSprite);
+        Spell earthSpell = new EarthSpell(context, false, position.position.left + toPixels(50), position.position.top + toPixels(50), 0, 0, earthSpellSprite);
         spells.add(earthSpell);
     }
 
