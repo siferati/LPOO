@@ -58,7 +58,7 @@ public class Wizard extends Entity {
         spells = new ArrayList<>();
         //load wizard's sprite sheet
         Bitmap wizardSpriteSheet = BitmapFactory.decodeResource(context.getResources(), R.drawable.wizard);
-        sprite = new Sprite(wizardSpriteSheet, 1, 1, 1, 0, 0);
+        sprite = new Sprite(wizardSpriteSheet, 10, 1, 1, 0, 0);
         //load spell's sprite sheet
         spellsSpriteSheet = BitmapFactory.decodeResource(context.getResources(), R.drawable.earth_spell);
         //initialize positions

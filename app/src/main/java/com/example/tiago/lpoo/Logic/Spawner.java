@@ -1,5 +1,7 @@
 package com.example.tiago.lpoo.Logic;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -142,8 +144,16 @@ public class Spawner {
      */
     public Monster spawnMonster() {
         Random r = new Random();
-        int newx = r.nextInt(this.spawnRadius);
-        int newy = r.nextInt(this.spawnRadius);
+        int newx = 0;
+        int newy = 0;
+        if (this.spawnRadius == 0){
+            newx = 0;
+            newy = 0;
+        }
+        else {
+            newx = r.nextInt(this.spawnRadius);
+            newy = r.nextInt(this.spawnRadius);
+        }
         Monster m = prototype.cloneMonster(this.prototype.getPosition().position.left + newx, this.prototype.getPosition().position.top + newy);
         spawned.add(m);
         return m;

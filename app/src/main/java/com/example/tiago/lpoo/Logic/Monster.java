@@ -10,6 +10,8 @@ import android.graphics.Rect;
 
 import com.example.tiago.lpoo.R;
 
+import java.util.Random;
+
 /**
  * Class that represents a Monster
  */
@@ -54,6 +56,7 @@ public class Monster extends Entity {
     public Monster() {
         super();
         this.health = 0;
+        this.corpseDur = 20;
     }
 
     /**
@@ -146,12 +149,13 @@ public class Monster extends Entity {
     }
 
     public void setSpeedsToWizard(Position wizard_position){
-        int dif_x = position.position.centerX() - wizard_position.position.centerX();
-        int dif_y = position.position.centerY() - wizard_position.position.centerY();
+        float dif_x = position.position.centerX() - wizard_position.position.centerX();
+        float dif_y = position.position.centerY() - wizard_position.position.centerY();
 
-        int factor = 50; // TODO
+        Random rand = new Random();
+        int factor = rand.nextInt(50) + 50;
 
-        this.position.xSpeed = - dif_x / factor;
-        this.position.ySpeed = - dif_y / factor;
+        this.position.xSpeed = (int) (- dif_x / factor);
+        this.position.ySpeed = (int) (- dif_y / factor);
     }
 }

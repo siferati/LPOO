@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import com.example.tiago.lpoo.Logic.Position;
 import com.example.tiago.lpoo.Logic.Spawner;
 import com.example.tiago.lpoo.Logic.Wizard;
 import com.example.tiago.lpoo.Logic.Monster;
@@ -65,11 +67,40 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
      */
     int score;
 
+    /*
+     * Current Wave
+     */
     int wave;
+
+    /**
+     * Total monsters to spawn in this wave
+     */
     int monstersToSpawn;
+
+    /**
+     * Monsters Spawned already in this wave
+     */
     int spawnedCounter;
+
+    /**
+     * Check if it's a new wave of monsters
+     */
     boolean newWave;
+
+    /**
+     * Wait time between waves
+     */
     int waveTimeCounter;
+
+    /*
+     * Crititcal Area Radius
+     */
+    int criticalAreaRadius;
+
+    /**
+     * Max monsters allowed on the critical area
+     */
+    int criticalMonsters;
 
     /**
      * Queue of inputs to process
@@ -95,10 +126,13 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         monstersToSpawn = toSpawn();
         spawnedCounter = 0;
         waveTimeCounter = 0;
+        criticalAreaRadius = 65;
+        criticalMonsters = 5;
         //initialize wizard
-        wizard = new Wizard(context, true, 300, 200, 0, 0);
+        wizard = new Wizard(context, true, 350, 200, 0, 0);
         spawners = new ArrayList<Spawner>();
-        createRandomSpawners(3);
+        //createRandomSpawners(3);
+        createCardialSpawners();
         surfaceHolder = getHolder();
         motionEvents = new ArrayList<>();
     }
@@ -198,11 +232,11 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         Random r = new Random();
         wizard.update();
         for (Spawner s: spawners) {
+            score += s.removeDead();
             for (Monster m : s.getSpawned()) {
-                m.hit(1);
+                m.setSpeedsToWizard(wizard.getPosition());
             }
             s.updateHealth();
-            score += s.removeDead();
         }
         if (newWave && waveTimeCounter < 5000) {}
         else{
@@ -210,8 +244,13 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
             waveTimeCounter = 0;
             if (spawnedCounter < monstersToSpawn) {
                 int index = r.nextInt(spawners.size());
-                while (spawners.get(index).update() != 1) {}
-                spawnedCounter++;
+                int spawned = 0;
+                spawners.get(index).incrementCounter();
+                if (spawners.get(index).getSpawnCounter() == spawners.get(index).getSpawnRate()){
+                    spawners.get(index).spawnMonster();
+                    spawners.get(index).setSpawnCounter(0);
+                    spawnedCounter++;
+                }
             }
             else{
                 wave++;
@@ -242,12 +281,13 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
             }
         }
         wizard.render(canvas);
+        drawCriticalArea();
         Paint p = new Paint();
         p.setTextSize(100);
         p.setColor(Color.LTGRAY);
         canvas.drawText("Score: " + score, 100, 100, p);
         canvas.drawText("Wave: " + (wave - 1), 1350, 100, p);
-
+        canvas.drawText("CA: " + monstersInCriticalArea(), 800, 100, p);
         //unlock and post the canvas
         surfaceHolder.unlockCanvasAndPost(canvas);
     }
@@ -291,8 +331,34 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
             y = rand.nextInt(200);
             Monster m = new Monster(context, true, x, y, 0, 0, 20);
             m.setSpeedsToWizard(this.wizard.getPosition()); // TODO
-            spawners.add(new Spawner(m, 200, rand.nextInt(100) + 50));
+            spawners.add(new Spawner(m, 200, rand.nextInt(50)));
         }
+    }
+
+    public void createCardialSpawners(){
+        int x, y;
+        Random rand = new Random();
+
+        // North
+        Monster m = new Monster(context, true, 350, 0, 0, 0, 20);
+        m.setSpeedsToWizard(this.wizard.getPosition());
+        spawners.add(new Spawner(m, 200, rand.nextInt(50) + 20));
+
+        // South
+        Monster s = new Monster(context, true, 350, 400, 0, 0, 20);
+        s.setSpeedsToWizard(this.wizard.getPosition());
+        spawners.add(new Spawner(s, 200, rand.nextInt(50) + 20));
+
+        // East
+        m = new Monster(context, true, 700, 200, 0, 0, 20);
+        m.setSpeedsToWizard(this.wizard.getPosition());
+        spawners.add(new Spawner(m, 200, rand.nextInt(50) + 20));
+
+        // West
+        m = new Monster(context, true, 0, 200, 0, 0, 20);
+        m.setSpeedsToWizard(this.wizard.getPosition());
+        spawners.add(new Spawner(m, 200, rand.nextInt(50) + 20));
+
     }
 
     public int toSpawn(){
@@ -300,6 +366,30 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
             return wave;
         }
         else return wave + score % 4;
+    }
+
+    public int toPixels(float dps) {
+        return (int) (dps * context.getResources().getDisplayMetrics().density + 0.5f);
+    }
+
+    public void drawCriticalArea(){
+        Paint p = new Paint();
+        p.setStyle(Paint.Style.STROKE);
+        p.setStrokeWidth(5);
+        p.setColor(Color.RED);
+        canvas.drawCircle(wizard.getPosition().position.centerX(), wizard.getPosition().position.centerY(), toPixels(criticalAreaRadius), p);
+    }
+
+    public int monstersInCriticalArea(){
+        int retorno = 0;
+        for (Spawner s: spawners){
+            for (Monster m: s.getSpawned()){
+                if (m.getPosition().position.centerX() <= (wizard.getPosition().position.centerX() + toPixels(criticalAreaRadius)) && m.getPosition().position.centerX() >= (wizard.getPosition().position.centerX() - toPixels(criticalAreaRadius)))
+                    if (m.getPosition().position.centerY() <= (wizard.getPosition().position.centerY() + toPixels(criticalAreaRadius)) && m.getPosition().position.centerY() >= (wizard.getPosition().position.centerY() - toPixels(criticalAreaRadius)))
+                        retorno++;
+            }
+        }
+        return retorno;
     }
 
 }
