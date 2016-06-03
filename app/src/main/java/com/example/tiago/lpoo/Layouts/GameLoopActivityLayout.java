@@ -17,6 +17,9 @@ import com.example.tiago.lpoo.Logic.Position;
 import com.example.tiago.lpoo.Logic.Spawner;
 import com.example.tiago.lpoo.Logic.Wizard;
 import com.example.tiago.lpoo.Logic.Monster;
+
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -129,7 +132,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         criticalAreaRadius = 65;
         criticalMonsters = 5;
         //initialize wizard
-        wizard = new Wizard(context, true, 350, 200, 0, 0);
+        wizard = new Wizard(context, false, context.getResources().getDisplayMetrics().widthPixels / 2, context.getResources().getDisplayMetrics().heightPixels / 2, 0, 0);
         spawners = new ArrayList<Spawner>();
         //createRandomSpawners(3);
         createCardialSpawners();
@@ -163,6 +166,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         //lag measures how far the game’s clock is behind, compared to the real world
         long lag = 0;
         while (running) {
+            if (monstersInCriticalArea() >= 1) writeScoreFile("score.txt");
             //get current time
             long current = SystemClock.uptimeMillis();
             //get elapsed time since last frame
@@ -234,6 +238,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         for (Spawner s: spawners) {
             score += s.removeDead();
             for (Monster m : s.getSpawned()) {
+                m.hit(1);
                 m.setSpeedsToWizard(wizard.getPosition());
             }
             s.updateHealth();
@@ -283,11 +288,13 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         wizard.render(canvas);
         drawCriticalArea();
         Paint p = new Paint();
-        p.setTextSize(100);
+        int textSize = 30;
+        p.setTextSize(toPixels(textSize));
         p.setColor(Color.LTGRAY);
-        canvas.drawText("Score: " + score, 100, 100, p);
-        canvas.drawText("Wave: " + (wave - 1), 1350, 100, p);
-        canvas.drawText("CA: " + monstersInCriticalArea(), 800, 100, p);
+        String scoreText = "Score: " + score;
+        canvas.drawText(scoreText, (float) 0.2 * toPixels(scoreText.length() * textSize), toPixels(50), p);
+        String waveText = "Wave: " + (wave - 1);
+        canvas.drawText(waveText, (float) (context.getResources().getDisplayMetrics().widthPixels - 0.8 * toPixels(waveText.length() * textSize)), toPixels(50), p);
         //unlock and post the canvas
         surfaceHolder.unlockCanvasAndPost(canvas);
     }
@@ -340,22 +347,22 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         Random rand = new Random();
 
         // North
-        Monster m = new Monster(context, true, 350, 0, 0, 0, 20);
+        Monster m = new Monster(context, true, 350, 0, 0, 0, 100);
         m.setSpeedsToWizard(this.wizard.getPosition());
         spawners.add(new Spawner(m, 200, rand.nextInt(50) + 20));
 
         // South
-        Monster s = new Monster(context, true, 350, 400, 0, 0, 20);
+        Monster s = new Monster(context, true, 350, 400, 0, 0, 100);
         s.setSpeedsToWizard(this.wizard.getPosition());
         spawners.add(new Spawner(s, 200, rand.nextInt(50) + 20));
 
         // East
-        m = new Monster(context, true, 700, 200, 0, 0, 20);
+        m = new Monster(context, true, 700, 200, 0, 0, 100);
         m.setSpeedsToWizard(this.wizard.getPosition());
         spawners.add(new Spawner(m, 200, rand.nextInt(50) + 20));
 
         // West
-        m = new Monster(context, true, 0, 200, 0, 0, 20);
+        m = new Monster(context, true, 0, 200, 0, 0, 100);
         m.setSpeedsToWizard(this.wizard.getPosition());
         spawners.add(new Spawner(m, 200, rand.nextInt(50) + 20));
 
@@ -372,10 +379,14 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         return (int) (dps * context.getResources().getDisplayMetrics().density + 0.5f);
     }
 
+    public float toDps(int pixels){
+        return (float) ((pixels - 0.5f) / context.getResources().getDisplayMetrics().density);
+    }
+
     public void drawCriticalArea(){
         Paint p = new Paint();
         p.setStyle(Paint.Style.STROKE);
-        p.setStrokeWidth(5);
+        p.setStrokeWidth(toPixels(2));
         p.setColor(Color.RED);
         canvas.drawCircle(wizard.getPosition().position.centerX(), wizard.getPosition().position.centerY(), toPixels(criticalAreaRadius), p);
     }
@@ -392,4 +403,21 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         return retorno;
     }
 
+    public void writeScoreFile(String filename){
+        File path = context.getFilesDir();
+        File file = new File(path, filename);
+        Log.w("AS", "" + path.toString());
+        FileOutputStream outputStream;
+        try{
+            outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
+            String message = "Score: " + score;
+            outputStream.write(message.getBytes());
+            outputStream.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void readScoreFile(){
+    }
 }
