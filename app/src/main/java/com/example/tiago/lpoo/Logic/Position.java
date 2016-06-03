@@ -46,6 +46,12 @@ public class Position {
         this.ySpeed = ySpeed;
     }
 
+    public Position(Position pos){
+        this.position = pos.position;
+        this.xSpeed = pos.xSpeed;
+        this.ySpeed = pos.ySpeed;
+    }
+
     /**
      * Updates current position according to its axis speed
      */
