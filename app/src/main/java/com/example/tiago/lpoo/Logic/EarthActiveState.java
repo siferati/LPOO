@@ -10,7 +10,7 @@ public class EarthActiveState implements SpellState{
     /**
      * How many frames this state lasts
      */
-    private final int STATE_DURATION;
+    private final int STATE_DURATION = 30;
 
     /**
      * How many frames passed since state started
@@ -24,7 +24,6 @@ public class EarthActiveState implements SpellState{
      * Constructor
      */
     public EarthActiveState() {
-        STATE_DURATION = 90;
         frameCount = 0;
     }
 

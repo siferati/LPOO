@@ -3,6 +3,9 @@ package com.example.tiago.lpoo.Logic;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.Log;
+
+import com.example.tiago.lpoo.Layouts.GameLoopActivityLayout;
 
 /**
  * A class (works like a C++ struct) that represents a sprite to draw
@@ -57,6 +60,11 @@ public class Sprite {
     private int frameCount;
 
     /**
+     * FPS at which this animation runs
+     */
+    private int fps;
+
+    /**
      * How many frames each sprite lasts
      */
     private int frameDuration;
@@ -87,7 +95,7 @@ public class Sprite {
      * @param first       Index of first sprite of spritesheet (first sprite has index 0!)
      * @param last        Index of last sprite of spritesheet
      */
-    public Sprite(Bitmap spriteSheet, int frameDuration, int rows, int columns, int first, int last) {
+    public Sprite(Bitmap spriteSheet, int fps, int rows, int columns, int first, int last) {
         this.spriteSheet = spriteSheet;
         height = spriteSheet.getHeight();
         width = spriteSheet.getWidth();
@@ -95,16 +103,16 @@ public class Sprite {
         this.columns = columns;
         spriteHeight = height / rows;
         spriteWidth = width / columns;
-        init(frameDuration, first, last);
+        init(fps, first, last);
     }
 
     /**
      * (Re)set certain sprite attributes
-     * @param frameDuration
+     * @param fps
      * @param first
      * @param last
      */
-    public void init(int frameDuration, int first, int last)
+    public void init(int fps, int first, int last)
     {
         //aux variables
         int firstX = spriteWidth * (first % columns);
@@ -118,7 +126,9 @@ public class Sprite {
         //set the source rectangle (1st sprite of the animation requested)
         src = new Rect(this.first);
         frameCount = 0;
-        this.frameDuration = frameDuration;
+        this.fps = fps;
+        frameDuration = GameLoopActivityLayout.UPS / fps;
+        Log.w("ola", "" + fps + " " + frameDuration);
         nSprites = last - first + 1;
     }
 
@@ -234,12 +244,12 @@ public class Sprite {
         this.first = first;
     }
 
-    public int getFrameDuration() {
-        return frameDuration;
+    public int getFps() {
+        return fps;
     }
 
-    public void setFrameDuration(int frameDuration) {
-        this.frameDuration = frameDuration;
+    public void setFps(int fps) {
+        this.fps = fps;
     }
 
     public Rect getLast() {

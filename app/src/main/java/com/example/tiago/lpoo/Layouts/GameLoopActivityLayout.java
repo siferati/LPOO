@@ -110,6 +110,22 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
      */
     ArrayList<MotionEvent> motionEvents;
 
+    /**
+     * Updates Per Second (if the game ran at 30 FPS, it would be updated once every frame)
+     */
+    public static final int UPS = 30;
+
+    /**
+     * How often (in milliseconds) an update is made
+     */
+    private final int MS_PER_UPDATE = 1000 / UPS;
+
+    /**
+     * Maximum number of updates one frame is allowed to process. MINIMUM FPS = (UPS / MAX_UPDATES_PER_FRAME) = 5
+     * If FPS drops below MINIMUM FPS (= 5), the actual game will slow down
+     */
+    final int MAX_UPDATES_PER_FRAME = 6;
+
     //Methods:
 
     /**
@@ -154,15 +170,8 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
      */
     @Override
     public void run() {
-        //Updates Per Second (if the game ran at 30 FPS, it would be updated once every frame)
-        final int UPS = 30;
-        //how often (in milliseconds) an update is made
-        final int MS_PER_UPDATE = 1000 / UPS;
         //initialize previous frame time
         long previous = SystemClock.uptimeMillis();
-        //maximum number of updates one frame is allowed to process. MINIMUM FPS = (UPS / MAX_UPDATES_PER_FRAME) = 5
-        //if FPS drops below MINIMUM FPS (= 5), the actual game will slow down
-        final int MAX_UPDATES_PER_FRAME = 6;
         //lag measures how far the game’s clock is behind, compared to the real world
         long lag = 0;
         while (running) {
@@ -182,7 +191,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
             //while game's clock is behind the real world
             while (lag >= MS_PER_UPDATE && i < MAX_UPDATES_PER_FRAME) {
                 if (newWave) waveTimeCounter += elapsed;
-                else{
+                else {
                     newWave = false;
                     waveTimeCounter = 0;
                 }
@@ -196,7 +205,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
             }
             //interpolation - lag is divided by MS_PER_UPDATE in order to normalize the value
             render(lag / MS_PER_UPDATE);
-            //how much time to sleep, in order cap the game at 30 FPS
+            //how much time to sleep, in order cap the game at 30 FPS (not capping it would be wasting battery)
             long sleep = current + MS_PER_UPDATE - SystemClock.uptimeMillis();
             if (sleep > 0)
                 try {
@@ -232,10 +241,10 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
     /**
      * Updates all game objects
      */
-    private void update(){
+    private void update() {
         Random r = new Random();
         wizard.update();
-        for (Spawner s: spawners) {
+        for (Spawner s : spawners) {
             score += s.removeDead();
             for (Monster m : s.getSpawned()) {
                 m.hit(1);
@@ -243,21 +252,20 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
             }
             s.updateHealth();
         }
-        if (newWave && waveTimeCounter < 5000) {}
-        else{
+        if (newWave && waveTimeCounter < 5000) {
+        } else {
             newWave = false;
             waveTimeCounter = 0;
             if (spawnedCounter < monstersToSpawn) {
                 int index = r.nextInt(spawners.size());
                 int spawned = 0;
                 spawners.get(index).incrementCounter();
-                if (spawners.get(index).getSpawnCounter() == spawners.get(index).getSpawnRate()){
+                if (spawners.get(index).getSpawnCounter() == spawners.get(index).getSpawnRate()) {
                     spawners.get(index).spawnMonster();
                     spawners.get(index).setSpawnCounter(0);
                     spawnedCounter++;
                 }
-            }
-            else{
+            } else {
                 wave++;
                 spawnedCounter = 0;
                 newWave = true;
@@ -273,15 +281,15 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
      */
     private void render(float interpolation) {
         //if the surface is NOT valid, exit rendering
-        if (!surfaceHolder.getSurface().isValid()){
+        if (!surfaceHolder.getSurface().isValid()) {
             return;
         }
 
         //lock the canvas
         canvas = surfaceHolder.lockCanvas();
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-        for (Spawner s: spawners){
-            for (Monster m: s.getSpawned()){
+        for (Spawner s : spawners) {
+            for (Monster m : s.getSpawned()) {
                 m.render(canvas);
             }
         }
@@ -330,7 +338,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         thread.start();
     }
 
-    public void createRandomSpawners(int spawnerNumber){
+    public void createRandomSpawners(int spawnerNumber) {
         int x, y;
         Random rand = new Random();
         for (int i = 0; i < spawnerNumber; i++) {
@@ -342,7 +350,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         }
     }
 
-    public void createCardialSpawners(){
+    public void createCardialSpawners() {
         int x, y;
         Random rand = new Random();
 
@@ -368,22 +376,21 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
 
     }
 
-    public int toSpawn(){
-        if (wave < 5){
+    public int toSpawn() {
+        if (wave < 5) {
             return wave;
-        }
-        else return wave + score % 4;
+        } else return wave + score % 4;
     }
 
     public int toPixels(float dps) {
         return (int) (dps * context.getResources().getDisplayMetrics().density + 0.5f);
     }
 
-    public float toDps(int pixels){
+    public float toDps(int pixels) {
         return (float) ((pixels - 0.5f) / context.getResources().getDisplayMetrics().density);
     }
 
-    public void drawCriticalArea(){
+    public void drawCriticalArea() {
         Paint p = new Paint();
         p.setStyle(Paint.Style.STROKE);
         p.setStrokeWidth(toPixels(2));
@@ -391,10 +398,10 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         canvas.drawCircle(wizard.getPosition().position.centerX(), wizard.getPosition().position.centerY(), toPixels(criticalAreaRadius), p);
     }
 
-    public int monstersInCriticalArea(){
+    public int monstersInCriticalArea() {
         int retorno = 0;
-        for (Spawner s: spawners){
-            for (Monster m: s.getSpawned()){
+        for (Spawner s : spawners) {
+            for (Monster m : s.getSpawned()) {
                 if (m.getPosition().position.centerX() <= (wizard.getPosition().position.centerX() + toPixels(criticalAreaRadius)) && m.getPosition().position.centerX() >= (wizard.getPosition().position.centerX() - toPixels(criticalAreaRadius)))
                     if (m.getPosition().position.centerY() <= (wizard.getPosition().position.centerY() + toPixels(criticalAreaRadius)) && m.getPosition().position.centerY() >= (wizard.getPosition().position.centerY() - toPixels(criticalAreaRadius)))
                         retorno++;
@@ -403,21 +410,21 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         return retorno;
     }
 
-    public void writeScoreFile(String filename){
+    public void writeScoreFile(String filename) {
         File path = context.getFilesDir();
         File file = new File(path, filename);
         Log.w("AS", "" + path.toString());
         FileOutputStream outputStream;
-        try{
+        try {
             outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
             String message = "Score: " + score;
             outputStream.write(message.getBytes());
             outputStream.close();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void readScoreFile(){
+    public void readScoreFile() {
     }
 }
