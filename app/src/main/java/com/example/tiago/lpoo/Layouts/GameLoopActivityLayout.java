@@ -182,11 +182,10 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
             int i = 0;
             //while game's clock is behind the real world
             while (lag >= MS_PER_UPDATE && i < MAX_UPDATES_PER_FRAME) {
-                if (monstersInCriticalArea() >= 1) {
+                /*if (monstersInCriticalArea() >= 1) {
                     writeScoreFile("Scores.txt");
                     Log.w("ASDAS", "Writing...");
-                }
-                Log.w("ASDASDASDASDA", readScoreFile("Scores.txt"));
+                }*/
                 if (newWave) waveTimeCounter += elapsed;
                 else{
                     newWave = false;
