@@ -31,7 +31,7 @@ public class EarthCastingState implements SpellState {
     @Override
     public void enter(Spell spell) {
         //set correct animation
-        spell.getSprite().init(5, 0, 8);
+        spell.getSprite().init(10, 0, 9);
     }
 
     @Override
