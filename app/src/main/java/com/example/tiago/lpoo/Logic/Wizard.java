@@ -58,7 +58,8 @@ public class Wizard extends Entity {
         spells = new ArrayList<>();
         //load wizard's sprite sheet
         Bitmap wizardSpriteSheet = BitmapFactory.decodeResource(context.getResources(), R.drawable.wizard);
-        sprite = new Sprite(wizardSpriteSheet, 10, 1, 1, 0, 0);
+        sprite = new Sprite(wizardSpriteSheet, 1, 1);
+        sprite.init(30, new int[]{0});
         //load spell's sprite sheet
         spellsSpriteSheet = BitmapFactory.decodeResource(context.getResources(), R.drawable.earth_spell);
         //initialize positions
@@ -83,31 +84,19 @@ public class Wizard extends Entity {
      * Casts an Earth Spell
      */
     public void castEarthSpell() {
-        Sprite earthSpellSprite = new Sprite(spellsSpriteSheet, 10, 4, 4, 0, 9);
-        Sprite earthSpellSprite2 = new Sprite(spellsSpriteSheet, 10, 4, 4, 0, 9);
-        Sprite earthSpellSprite3 = new Sprite(spellsSpriteSheet, 10, 4, 4, 0, 9);
-        Sprite earthSpellSprite4 = new Sprite(spellsSpriteSheet, 10, 4, 4, 0, 9);
-        Sprite earthSpellSprite5 = new Sprite(spellsSpriteSheet, 10, 4, 4, 0, 9);
-        Sprite earthSpellSprite6 = new Sprite(spellsSpriteSheet, 10, 4, 4, 0, 9);
-        Sprite earthSpellSprite7 = new Sprite(spellsSpriteSheet, 10, 4, 4, 0, 9);
-        Sprite earthSpellSprite8 = new Sprite(spellsSpriteSheet, 10, 4, 4, 0, 9);
-        Sprite earthSpellSprite9 = new Sprite(spellsSpriteSheet, 10, 4, 4, 0, 9);
-        Sprite earthSpellSprite10 = new Sprite(spellsSpriteSheet, 10, 4, 4, 0, 9);
-        Sprite earthSpellSprite11 = new Sprite(spellsSpriteSheet, 10, 4, 4, 0, 9);
-        Sprite earthSpellSprite12 = new Sprite(spellsSpriteSheet, 10, 4, 4, 0, 9);
         //coordinates given are already in pxls (from wizard constructor), so boolean dps = false
-        Spell earthSpell = new EarthSpell(context, false, position.position.left + toPixels(50), position.position.top + toPixels(50), 0, 0, earthSpellSprite);
-        Spell earthSpell2 = new EarthSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(50), 0, 0, earthSpellSprite2);
-        Spell earthSpell3 = new EarthSpell(context, false, position.position.left + toPixels(-50), position.position.top + toPixels(50), 0, 0, earthSpellSprite3);
-        Spell earthSpell4 = new EarthSpell(context, false, position.position.left + toPixels(50), position.position.top + toPixels(-100), 0, 0, earthSpellSprite4);
-        Spell earthSpell5 = new EarthSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(-100), 0, 0, earthSpellSprite5);
-        Spell earthSpell6 = new EarthSpell(context, false, position.position.left + toPixels(-50), position.position.top + toPixels(-100), 0, 0, earthSpellSprite6);
-        Spell earthSpell7 = new EarthSpell(context, false, position.position.left + toPixels(100), position.position.top + toPixels(-75), 0, 0, earthSpellSprite7);
-        Spell earthSpell8 = new EarthSpell(context, false, position.position.left + toPixels(100), position.position.top + toPixels(-25), 0, 0, earthSpellSprite8);
-        Spell earthSpell9 = new EarthSpell(context, false, position.position.left + toPixels(100), position.position.top + toPixels(25), 0, 0, earthSpellSprite9);
-        Spell earthSpell10 = new EarthSpell(context, false, position.position.left + toPixels(-100), position.position.top + toPixels(-75), 0, 0, earthSpellSprite10);
-        Spell earthSpell11 = new EarthSpell(context, false, position.position.left + toPixels(-100), position.position.top + toPixels(-25), 0, 0, earthSpellSprite11);
-        Spell earthSpell12 = new EarthSpell(context, false, position.position.left + toPixels(-100), position.position.top + toPixels(25), 0, 0, earthSpellSprite12);
+        Spell earthSpell = new EarthSpell(context, false, position.position.left + toPixels(50), position.position.top + toPixels(50), 0, 0, spellsSpriteSheet);
+        Spell earthSpell2 = new EarthSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(50), 0, 0, spellsSpriteSheet);
+        Spell earthSpell3 = new EarthSpell(context, false, position.position.left + toPixels(-50), position.position.top + toPixels(50), 0, 0, spellsSpriteSheet);
+        Spell earthSpell4 = new EarthSpell(context, false, position.position.left + toPixels(50), position.position.top + toPixels(-100), 0, 0, spellsSpriteSheet);
+        Spell earthSpell5 = new EarthSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(-100), 0, 0, spellsSpriteSheet);
+        Spell earthSpell6 = new EarthSpell(context, false, position.position.left + toPixels(-50), position.position.top + toPixels(-100), 0, 0, spellsSpriteSheet);
+        Spell earthSpell7 = new EarthSpell(context, false, position.position.left + toPixels(100), position.position.top + toPixels(-75), 0, 0, spellsSpriteSheet);
+        Spell earthSpell8 = new EarthSpell(context, false, position.position.left + toPixels(100), position.position.top + toPixels(-25), 0, 0, spellsSpriteSheet);
+        Spell earthSpell9 = new EarthSpell(context, false, position.position.left + toPixels(100), position.position.top + toPixels(25), 0, 0, spellsSpriteSheet);
+        Spell earthSpell10 = new EarthSpell(context, false, position.position.left + toPixels(-100), position.position.top + toPixels(-75), 0, 0, spellsSpriteSheet);
+        Spell earthSpell11 = new EarthSpell(context, false, position.position.left + toPixels(-100), position.position.top + toPixels(-25), 0, 0, spellsSpriteSheet);
+        Spell earthSpell12 = new EarthSpell(context, false, position.position.left + toPixels(-100), position.position.top + toPixels(25), 0, 0, spellsSpriteSheet);
         spells.add(earthSpell);
         spells.add(earthSpell2);
         spells.add(earthSpell3);
@@ -129,8 +118,7 @@ public class Wizard extends Entity {
         //get it for spells
         Iterator<Spell> it = spells.iterator();
         //update spells
-        while (it.hasNext())
-        {
+        while (it.hasNext()) {
             Spell spell = it.next();
             spell.update();
             //if spell is dead, remove it
