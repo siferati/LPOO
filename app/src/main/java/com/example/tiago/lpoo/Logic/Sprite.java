@@ -121,7 +121,6 @@ public class Sprite {
         frameDuration = GameLoopActivityLayout.UPS / fps;
         nSprites = sprites.length;
         //Log.w("nSprites", "" + nSprites);
-        Log.w("frameDuration", "" + frameDuration);
     }
 
 
@@ -137,15 +136,9 @@ public class Sprite {
         //aux variables
         int x = spriteWidth * (sprites[currentSprite] % columns);
         int y = spriteHeight * (sprites[currentSprite] / columns);
-        Log.w("X", "" + x);
-        Log.w("Y", "" + y);
         //set src
         src.offsetTo(x, y);
-        Log.w("src left", "" + src.left);
-        Log.w("src top", "" + src.top);
         currentSprite++;
-        Log.w("nSprites", "" + nSprites);
-        Log.w("currentSprite", "" + currentSprite);
         if (currentSprite >= nSprites - 1)
             currentSprite = 0;
     }

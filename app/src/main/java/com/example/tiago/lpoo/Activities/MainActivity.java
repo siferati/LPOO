@@ -12,7 +12,13 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.tiago.lpoo.Layouts.GameLoopActivityLayout;
 import com.example.tiago.lpoo.R;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 
 /**
  * Main Activity (opens when game is launched)
@@ -37,6 +43,11 @@ public class MainActivity extends AppCompatActivity {
         playButton.setTypeface(font);
         quitButton.setTypeface(font);
         aboutButton.setTypeface(font);
+
+        String score = readScoreFile();
+        TextView txtScore = (TextView) findViewById(R.id.score);
+        txtScore.setTypeface(font);
+        txtScore.setText(score);
     }
 
     /**
@@ -62,4 +73,24 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AboutActivity.class);
         startActivity(intent);
     }
+
+    public String readScoreFile() {
+        FileInputStream instream;
+        String scoreMessage = "";
+        try {
+            instream = new FileInputStream("/data/data/com.example.tiago.lpoo/files/highscore.txt");
+            if (instream == null) return "High Score: 0";
+            // prepare the file for reading
+            InputStreamReader inputreader = new InputStreamReader(instream);
+            BufferedReader buffreader = new BufferedReader(inputreader);
+            scoreMessage = buffreader.readLine();
+            if (scoreMessage.equals("")) return "High Score: 0";
+            else return scoreMessage;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "High Score: 0";
+    }
 }
+

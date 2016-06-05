@@ -6,12 +6,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.TextView;
 
 import com.example.tiago.lpoo.Logic.EarthCastingState;
 import com.example.tiago.lpoo.Logic.Position;
@@ -19,6 +21,7 @@ import com.example.tiago.lpoo.Logic.Spawner;
 import com.example.tiago.lpoo.Logic.Spell;
 import com.example.tiago.lpoo.Logic.Wizard;
 import com.example.tiago.lpoo.Logic.Monster;
+import com.example.tiago.lpoo.R;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -155,7 +158,6 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         //initialize wizard
         wizard = new Wizard(context, false, context.getResources().getDisplayMetrics().widthPixels / 2, context.getResources().getDisplayMetrics().heightPixels / 2, 0, 0);
         spawners = new ArrayList<Spawner>();
-        //createRandomSpawners(3);
         createCardialSpawners();
         surfaceHolder = getHolder();
         motionEvents = new ArrayList<>();
@@ -196,7 +198,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         //lag measures how far the game’s clock is behind, compared to the real world
         long lag = 0;
         while (running) {
-            if (monstersInCriticalArea() >= 1) writeToFile("score.txt", "Score: " + score + "\n");
+            if (monstersInCriticalArea() >= 1) writeToFile("highscore.txt", "High Score: " + score + "\n");
             //get current time
             long current = SystemClock.uptimeMillis();
             //get elapsed time since last frame
@@ -337,6 +339,8 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         Paint p = new Paint();
         int textSize = 30;
         p.setTextSize(toPixels(textSize));
+        Typeface font = Typeface.createFromAsset(context.getAssets(), "TubeOfCorn.ttf");
+        p.setTypeface(font);
         p.setColor(Color.LTGRAY);
         String scoreText = "Score: " + score;
         canvas.drawText(scoreText, (float) 0.2 * toPixels(scoreText.length() * textSize), toPixels(50), p);
@@ -466,7 +470,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         String scoreMessage = "";
         File path = context.getFilesDir();
         try {
-            instream = new FileInputStream(path + "/score.txt");
+            instream = new FileInputStream(path + "/highscore.txt");
             // prepare the file for reading
             InputStreamReader inputreader = new InputStreamReader(instream);
             BufferedReader buffreader = new BufferedReader(inputreader);
@@ -477,4 +481,5 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         }
         return scoreMessage;
     }
+
 }
