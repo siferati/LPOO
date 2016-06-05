@@ -15,6 +15,7 @@ import android.view.SurfaceView;
 
 import com.example.tiago.lpoo.Logic.Position;
 import com.example.tiago.lpoo.Logic.Spawner;
+import com.example.tiago.lpoo.Logic.Spell;
 import com.example.tiago.lpoo.Logic.Wizard;
 import com.example.tiago.lpoo.Logic.Monster;
 
@@ -252,6 +253,8 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
             }
             s.updateHealth();
         }
+        //check collisions
+        checkCollisions();
         if (newWave && waveTimeCounter < 5000) {
         } else {
             newWave = false;
@@ -275,10 +278,26 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
     }
 
     /**
+     * Checks for collisions
+     */
+    private void checkCollisions()
+    {
+        //Compare every monster to every spell. It's not pretty, but gets the job done!
+        for (Spell spell : wizard.getSpells()) {
+            for (Spawner spawner: spawners) {
+                for (Monster monster: spawner.getSpawned()) {
+                    spell.checkColision(monster);
+                }
+            }
+        }
+    }
+
+    /**
      * Renders all game objects
      *
      * @param interpolation How far into the next frame we are (in percentage)
      */
+
     private void render(float interpolation) {
         //if the surface is NOT valid, exit rendering
         if (!surfaceHolder.getSurface().isValid()) {

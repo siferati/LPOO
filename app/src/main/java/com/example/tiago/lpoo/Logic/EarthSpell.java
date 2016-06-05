@@ -26,4 +26,9 @@ public class EarthSpell extends Spell{
         state = new EarthCastingState();
     }
 
+    @Override
+    protected void handleCollision(Monster monster) {
+        //if monster intersects with earth wall, it can't move
+        monster.setRooted(true);
+    }
 }
