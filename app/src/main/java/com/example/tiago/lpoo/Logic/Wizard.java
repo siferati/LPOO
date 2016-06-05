@@ -59,7 +59,7 @@ public class Wizard extends Entity {
         //load wizard's sprite sheet
         Bitmap wizardSpriteSheet = BitmapFactory.decodeResource(context.getResources(), R.drawable.wizard);
         sprite = new Sprite(wizardSpriteSheet, 1, 1);
-        sprite.init(30, new int[] {0});
+        sprite.init(30, new int[]{0});
         //load spell's sprite sheet
         spellsSpriteSheet = BitmapFactory.decodeResource(context.getResources(), R.drawable.earth_spell);
         //initialize positions
@@ -86,7 +86,7 @@ public class Wizard extends Entity {
     public void castEarthSpell() {
         //coordinates given are already in pxls (from wizard constructor), so boolean dps = false
         Spell earthSpell = new EarthSpell(context, false, position.position.left + toPixels(50), position.position.top + toPixels(50), 0, 0, spellsSpriteSheet);
-       /* Spell earthSpell2 = new EarthSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(50), 0, 0, spellsSpriteSheet);
+        Spell earthSpell2 = new EarthSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(50), 0, 0, spellsSpriteSheet);
         Spell earthSpell3 = new EarthSpell(context, false, position.position.left + toPixels(-50), position.position.top + toPixels(50), 0, 0, spellsSpriteSheet);
         Spell earthSpell4 = new EarthSpell(context, false, position.position.left + toPixels(50), position.position.top + toPixels(-100), 0, 0, spellsSpriteSheet);
         Spell earthSpell5 = new EarthSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(-100), 0, 0, spellsSpriteSheet);
@@ -97,8 +97,8 @@ public class Wizard extends Entity {
         Spell earthSpell10 = new EarthSpell(context, false, position.position.left + toPixels(-100), position.position.top + toPixels(-75), 0, 0, spellsSpriteSheet);
         Spell earthSpell11 = new EarthSpell(context, false, position.position.left + toPixels(-100), position.position.top + toPixels(-25), 0, 0, spellsSpriteSheet);
         Spell earthSpell12 = new EarthSpell(context, false, position.position.left + toPixels(-100), position.position.top + toPixels(25), 0, 0, spellsSpriteSheet);
-        */spells.add(earthSpell);
-       /* spells.add(earthSpell2);
+        spells.add(earthSpell);
+        spells.add(earthSpell2);
         spells.add(earthSpell3);
         spells.add(earthSpell4);
         spells.add(earthSpell5);
@@ -108,7 +108,7 @@ public class Wizard extends Entity {
         spells.add(earthSpell9);
         spells.add(earthSpell10);
         spells.add(earthSpell11);
-        spells.add(earthSpell12);*/
+        spells.add(earthSpell12);
     }
 
     @Override
@@ -118,8 +118,7 @@ public class Wizard extends Entity {
         //get it for spells
         Iterator<Spell> it = spells.iterator();
         //update spells
-        while (it.hasNext())
-        {
+        while (it.hasNext()) {
             Spell spell = it.next();
             spell.update();
             //if spell is dead, remove it
