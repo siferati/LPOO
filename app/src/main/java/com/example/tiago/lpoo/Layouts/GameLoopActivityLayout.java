@@ -159,6 +159,22 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         createCardialSpawners();
         surfaceHolder = getHolder();
         motionEvents = new ArrayList<>();
+        writeToFile("earthCastingState.txt", "description-Summons an earth wall from the ground\n" +
+                "duration-1.0\n" +
+                "fps-10\n" +
+                "rows-4\n" +
+                "cols-4\n" +
+                "sprites-10\n" +
+                "sprite0-0\n" +
+                "sprite1-1\n" +
+                "sprite2-2\n" +
+                "sprite3-3\n" +
+                "sprite4-4\n" +
+                "sprite5-5\n" +
+                "sprite6-6\n" +
+                "sprite7-7\n" +
+                "sprite8-8\n" +
+                "sprite9-9");
     }
 
     /**
