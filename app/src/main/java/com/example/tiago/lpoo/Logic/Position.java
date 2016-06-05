@@ -46,7 +46,7 @@ public class Position {
         this.ySpeed = ySpeed;
     }
 
-    public Position(Position pos){
+    public Position(Position pos) {
         this.position = pos.position;
         this.xSpeed = pos.xSpeed;
         this.ySpeed = pos.ySpeed;
@@ -55,8 +55,17 @@ public class Position {
     /**
      * Updates current position according to its axis speed
      */
-    public void update()
-    {
+    public void update() {
         position.offset(xSpeed, ySpeed);
+    }
+
+    /**
+     * Checks if this Position intersects with given Position
+     *
+     * @param position2 Position to check intersection with
+     * @return TRUE if they intersect, FALSE otherwise
+     */
+    public boolean intersects(Position position2) {
+        return (position.intersects(position, position2.position));
     }
 }
