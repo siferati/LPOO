@@ -51,7 +51,9 @@ public class Monster extends Entity {
         this.corpseDur = 20;
         rooted = false;
         Bitmap monsterSpriteSheet = BitmapFactory.decodeResource(context.getResources(), R.drawable.wizard);
-        this.sprite = new Sprite(monsterSpriteSheet, 1, 1, 1, 0, 0);
+        //this.sprite = new Sprite(monsterSpriteSheet, 1, 1, 1, 0, 0);
+        sprite = new Sprite(monsterSpriteSheet, 1, 1);
+        sprite.init(30, new int[] {0});
         //initialize positions
         initPosition(dps, x, y, xSpeed, ySpeed);
     }

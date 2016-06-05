@@ -70,32 +70,30 @@ public class Sprite {
     private int frameDuration;
 
     /**
-     * First sprite of the animation requested
-     */
-    private Rect first;
-
-    /**
-     * Last sprite of the animation requested
-     */
-    private Rect last;
-
-    /**
      * How many sprites(frames) this animation has
      */
     private int nSprites;
 
+    /**
+     * Index order of the animation
+     */
+    private int[] sprites;
+
+    /**
+     * Index of current Sprite
+     */
+    private int currentSprite;
+
     //Methods:
 
     /**
-     * Constructor
+     * Constructor (init should called after constructor)
      *
      * @param spriteSheet The sprite sheet
      * @param rows        Number of rows in the sprite sheet
      * @param columns     Number of columns in the sprite sheet
-     * @param first       Index of first sprite of spritesheet (first sprite has index 0!)
-     * @param last        Index of last sprite of spritesheet
      */
-    public Sprite(Bitmap spriteSheet, int fps, int rows, int columns, int first, int last) {
+    public Sprite(Bitmap spriteSheet, int rows, int columns) {
         this.spriteSheet = spriteSheet;
         height = spriteSheet.getHeight();
         width = spriteSheet.getWidth();
@@ -103,33 +101,27 @@ public class Sprite {
         this.columns = columns;
         spriteHeight = height / rows;
         spriteWidth = width / columns;
-        init(fps, first, last);
     }
 
     /**
      * (Re)set certain sprite attributes
      * @param fps
-     * @param first
-     * @param last
      */
-    public void init(int fps, int first, int last)
+    public void init(int fps, int[] sprites)
     {
+        this.sprites = sprites;
+        currentSprite = 0;
         //aux variables
-        int firstX = spriteWidth * (first % columns);
-        int firstY = spriteHeight * (first / columns);
-        int lastX = spriteWidth * (last % columns);
-        int lastY = spriteHeight * (last / columns);
-        //set first sprite
-        this.first = new Rect(firstX, firstY, firstX + spriteWidth, firstY + spriteHeight);
-        //set last sprite
-        this.last = new Rect(lastX, lastY, lastX + spriteWidth, lastY + spriteHeight);
-        //set the source rectangle (1st sprite of the animation requested)
-        src = new Rect(this.first);
+        int x = spriteWidth * (sprites[currentSprite] % columns);
+        int y = spriteHeight * (sprites[currentSprite] / columns);
+        //set src
+        src = new Rect(x, y, x + spriteWidth, y + spriteHeight);
         frameCount = 0;
         this.fps = fps;
         frameDuration = GameLoopActivityLayout.UPS / fps;
-        Log.w("ola", "" + fps + " " + frameDuration);
-        nSprites = last - first + 1;
+        nSprites = sprites.length;
+        //Log.w("nSprites", "" + nSprites);
+        Log.w("frameDuration", "" + frameDuration);
     }
 
 
@@ -142,22 +134,20 @@ public class Sprite {
     }
 
     public void nextSprite() {
-        //if it's the last sprite
-        if (src.right >= last.right && src.bottom >= last.bottom)
-            src.set(first);
-        else {
-            //if it's the last sprite of a row
-            if (src.right >= width - 1) {
-                if (src.bottom >= height - 1)
-                    src.set(first); //if it's the last sprite of the sprite sheet, move to start again
-                else {
-                    int previousTop = src.top;
-                    //choose the 1st sprite of the next row
-                    src.offsetTo(0, previousTop + spriteHeight);
-                }
-            } else
-                src.offset(spriteWidth, 0); //move to next sprite (on its right)
-        }
+        //aux variables
+        int x = spriteWidth * (sprites[currentSprite] % columns);
+        int y = spriteHeight * (sprites[currentSprite] / columns);
+        Log.w("X", "" + x);
+        Log.w("Y", "" + y);
+        //set src
+        src.offsetTo(x, y);
+        Log.w("src left", "" + src.left);
+        Log.w("src top", "" + src.top);
+        currentSprite++;
+        Log.w("nSprites", "" + nSprites);
+        Log.w("currentSprite", "" + currentSprite);
+        if (currentSprite >= nSprites - 1)
+            currentSprite = 0;
     }
 
     public void render(Canvas canvas, Rect dest) {
@@ -234,30 +224,6 @@ public class Sprite {
 
     public void setWidth(int width) {
         this.width = width;
-    }
-
-    public Rect getFirst() {
-        return first;
-    }
-
-    public void setFirst(Rect first) {
-        this.first = first;
-    }
-
-    public int getFps() {
-        return fps;
-    }
-
-    public void setFps(int fps) {
-        this.fps = fps;
-    }
-
-    public Rect getLast() {
-        return last;
-    }
-
-    public void setLast(Rect last) {
-        this.last = last;
     }
 
     public int getNSprites() {

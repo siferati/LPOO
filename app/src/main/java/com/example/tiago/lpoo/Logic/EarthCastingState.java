@@ -1,6 +1,7 @@
 package com.example.tiago.lpoo.Logic;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.example.tiago.lpoo.Activities.GameLoopActivity;
@@ -23,11 +24,6 @@ public class EarthCastingState implements SpellState {
     //Attributes:
 
     /**
-     * How many frames this state lasts
-     */
-    private final int STATE_DURATION = 30;
-
-    /**
      * How many frames passed since state started
      */
     private int frameCount;
@@ -37,7 +33,7 @@ public class EarthCastingState implements SpellState {
     /**
      * How long this state lasts (in seconds)
      */
-    private static final float DURATION;
+    private static final float STATE_DURATION;
 
     /**
      * Speed of the animation
@@ -48,6 +44,11 @@ public class EarthCastingState implements SpellState {
      * Order of the frames (index) of the animation
      */
     private static final int[] FRAMES;
+
+    /**
+     * spritesheet
+     */
+    private Bitmap spriteSheet;
 
 
     static {
@@ -84,11 +85,10 @@ public class EarthCastingState implements SpellState {
             e.printStackTrace();
         }
 
-        DURATION = dur;
+        STATE_DURATION = dur;
         FPS = fps;
         FRAMES = new int[framesSize];
-
-
+        System.arraycopy(frames, 0, FRAMES, 0, framesSize);
     }
 
 
@@ -101,15 +101,18 @@ public class EarthCastingState implements SpellState {
     /**
      * Constructor
      */
-    public EarthCastingState() {
+    public EarthCastingState(Spell spell, Bitmap spriteSheet) {
         frameCount = 0;
+        this.spriteSheet = spriteSheet;
+        spell.sprite = new Sprite(spriteSheet, 4,4);
+        spell.sprite.init(FPS, FRAMES);
     }
 
 
     @Override
     public void enter(Spell spell) {
         //set correct animation
-        spell.getSprite().init(10, 0, 9);
+        spell.getSprite().init(FPS, FRAMES);
     }
 
     @Override
@@ -117,8 +120,8 @@ public class EarthCastingState implements SpellState {
         //update frameCount
         frameCount++;
         //if the entire animation as been played
-        if (frameCount > STATE_DURATION)
-            return new EarthActiveState();
+        if (frameCount > STATE_DURATION * GameLoopActivityLayout.UPS)
+            return new EarthActiveState(spell,spriteSheet);
         return null;
     }
 }
