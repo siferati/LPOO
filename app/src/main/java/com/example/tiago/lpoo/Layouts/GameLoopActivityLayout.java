@@ -13,13 +13,17 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.example.tiago.lpoo.Logic.EarthCastingState;
 import com.example.tiago.lpoo.Logic.Position;
 import com.example.tiago.lpoo.Logic.Spawner;
 import com.example.tiago.lpoo.Logic.Wizard;
 import com.example.tiago.lpoo.Logic.Monster;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -154,6 +158,20 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         createCardialSpawners();
         surfaceHolder = getHolder();
         motionEvents = new ArrayList<>();
+        writeToFile("earthCastingState.txt", "description-Summons an earth wall from the ground\n" +
+                "duration-1.0\n" +
+                "fps-10\n" +
+                "sprites-10\n" +
+                "sprite0-0\n" +
+                "sprite1-1\n" +
+                "sprite2-2\n" +
+                "sprite3-3\n" +
+                "sprite4-4\n" +
+                "sprite5-5\n" +
+                "sprite6-6\n" +
+                "sprite7-7\n" +
+                "sprite8-8\n" +
+                "sprite9-9");
     }
 
     /**
@@ -175,7 +193,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         //lag measures how far the game’s clock is behind, compared to the real world
         long lag = 0;
         while (running) {
-            if (monstersInCriticalArea() >= 1) writeScoreFile("score.txt");
+            if (monstersInCriticalArea() >= 1) writeToFile("score.txt", "Score: " + score + "\n");
             //get current time
             long current = SystemClock.uptimeMillis();
             //get elapsed time since last frame
@@ -410,14 +428,11 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         return retorno;
     }
 
-    public void writeScoreFile(String filename) {
+    public void writeToFile(String filename, String message) {
         File path = context.getFilesDir();
         File file = new File(path, filename);
-        Log.w("AS", "" + path.toString());
-        FileOutputStream outputStream;
         try {
-            outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
-            String message = "Score: " + score;
+            FileOutputStream outputStream = new FileOutputStream(path + "/" + filename);
             outputStream.write(message.getBytes());
             outputStream.close();
         } catch (Exception e) {
@@ -425,6 +440,20 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         }
     }
 
-    public void readScoreFile() {
+    public String readScoreFile() {
+        FileInputStream instream;
+        String scoreMessage = "";
+        File path = context.getFilesDir();
+        try {
+            instream = new FileInputStream(path + "/score.txt");
+            // prepare the file for reading
+            InputStreamReader inputreader = new InputStreamReader(instream);
+            BufferedReader buffreader = new BufferedReader(inputreader);
+            scoreMessage = buffreader.readLine();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return scoreMessage;
     }
 }
