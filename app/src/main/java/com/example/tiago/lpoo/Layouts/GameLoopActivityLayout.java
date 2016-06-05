@@ -304,7 +304,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         for (Spell spell : wizard.getSpells()) {
             for (Spawner spawner: spawners) {
                 for (Monster monster: spawner.getSpawned()) {
-                    spell.checkColision(monster);
+                    spell.checkCollision(monster);
                 }
             }
         }

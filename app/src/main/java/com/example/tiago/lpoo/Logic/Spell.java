@@ -15,11 +15,6 @@ public abstract class Spell extends Entity {
     protected SpellState state;
 
     /**
-     * How many frames this spell takes to cast
-     */
-    protected int castingDuration;
-
-    /**
      * TRUE if spell is active, FALSE otherwise (When set to FALSE, means object is dead)
      */
     protected boolean active;
@@ -31,7 +26,6 @@ public abstract class Spell extends Entity {
      */
     public Spell() {
         super();
-        castingDuration = 0;
     }
 
     /**
@@ -42,15 +36,13 @@ public abstract class Spell extends Entity {
      * @param y      Y coordinate
      * @param xSpeed Speed along the X axis
      * @param ySpeed Speed along the Y axis
-     * @param sprite Sprite Sheet containing the Object's animations
      */
-    public Spell(Context context, boolean dps, int x, int y, int xSpeed, int ySpeed, Sprite sprite) {
+    public Spell(Context context, boolean dps, int x, int y, int xSpeed, int ySpeed) {
         super(context);
-        castingDuration = 0;
-        this.sprite = sprite;
         state = null;
+        sprite = null;
         //initialize positions
-        initPosition(dps, x, y, xSpeed, ySpeed);
+        //initPosition(dps, x, y, xSpeed, ySpeed);
         active = true;
     }
 
@@ -71,7 +63,7 @@ public abstract class Spell extends Entity {
      *
      * @param monster Monster to check collisions with
      */
-    public void checkColision(Monster monster)
+    public void checkCollision(Monster monster)
     {
         if (position.intersects(monster.getPosition()))
             handleCollision(monster);
