@@ -56,6 +56,8 @@ public class EarthCastingState implements SpellState {
         float dur = 0;
         int framesSize = 0;
         int fps = 0;
+        int rows = 0;
+        int columns = 0;
         int[] frames = new int[50];
         try {
             instream = new FileInputStream("/data/data/com.example.tiago.lpoo/files/earthCastingState.txt");
@@ -63,7 +65,7 @@ public class EarthCastingState implements SpellState {
             InputStreamReader inputreader = new InputStreamReader(instream);
             BufferedReader buffreader = new BufferedReader(inputreader);
 
-            String descriptionLine, durationLine, fpsLine, spritesLine, spriteLine, trash;
+            String descriptionLine, durationLine, fpsLine, spritesLine, spriteLine, colsLine, rowsLine;
             int nSprites = 0;
             descriptionLine = buffreader.readLine();
             Log.w("descr", "Description: " + descriptionLine);
@@ -72,6 +74,10 @@ public class EarthCastingState implements SpellState {
             dur = Float.parseFloat(durationLine.split("-")[1]);
             fpsLine = buffreader.readLine();
             fps = Integer.parseInt(fpsLine.split("-")[1]);
+            rowsLine = buffreader.readLine();
+            rows = Integer.parseInt(rowsLine.split("-")[1]);
+            colsLine = buffreader.readLine();
+            columns = Integer.parseInt(colsLine.split("-")[1]);
             spritesLine = buffreader.readLine();
             framesSize = Integer.parseInt(spritesLine.split("-")[1]);
             do {
@@ -88,6 +94,9 @@ public class EarthCastingState implements SpellState {
         FPS = fps;
         FRAMES = new int[framesSize];
 
+        for (int i = 0; i < framesSize; i++){
+            FRAMES[i] = frames[i];
+        }
 
     }
 
