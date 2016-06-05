@@ -31,6 +31,11 @@ public class Monster extends Entity {
     protected int corpseDur;
 
     /**
+     * TRUE if Monster can't move, FALSE otherwise
+     */
+    protected boolean rooted;
+
+    /**
      * Constructor
      *
      * @param x       X coordinate (in dps)
@@ -44,6 +49,7 @@ public class Monster extends Entity {
         super(context);
         this.health = health;
         this.corpseDur = 20;
+        rooted = false;
         Bitmap monsterSpriteSheet = BitmapFactory.decodeResource(context.getResources(), R.drawable.wizard);
         this.sprite = new Sprite(monsterSpriteSheet, 1, 1, 1, 0, 0);
         //initialize positions
@@ -57,6 +63,7 @@ public class Monster extends Entity {
         super();
         this.health = 0;
         this.corpseDur = 20;
+        rooted = false;
     }
 
     /**
@@ -107,7 +114,7 @@ public class Monster extends Entity {
             this.health = 0;
     }
 
-    public boolean checkDead(){ return this.health == 0; }
+    public boolean checkDead(){ return this.health <= 0; }
 
     public void decrementCorpseDur() {
         this.corpseDur --;
@@ -140,6 +147,7 @@ public class Monster extends Entity {
         clone.setPosition(this.position);
         clone.initPosition(false, x, y, this.position.xSpeed, this.position.ySpeed);
         clone.setHealth(this.health);
+        clone.setRooted(this.rooted);
         return clone;
     }
 
@@ -164,5 +172,20 @@ public class Monster extends Entity {
 
         this.position.xSpeed = (int) (- dif_x / factor);
         this.position.ySpeed = (int) (- dif_y / factor);
+    }
+
+    @Override
+    public void update() {
+        //TODO this won't work cause of sprite.update on super.update. Change sprite.update onto state.update!!
+        if (!rooted)
+            super.update();
+    }
+
+    public boolean isRooted() {
+        return rooted;
+    }
+
+    public void setRooted(boolean rooted) {
+        this.rooted = rooted;
     }
 }

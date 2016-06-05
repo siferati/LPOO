@@ -10,7 +10,7 @@ public class EarthActiveState implements SpellState{
     /**
      * How many frames this state lasts
      */
-    private final int STATE_DURATION = 30;
+    private final int STATE_DURATION = 300;
 
     /**
      * How many frames passed since state started
