@@ -2,13 +2,14 @@ package com.example.tiago.lpoo.Logic;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import com.example.tiago.lpoo.R;
 
 /**
  * A class that represents the Monster running right state
  */
-public class MonsterRunningRightState implements MonsterState {
+public class MonsterRunningLeftState implements MonsterState {
 
     //Attributes:
 
@@ -20,7 +21,7 @@ public class MonsterRunningRightState implements MonsterState {
     /**
      * Animation frames (ordered by index)
      */
-    private static final int[] FRAMES = new int[]{0, 1, 2, 3, 4, 5, 6, 7};
+    private static final int[] FRAMES = new int[]{9, 8, 11, 10, 13, 12, 15, 14};
 
     /**
      * Number of rows of animation spriteSheet
@@ -42,7 +43,7 @@ public class MonsterRunningRightState implements MonsterState {
     /**
      * Constructor
      */
-    public MonsterRunningRightState(Monster monster) {
+    public MonsterRunningLeftState(Monster monster) {
         //spriteSheet is only initialized once!
         if (spriteSheet == null)
             spriteSheet = BitmapFactory.decodeResource(monster.context.getResources(), R.drawable.monster);

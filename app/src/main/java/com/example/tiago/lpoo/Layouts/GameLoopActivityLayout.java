@@ -402,7 +402,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         spawners.add(new Spawner(s, 200, rand.nextInt(50) + 20));
 
         // East
-        m = new Monster(context, true, 700, 200, 0, 0, 100, 'E');
+        m = new Monster(context, true, 700, 200, 0, 0, 100, 'W');
         m.setSpeedsToWizard(this.wizard.getPosition());
         spawners.add(new Spawner(m, 200, rand.nextInt(50) + 20));
 

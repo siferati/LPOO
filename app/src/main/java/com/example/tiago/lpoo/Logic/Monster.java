@@ -33,7 +33,7 @@ public class Monster extends Entity {
     protected boolean rooted;
 
     /**
-     * Direction: N, S, E, O
+     * Direction: N, S, E, W
      */
     protected char direction;
 
@@ -63,11 +63,18 @@ public class Monster extends Entity {
             case 'E':
                 state = new MonsterRunningRightState(this);
                 break;
+            case 'W':
+                state = new MonsterRunningLeftState(this);
+                break;
             default:
                 break;
         }
         //initialize positions
         initPosition(dps, x, y, xSpeed, ySpeed);
+        Log.w("Width", "" + sprite.getWidth());
+        Log.w("Height", "" + sprite.getHeight());
+        Log.w("SpriteWidth", "" + sprite.getSpriteWidth());
+        Log.w("SpriteHeight", "" + sprite.getSpriteHeight());
     }
 
     /**
