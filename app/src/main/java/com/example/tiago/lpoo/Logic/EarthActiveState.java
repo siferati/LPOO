@@ -1,6 +1,10 @@
 package com.example.tiago.lpoo.Logic;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import com.example.tiago.lpoo.Layouts.GameLoopActivityLayout;
+import com.example.tiago.lpoo.R;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -20,88 +24,54 @@ public class EarthActiveState implements SpellState{
     private int frameCount;
 
     /**
-     * How long this state lasts (in seconds)
-     */
-    private static final float STATE_DURATION;
-
-    /**
      * Speed of the animation
      */
-    private static final int FPS;
+    private static final int FPS = 1;
 
     /**
      * Order of the frames (index) of the animation
      */
-    private static final int[] FRAMES;
+    private static final int[] FRAMES = new int[] {9};
 
     /**
-     * spritesheet
+     * Number of rows of animation spriteSheet
      */
-    private Bitmap spritesheet;
+    private static final int ROWS = 4;
 
-    static {
+    /**
+     * Number of columns of animation spriteSheet
+     */
+    private static final int COLS = 4;
 
-        InputStream instream;
-        float dur = 0;
-        int framesSize = 0;
-        int fps = 0;
-        int columns = 0;
-        int rows = 0;
-        int[] frames = new int[50];
-        try {
-            instream = new FileInputStream("/data/data/com.example.tiago.lpoo/files/earthCastingState.txt");
-            // prepare the file for reading
-            InputStreamReader inputreader = new InputStreamReader(instream);
-            BufferedReader buffreader = new BufferedReader(inputreader);
+    /**
+     * Sprite sheet of Animation
+     */
+    private static Bitmap spriteSheet;
 
-            String descriptionLine, durationLine, fpsLine, spritesLine, spriteLine, rowsLine, colsLine;
-            int nSprites = 0;
-            descriptionLine = buffreader.readLine();
-            durationLine = buffreader.readLine();
-            dur = Float.parseFloat(durationLine.split("-")[1]);
-            fpsLine = buffreader.readLine();
-            fps = Integer.parseInt(fpsLine.split("-")[1]);
-            rowsLine = buffreader.readLine();
-            rows = Integer.parseInt(rowsLine.split("-")[1]);
-            colsLine = buffreader.readLine();
-            columns = Integer.parseInt(rowsLine.split("-")[1]);
-            spritesLine = buffreader.readLine();
-            framesSize = Integer.parseInt(spritesLine.split("-")[1]);
-            do {
-                spriteLine = buffreader.readLine();
-                if (spriteLine == null) break;
-                frames[nSprites] = Integer.parseInt(spriteLine.split("-")[1]);
-                nSprites++;
-            } while (spriteLine != null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-       // STATE_DURATION = dur;
-        STATE_DURATION = 150;
-        FPS = fps;
-        //FRAMES = new int[framesSize];
-        //System.arraycopy(frames, 0, FRAMES, 0, framesSize);
-        FRAMES = new int[] {9};
-    }
-
+    /**
+     * How long this state lasts (in seconds!)
+     */
+    private static final float STATE_DURATION = (float) 2.0;
 
     //Methods:
 
     /**
      * Constructor
      */
-    public EarthActiveState(Spell spell, Bitmap spriteSheet) {
+    public EarthActiveState(Spell spell) {
+        //spriteSheet is only initialized once!
+        if (spriteSheet == null)
+            spriteSheet = BitmapFactory.decodeResource(spell.context.getResources(), R.drawable.earth_spell);
+        spell.sprite = new Sprite(spriteSheet, ROWS, COLS);
+        enter(spell);
         frameCount = 0;
-        spell.sprite = new Sprite(spriteSheet, 4,4);
-        spell.sprite.init(FPS, FRAMES);
-        this.spritesheet = spriteSheet;
     }
 
 
     @Override
     public void enter(Spell spell) {
-        spell.getSprite().init(FPS, FRAMES);
+        //set correct animation
+        spell.sprite.init(FPS, FRAMES);
     }
 
     @Override
@@ -109,8 +79,8 @@ public class EarthActiveState implements SpellState{
         //update frameCount
         frameCount++;
         //if the entire animation as been played
-        if (frameCount > STATE_DURATION)
-            return new EarthDestroyingState();
+        if (frameCount > STATE_DURATION * GameLoopActivityLayout.UPS)
+            return new EarthDestroyingState(spell);
         return null;
     }
 }

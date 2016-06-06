@@ -2,7 +2,6 @@ package com.example.tiago.lpoo.Logic;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 import com.example.tiago.lpoo.R;
 
