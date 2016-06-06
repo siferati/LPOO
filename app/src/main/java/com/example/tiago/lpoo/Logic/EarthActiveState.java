@@ -1,7 +1,6 @@
 package com.example.tiago.lpoo.Logic;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -58,9 +57,7 @@ public class EarthActiveState implements SpellState{
             String descriptionLine, durationLine, fpsLine, spritesLine, spriteLine, rowsLine, colsLine;
             int nSprites = 0;
             descriptionLine = buffreader.readLine();
-            Log.w("descr", "Description: " + descriptionLine);
             durationLine = buffreader.readLine();
-            Log.w("duration", "Duration: " + durationLine);
             dur = Float.parseFloat(durationLine.split("-")[1]);
             fpsLine = buffreader.readLine();
             fps = Integer.parseInt(fpsLine.split("-")[1]);

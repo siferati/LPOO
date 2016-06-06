@@ -1,15 +1,11 @@
 package com.example.tiago.lpoo.Logic;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
-
-import com.example.tiago.lpoo.R;
 
 import java.util.Random;
 
@@ -37,6 +33,16 @@ public class Monster extends Entity {
     protected boolean rooted;
 
     /**
+     * Direction: N, S, E, W
+     */
+    protected char direction;
+
+    /**
+     * This monster's current state
+     */
+    protected MonsterState state;
+
+    /**
      * Constructor
      *
      * @param x       X coordinate (in dps)
@@ -46,18 +52,29 @@ public class Monster extends Entity {
      * @param context Context
      * @param health  Monster's health
      */
-    public Monster(Context context, boolean dps, int x, int y, int xSpeed, int ySpeed, int health) {
+    public Monster(Context context, boolean dps, int x, int y, int xSpeed, int ySpeed, int health, char direction) {
         super(context);
+        this.direction = direction;
         this.health = health;
         this.corpseDur = 20;
         rooted = false;
-        Bitmap monsterSpriteSheet = BitmapFactory.decodeResource(context.getResources(), R.drawable.monster);
-        //this.sprite = new Sprite(monsterSpriteSheet, 1, 1, 1, 0, 0);
-        sprite = new Sprite(monsterSpriteSheet, 4, 2);
-        Log.w("Monster", "!!!");
-        sprite.init(1, new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8});
+        //initialize state
+        switch (direction) {
+            case 'E':
+                state = new MonsterRunningRightState(this);
+                break;
+            case 'W':
+                state = new MonsterRunningLeftState(this);
+                break;
+            default:
+                break;
+        }
         //initialize positions
         initPosition(dps, x, y, xSpeed, ySpeed);
+        Log.w("Width", "" + sprite.getWidth());
+        Log.w("Height", "" + sprite.getHeight());
+        Log.w("SpriteWidth", "" + sprite.getSpriteWidth());
+        Log.w("SpriteHeight", "" + sprite.getSpriteHeight());
     }
 
     /**
@@ -93,40 +110,50 @@ public class Monster extends Entity {
      *
      * @return How to long to stay a corpse (corpseDur)
      */
-    public int getCorpseDur() {return corpseDur;}
+    public int getCorpseDur() {
+        return corpseDur;
+    }
 
     /**
-     *
      * @param context the context
      */
-    public void setContext (Context context) {this.context = context;}
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
     /**
      * Setter
      *
      * @param corpseDur new corpse duration
      */
-    public void setCorpseDur(int corpseDur) {this.corpseDur = corpseDur;}
+    public void setCorpseDur(int corpseDur) {
+        this.corpseDur = corpseDur;
+    }
 
     /**
      * Hit the Monster
+     *
      * @param hit hp to hit
      */
-    public void hit(int hit){
+    public void hit(int hit) {
         this.health -= hit;
         if (this.health <= 0)
             this.health = 0;
     }
 
-    public boolean checkDead(){ return this.health <= 0; }
+    public boolean checkDead() {
+        return this.health <= 0;
+    }
 
     public void decrementCorpseDur() {
-        this.corpseDur --;
+        this.corpseDur--;
         if (this.corpseDur < 0)
             this.corpseDur = 0;
     }
 
-    public boolean checkDoneCorpse() {return this.corpseDur == 0;}
+    public boolean checkDoneCorpse() {
+        return this.corpseDur == 0;
+    }
 
     /**
      * Method to clone - to use in Spawners
@@ -144,14 +171,15 @@ public class Monster extends Entity {
      * @param y new y
      * @return this monster, with new x, y
      */
-    protected Monster cloneMonster(int x, int y){
-        Monster clone = new Monster();
-        clone.setContext(this.context);
+    protected Monster cloneMonster(int x, int y) {
+        Monster clone = new Monster(context, false, position.position.left, position.position.top, position.xSpeed, position.ySpeed, health, direction);
+        /*clone.setContext(this.context);
         clone.setSprite(this.sprite);
         clone.setPosition(this.position);
         clone.initPosition(false, x, y, this.position.xSpeed, this.position.ySpeed);
-        clone.setHealth(this.health);
+        clone.setHealth(this.health);*/
         clone.setRooted(this.rooted);
+        //clone.setState(this.state);
         return clone;
     }
 
@@ -167,15 +195,15 @@ public class Monster extends Entity {
 
     }
 
-    public void setSpeedsToWizard(Position wizard_position){
+    public void setSpeedsToWizard(Position wizard_position) {
         float dif_x = position.position.centerX() - wizard_position.position.centerX();
         float dif_y = position.position.centerY() - wizard_position.position.centerY();
 
         Random rand = new Random();
         int factor = rand.nextInt(50) + 50;
 
-        this.position.xSpeed = (int) (- dif_x / factor);
-        this.position.ySpeed = (int) (- dif_y / factor);
+        this.position.xSpeed = (int) (-dif_x / factor);
+        this.position.ySpeed = (int) (-dif_y / factor);
     }
 
     @Override
@@ -183,6 +211,10 @@ public class Monster extends Entity {
         //TODO this won't work cause of sprite.update on super.update. Change sprite.update onto state.update!!
         if (!rooted)
             super.update();
+        //reset rooted
+        rooted = false;
+        state.update(this);
+        sprite.update();
     }
 
     public boolean isRooted() {
@@ -191,5 +223,9 @@ public class Monster extends Entity {
 
     public void setRooted(boolean rooted) {
         this.rooted = rooted;
+    }
+
+    public void setState(MonsterState state) {
+        this.state = state;
     }
 }

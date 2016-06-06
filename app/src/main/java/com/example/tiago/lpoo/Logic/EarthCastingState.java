@@ -1,20 +1,13 @@
 package com.example.tiago.lpoo.Logic;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 
-import com.example.tiago.lpoo.Activities.GameLoopActivity;
 import com.example.tiago.lpoo.Layouts.GameLoopActivityLayout;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.util.ArrayList;
 
 /**
  * A class that represents the Earth spell's casting state
@@ -69,9 +62,7 @@ public class EarthCastingState implements SpellState {
             String descriptionLine, durationLine, fpsLine, spritesLine, spriteLine, rowsLine, colsLine;
             int nSprites = 0;
             descriptionLine = buffreader.readLine();
-            Log.w("descr", "Description: " + descriptionLine);
             durationLine = buffreader.readLine();
-            Log.w("duration", "Duration: " + durationLine);
             dur = Float.parseFloat(durationLine.split("-")[1]);
             fpsLine = buffreader.readLine();
             fps = Integer.parseInt(fpsLine.split("-")[1]);
