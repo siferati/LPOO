@@ -1,6 +1,7 @@
 package com.example.tiago.lpoo.Layouts;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.example.tiago.lpoo.Activities.GameLoopActivity;
 import com.example.tiago.lpoo.Logic.Spawner;
 import com.example.tiago.lpoo.Logic.Spell;
 import com.example.tiago.lpoo.Logic.Wizard;
@@ -403,9 +405,19 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         String waveText = "Wave: " + (wave - 1);
         canvas.drawText(waveText, (float) (context.getResources().getDisplayMetrics().widthPixels - 0.8 * toPixels(waveText.length() * textSize)), toPixels(50), p);
         String lostText = "YOU LOST!";
-        if (lost) canvas.drawText(lostText, (float) (context.getResources().getDisplayMetrics().widthPixels / 2 - 0.5 * lostText.length() * textSize), (float) (context.getResources().getDisplayMetrics().heightPixels / 2 ), p);
+        if (lost)
+            canvas.drawText(lostText, (float) (context.getResources().getDisplayMetrics().widthPixels / 2 - 0.5 * lostText.length() * textSize), (float) (context.getResources().getDisplayMetrics().heightPixels / 2), p);
         //unlock and post the canvas
         surfaceHolder.unlockCanvasAndPost(canvas);
+        if (lost)
+        {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            ((Activity) context).finish();
+        }
     }
 
     /**
@@ -499,7 +511,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         canvas.drawCircle(wizard.getPosition().position.centerX(), wizard.getPosition().position.centerY(), toPixels(criticalAreaRadius), p);
     }
 
-    public ArrayList<Monster> monstersInCriticalAreaList(){
+    public ArrayList<Monster> monstersInCriticalAreaList() {
         ArrayList<Monster> retorno = new ArrayList<Monster>();
         for (Spawner s : spawners) {
             for (Monster m : s.getSpawned()) {
@@ -511,11 +523,11 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         return retorno;
     }
 
-    public int loseLives(ArrayList<Monster> last, ArrayList<Monster> now){
+    public int loseLives(ArrayList<Monster> last, ArrayList<Monster> now) {
         int retorno = 0;
-        for (Monster m: now){
+        for (Monster m : now) {
             boolean existent = false;
-            for (Monster mm: last){
+            for (Monster mm : last) {
                 if (mm.equals(m)) {
                     existent = true;
                 }

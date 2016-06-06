@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.example.tiago.lpoo.R;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
