@@ -19,7 +19,7 @@
         android:text="Quit"
         android:id="@+id/buttonQuit"
         android:onClick="ButtonQuitListener"
-        android:layout_below="@+id/buttonPlay"
+        android:layout_below="@+id/buttonAbout"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -28,7 +28,7 @@
         android:text="About"
         android:id="@+id/buttonAbout"
         android:onClick="ButtonAboutListener"
-        android:layout_below="@+id/buttonQuit"
+        android:layout_below="@+id/buttonPlay"
         android:layout_centerHorizontal="true" />
 
     <TextView
