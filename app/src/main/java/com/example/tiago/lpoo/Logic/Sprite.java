@@ -3,7 +3,6 @@ package com.example.tiago.lpoo.Logic;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.util.Log;
 
 import com.example.tiago.lpoo.Layouts.GameLoopActivityLayout;
 
@@ -120,8 +119,6 @@ public class Sprite {
         this.fps = fps;
         frameDuration = GameLoopActivityLayout.UPS / fps;
         nSprites = sprites.length;
-        Log.w("fps", "" + fps);
-        Log.w("frameDuration", "" + frameDuration);
     }
 
 

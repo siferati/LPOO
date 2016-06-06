@@ -9,19 +9,13 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.SystemClock;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.TextView;
-
-import com.example.tiago.lpoo.Logic.EarthCastingState;
-import com.example.tiago.lpoo.Logic.Position;
 import com.example.tiago.lpoo.Logic.Spawner;
 import com.example.tiago.lpoo.Logic.Spell;
 import com.example.tiago.lpoo.Logic.Wizard;
 import com.example.tiago.lpoo.Logic.Monster;
-import com.example.tiago.lpoo.R;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -387,7 +381,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         for (int i = 0; i < spawnerNumber; i++) {
             x = rand.nextInt(500);
             y = rand.nextInt(200);
-            Monster m = new Monster(context, true, x, y, 0, 0, 20);
+            Monster m = new Monster(context, true, x, y, 0, 0, 20, 'E');
             m.setSpeedsToWizard(this.wizard.getPosition()); // TODO
             spawners.add(new Spawner(m, 200, rand.nextInt(50)));
         }
@@ -398,22 +392,22 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         Random rand = new Random();
 
         // North
-        Monster m = new Monster(context, true, 350, 0, 0, 0, 100);
+        Monster m = new Monster(context, true, 350, 0, 0, 0, 100, 'E');
         m.setSpeedsToWizard(this.wizard.getPosition());
         spawners.add(new Spawner(m, 200, rand.nextInt(50) + 20));
 
         // South
-        Monster s = new Monster(context, true, 350, 400, 0, 0, 100);
+        Monster s = new Monster(context, true, 350, 400, 0, 0, 100, 'E');
         s.setSpeedsToWizard(this.wizard.getPosition());
         spawners.add(new Spawner(s, 200, rand.nextInt(50) + 20));
 
         // East
-        m = new Monster(context, true, 700, 200, 0, 0, 100);
+        m = new Monster(context, true, 700, 200, 0, 0, 100, 'E');
         m.setSpeedsToWizard(this.wizard.getPosition());
         spawners.add(new Spawner(m, 200, rand.nextInt(50) + 20));
 
         // West
-        m = new Monster(context, true, 0, 200, 0, 0, 100);
+        m = new Monster(context, true, 0, 200, 0, 0, 100, 'E');
         m.setSpeedsToWizard(this.wizard.getPosition());
         spawners.add(new Spawner(m, 200, rand.nextInt(50) + 20));
 

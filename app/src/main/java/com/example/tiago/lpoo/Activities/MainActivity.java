@@ -5,14 +5,10 @@ import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.example.tiago.lpoo.Layouts.GameLoopActivityLayout;
 import com.example.tiago.lpoo.R;
 
 import java.io.BufferedReader;
