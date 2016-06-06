@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 
 import com.example.tiago.lpoo.R;
 
@@ -50,10 +51,11 @@ public class Monster extends Entity {
         this.health = health;
         this.corpseDur = 20;
         rooted = false;
-        Bitmap monsterSpriteSheet = BitmapFactory.decodeResource(context.getResources(), R.drawable.wizard);
+        Bitmap monsterSpriteSheet = BitmapFactory.decodeResource(context.getResources(), R.drawable.monster);
         //this.sprite = new Sprite(monsterSpriteSheet, 1, 1, 1, 0, 0);
-        sprite = new Sprite(monsterSpriteSheet, 1, 1);
-        sprite.init(30, new int[] {0});
+        sprite = new Sprite(monsterSpriteSheet, 4, 2);
+        Log.w("Monster", "!!!");
+        sprite.init(1, new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8});
         //initialize positions
         initPosition(dps, x, y, xSpeed, ySpeed);
     }

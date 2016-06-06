@@ -120,7 +120,8 @@ public class Sprite {
         this.fps = fps;
         frameDuration = GameLoopActivityLayout.UPS / fps;
         nSprites = sprites.length;
-        //Log.w("nSprites", "" + nSprites);
+        Log.w("fps", "" + fps);
+        Log.w("frameDuration", "" + frameDuration);
     }
 
 
