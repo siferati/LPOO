@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.util.Log;
 
 import com.example.tiago.lpoo.R;
 
@@ -21,11 +22,6 @@ public class Wizard extends Entity {
      * ArrayList of active spells at any given moment
      */
     private ArrayList<Spell> spells;
-
-    /**
-     * Context
-     */
-    Context context;
 
     /**
      * Spell's sprite
@@ -93,6 +89,8 @@ public class Wizard extends Entity {
                 earthSpell = new EarthSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(100), 0, 0, spellsSpriteSheet);
                 break;
             case 'E':
+                if (context == null)
+                    Log.w("ADEEEEUSSSS", "!!!!");
                 earthSpell = new EarthSpell(context, false, position.position.left + toPixels(100), position.position.top + toPixels(0), 0, 0, spellsSpriteSheet);
                 break;
             case 'W':
