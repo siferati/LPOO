@@ -25,12 +25,14 @@ public class AboutActivity extends Activity {
         TextView txtBy = (TextView) findViewById(R.id.by);
         TextView txtIdent = (TextView) findViewById(R.id.ruiSoaresTiagoSilva);
         TextView txtYear = (TextView) findViewById(R.id.year2016);
+        TextView txtInstructions = (TextView) findViewById(R.id.instructions);
         Typeface font = Typeface.createFromAsset(getAssets(), "TubeOfCorn.ttf");
 
         txtElementalWars.setTypeface(font);
         txtBy.setTypeface(font);
         txtIdent.setTypeface(font);
         txtYear.setTypeface(font);
+        txtInstructions.setTypeface(font);
 
     }
 
