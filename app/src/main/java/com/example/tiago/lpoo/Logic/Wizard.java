@@ -82,32 +82,27 @@ public class Wizard extends Entity {
     /**
      * Casts an Earth Spell
      */
-    public void castEarthSpell() {
+    public void castEarthSpell(char direction) {
         //coordinates given are already in pxls (from wizard constructor), so boolean dps = false
-        Spell earthSpell = new EarthSpell(context, false, position.position.left + toPixels(50), position.position.top + toPixels(50), 0, 0, spellsSpriteSheet);
-        Spell earthSpell2 = new EarthSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(50), 0, 0, spellsSpriteSheet);
-        Spell earthSpell3 = new EarthSpell(context, false, position.position.left + toPixels(-50), position.position.top + toPixels(50), 0, 0, spellsSpriteSheet);
-        Spell earthSpell4 = new EarthSpell(context, false, position.position.left + toPixels(50), position.position.top + toPixels(-100), 0, 0, spellsSpriteSheet);
-        Spell earthSpell5 = new EarthSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(-100), 0, 0, spellsSpriteSheet);
-        Spell earthSpell6 = new EarthSpell(context, false, position.position.left + toPixels(-50), position.position.top + toPixels(-100), 0, 0, spellsSpriteSheet);
-        Spell earthSpell7 = new EarthSpell(context, false, position.position.left + toPixels(100), position.position.top + toPixels(-75), 0, 0, spellsSpriteSheet);
-        Spell earthSpell8 = new EarthSpell(context, false, position.position.left + toPixels(100), position.position.top + toPixels(-25), 0, 0, spellsSpriteSheet);
-        Spell earthSpell9 = new EarthSpell(context, false, position.position.left + toPixels(100), position.position.top + toPixels(25), 0, 0, spellsSpriteSheet);
-        Spell earthSpell10 = new EarthSpell(context, false, position.position.left + toPixels(-100), position.position.top + toPixels(-75), 0, 0, spellsSpriteSheet);
-        Spell earthSpell11 = new EarthSpell(context, false, position.position.left + toPixels(-100), position.position.top + toPixels(-25), 0, 0, spellsSpriteSheet);
-        Spell earthSpell12 = new EarthSpell(context, false, position.position.left + toPixels(-100), position.position.top + toPixels(25), 0, 0, spellsSpriteSheet);
-        spells.add(earthSpell);
-        spells.add(earthSpell2);
-        spells.add(earthSpell3);
-        spells.add(earthSpell4);
-        spells.add(earthSpell5);
-        spells.add(earthSpell6);
-        spells.add(earthSpell7);
-        spells.add(earthSpell8);
-        spells.add(earthSpell9);
-        spells.add(earthSpell10);
-        spells.add(earthSpell11);
-        spells.add(earthSpell12);
+        Spell earthSpell = null;
+        switch (direction) {
+            case 'N':
+                earthSpell = new EarthSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(-100), 0, 0, spellsSpriteSheet);
+                break;
+            case 'S':
+                earthSpell = new EarthSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(100), 0, 0, spellsSpriteSheet);
+                break;
+            case 'E':
+                earthSpell = new EarthSpell(context, false, position.position.left + toPixels(100), position.position.top + toPixels(0), 0, 0, spellsSpriteSheet);
+                break;
+            case 'W':
+                earthSpell = new EarthSpell(context, false, position.position.left + toPixels(-100), position.position.top + toPixels(0), 0, 0, spellsSpriteSheet);
+                break;
+            default:
+                break;
+        }
+        if (earthSpell != null)
+            spells.add(earthSpell);
     }
 
     @Override

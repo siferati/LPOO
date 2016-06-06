@@ -71,10 +71,6 @@ public class Monster extends Entity {
         }
         //initialize positions
         initPosition(dps, x, y, xSpeed, ySpeed);
-        Log.w("Width", "" + sprite.getWidth());
-        Log.w("Height", "" + sprite.getHeight());
-        Log.w("SpriteWidth", "" + sprite.getSpriteWidth());
-        Log.w("SpriteHeight", "" + sprite.getSpriteHeight());
     }
 
     /**

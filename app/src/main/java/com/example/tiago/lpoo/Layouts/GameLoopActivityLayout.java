@@ -9,9 +9,11 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.SystemClock;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
 import com.example.tiago.lpoo.Logic.Spawner;
 import com.example.tiago.lpoo.Logic.Spell;
 import com.example.tiago.lpoo.Logic.Wizard;
@@ -128,6 +130,26 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
      */
     final int MAX_UPDATES_PER_FRAME = 6;
 
+    /**
+     * Aux variable for processEvent
+     */
+    private float startX;
+
+    /**
+     * Aux variable for processEvent
+     */
+    private float startY;
+
+    /**
+     * Aux variable for processEvent
+     */
+    private int SLIDE_RANGE;
+
+    /**
+     * Aux variable for processEvent
+     */
+    private char direction;
+
     //Methods:
 
     /**
@@ -155,6 +177,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         createCardialSpawners();
         surfaceHolder = getHolder();
         motionEvents = new ArrayList<>();
+        SLIDE_RANGE = toPixels(25);
         writeToFile("earthCastingState.txt", "description-Summons an earth wall from the ground\n" +
                 "duration-1.0\n" +
                 "fps-10\n" +
@@ -192,7 +215,8 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         //lag measures how far the game’s clock is behind, compared to the real world
         long lag = 0;
         while (running) {
-            if (monstersInCriticalArea() >= 1) writeToFile("highscore.txt", "High Score: " + score + "\n");
+            if (monstersInCriticalArea() >= 1)
+                writeToFile("highscore.txt", "High Score: " + score + "\n");
             //get current time
             long current = SystemClock.uptimeMillis();
             //get elapsed time since last frame
@@ -238,14 +262,38 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
      */
     private void processEvents() {
         while (!motionEvents.isEmpty()) {
-            //get action
-            int action = motionEvents.get(0).getActionMasked();
-            switch (action) {
+            //get event
+            MotionEvent event = motionEvents.get(0);
+            float x = (int) event.getRawX();
+            float y = (int) event.getRawY();
+            switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    startX = event.getRawX();
+                    startY = event.getRawY();
+                    direction = '\0';
+                    Log.w("StartPointX", "" + startX);
+                    Log.w("StartPointY", "" + startY);
+                    Log.w("X", "" + x);
+                    Log.w("Y", "" + y);
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    Log.w("StartPointX", "" + startX);
+                    Log.w("StartPointY", "" + startY);
+                    Log.w("X", "" + x);
+                    Log.w("Y", "" + y);
+                    if (startX - x > SLIDE_RANGE) {
+                        direction = 'W';
+                    } else if (x - startX > SLIDE_RANGE) {
+                        direction = 'E';
+                    } else if (startY - y > SLIDE_RANGE) {
+                        direction = 'N';
+                    } else if (y - startY > SLIDE_RANGE) {
+                        direction = 'S';
+                    } else
+                        direction = '\0';
                     break;
                 case MotionEvent.ACTION_UP:
-                    //cast an earth spell
-                    wizard.castEarthSpell();
+                    wizard.castEarthSpell(direction);
                     break;
                 default:
                     break;
@@ -296,12 +344,11 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
     /**
      * Checks for collisions
      */
-    private void checkCollisions()
-    {
+    private void checkCollisions() {
         //Compare every monster to every spell. It's not pretty, but gets the job done!
         for (Spell spell : wizard.getSpells()) {
-            for (Spawner spawner: spawners) {
-                for (Monster monster: spawner.getSpawned()) {
+            for (Spawner spawner : spawners) {
+                for (Monster monster : spawner.getSpawned()) {
                     spell.checkCollision(monster);
                 }
             }
