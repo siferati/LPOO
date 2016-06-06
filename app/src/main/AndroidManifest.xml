@@ -15,12 +15,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.GameLoopActivity" android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen">
+        <activity android:name=".Activities.GameLoopActivity" android:screenOrientation="landscape">
 
         </activity>
         <activity android:name=".Activities.AboutActivity"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape">
 
         </activity>
     </application>
