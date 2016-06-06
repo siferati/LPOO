@@ -42,4 +42,15 @@
         android:layout_below="@+id/ruiSoaresTiagoSilva"
         android:layout_centerHorizontal="true"
         android:textSize="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Carry out the role of a mighty wizard, facing against waves of monsters coming for him. Don't let many reach the area!"
+        android:id="@+id/instructions"
+        android:gravity="center_horizontal"
+        android:maxWidth="500dp"
+        android:layout_below="@+id/year2016"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="20dp" />
 </RelativeLayout>

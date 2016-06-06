@@ -114,6 +114,11 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
     int criticalMonsters;
 
     /**
+     * True if the player lost the game
+     */
+    boolean lost;
+
+    /**
      * Queue of inputs to process
      */
     ArrayList<MotionEvent> motionEvents;
@@ -155,6 +160,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         waveTimeCounter = 0;
         criticalAreaRadius = 65;
         criticalMonsters = 5;
+        lost = false;
         //initialize wizard
         wizard = new Wizard(context, false, context.getResources().getDisplayMetrics().widthPixels / 2, context.getResources().getDisplayMetrics().heightPixels / 2, 0, 0);
         spawners = new ArrayList<Spawner>();
@@ -198,7 +204,11 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         //lag measures how far the game’s clock is behind, compared to the real world
         long lag = 0;
         while (running) {
-            if (monstersInCriticalArea() >= 1) writeToFile("highscore.txt", "High Score: " + score + "\n");
+            if (lost) {
+                String scoreMsg = readScoreFile();
+                int highScore = Integer.parseInt(scoreMsg.substring(12));
+                if (score > highScore) writeToFile("highscore.txt", "High Score: " + score + "\n");
+            }
             //get current time
             long current = SystemClock.uptimeMillis();
             //get elapsed time since last frame
@@ -224,7 +234,6 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
                 lag -= MS_PER_UPDATE;
                 //set i for next iteration
                 i++;
-
             }
             //interpolation - lag is divided by MS_PER_UPDATE in order to normalize the value
             render(lag / MS_PER_UPDATE);
@@ -265,6 +274,11 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
      * Updates all game objects
      */
     private void update() {
+        ArrayList<Monster> inCriticalArea = monstersInCriticalAreaList();
+        if (criticalMonsters <= 0) {
+            lost = true;
+            return;
+        }
         Random r = new Random();
         wizard.update();
         for (Spawner s : spawners) {
@@ -277,6 +291,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         }
         //check collisions
         checkCollisions();
+        criticalMonsters -= loseLives(inCriticalArea, monstersInCriticalAreaList());
         if (newWave && waveTimeCounter < 5000) {
         } else {
             newWave = false;
@@ -344,8 +359,11 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         p.setColor(Color.LTGRAY);
         String scoreText = "Score: " + score;
         canvas.drawText(scoreText, (float) 0.2 * toPixels(scoreText.length() * textSize), toPixels(50), p);
+        canvas.drawText("" + criticalMonsters, (float) (context.getResources().getDisplayMetrics().widthPixels / 2), toPixels(50), p);
         String waveText = "Wave: " + (wave - 1);
         canvas.drawText(waveText, (float) (context.getResources().getDisplayMetrics().widthPixels - 0.8 * toPixels(waveText.length() * textSize)), toPixels(50), p);
+        String lostText = "YOU LOST!";
+        if (lost) canvas.drawText(lostText, (float) (context.getResources().getDisplayMetrics().widthPixels / 2 - 0.5 * lostText.length() * textSize), (float) (context.getResources().getDisplayMetrics().heightPixels / 2 ), p);
         //unlock and post the canvas
         surfaceHolder.unlockCanvasAndPost(canvas);
     }
@@ -441,14 +459,28 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         canvas.drawCircle(wizard.getPosition().position.centerX(), wizard.getPosition().position.centerY(), toPixels(criticalAreaRadius), p);
     }
 
-    public int monstersInCriticalArea() {
-        int retorno = 0;
+    public ArrayList<Monster> monstersInCriticalAreaList(){
+        ArrayList<Monster> retorno = new ArrayList<Monster>();
         for (Spawner s : spawners) {
             for (Monster m : s.getSpawned()) {
                 if (m.getPosition().position.centerX() <= (wizard.getPosition().position.centerX() + toPixels(criticalAreaRadius)) && m.getPosition().position.centerX() >= (wizard.getPosition().position.centerX() - toPixels(criticalAreaRadius)))
                     if (m.getPosition().position.centerY() <= (wizard.getPosition().position.centerY() + toPixels(criticalAreaRadius)) && m.getPosition().position.centerY() >= (wizard.getPosition().position.centerY() - toPixels(criticalAreaRadius)))
-                        retorno++;
+                        retorno.add(m);
             }
+        }
+        return retorno;
+    }
+
+    public int loseLives(ArrayList<Monster> last, ArrayList<Monster> now){
+        int retorno = 0;
+        for (Monster m: now){
+            boolean existent = false;
+            for (Monster mm: last){
+                if (mm.equals(m)) {
+                    existent = true;
+                }
+            }
+            if (!existent) retorno++;
         }
         return retorno;
     }
