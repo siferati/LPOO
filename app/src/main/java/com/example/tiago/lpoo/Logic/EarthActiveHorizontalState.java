@@ -9,7 +9,7 @@ import com.example.tiago.lpoo.R;
 /**
  * A class that represents the Earth spell's casting state
  */
-public class EarthCastingState implements SpellState {
+public class EarthActiveHorizontalState implements SpellState{
 
     //Attributes:
 
@@ -21,17 +21,12 @@ public class EarthCastingState implements SpellState {
     /**
      * Speed of the animation
      */
-    private static final int FPS = 10;
+    private static final int FPS = 1;
 
     /**
      * Order of the frames (index) of the animation
      */
-    private static final int[] FRAMES = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8};
-
-    /**
-     * How long this state lasts (in frames)
-     */
-    private static final float STATE_DURATION = FRAMES.length * GameLoopActivityLayout.UPS / FPS;
+    private static final int[] FRAMES = new int[] {9};
 
     /**
      * Number of rows of animation spriteSheet
@@ -48,13 +43,17 @@ public class EarthCastingState implements SpellState {
      */
     private static Bitmap spriteSheet;
 
+    /**
+     * How long this state lasts (in seconds!)
+     */
+    private static final float STATE_DURATION = (float) 2.0;
 
     //Methods:
 
     /**
      * Constructor
      */
-    public EarthCastingState(Spell spell) {
+    public EarthActiveHorizontalState(Spell spell) {
         //spriteSheet is only initialized once!
         if (spriteSheet == null)
             spriteSheet = BitmapFactory.decodeResource(spell.context.getResources(), R.drawable.earth_spell);
@@ -75,8 +74,8 @@ public class EarthCastingState implements SpellState {
         //update frameCount
         frameCount++;
         //if the entire animation as been played
-        if (frameCount > STATE_DURATION)
-            return new EarthActiveState(spell);
+        if (frameCount > STATE_DURATION * GameLoopActivityLayout.UPS)
+            return new EarthDestroyingHorizontalState(spell);
         return null;
     }
 }

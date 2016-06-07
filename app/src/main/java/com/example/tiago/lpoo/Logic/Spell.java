@@ -19,6 +19,11 @@ public abstract class Spell extends Entity {
      */
     protected boolean active;
 
+    /**
+     * Direction of the Spell N, S, E, W
+     */
+    protected char direction;
+
     //Methods:
 
     /**
@@ -37,8 +42,9 @@ public abstract class Spell extends Entity {
      * @param xSpeed Speed along the X axis
      * @param ySpeed Speed along the Y axis
      */
-    public Spell(Context context, boolean dps, int x, int y, int xSpeed, int ySpeed) {
+    public Spell(Context context, boolean dps, int x, int y, int xSpeed, int ySpeed, char direction) {
         super(context);
+        this.direction = direction;
         state = null;
         sprite = null;
         //initialize positions

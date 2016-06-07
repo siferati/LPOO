@@ -287,8 +287,6 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
                         direction = '\0';
                     break;
                 case MotionEvent.ACTION_UP:
-                    if (context == null)
-                        Log.w("SAYONAAAARA", "!!!!!!");
                     wizard.castEarthSpell(direction);
                     break;
                 default:
