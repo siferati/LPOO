@@ -305,8 +305,9 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         for (Spawner s : spawners) {
             score += s.removeDead();
             for (Monster m : s.getSpawned()) {
-                m.hit(1);
-                m.setSpeedsToWizard(wizard.getPosition());
+                if (m.getPosition().position.centerX() <= (wizard.getPosition().position.centerX() + toPixels(criticalAreaRadius)) && m.getPosition().position.centerX() >= (wizard.getPosition().position.centerX() - toPixels(criticalAreaRadius)))
+                    if (m.getPosition().position.centerY() <= (wizard.getPosition().position.centerY() + toPixels(criticalAreaRadius)) && m.getPosition().position.centerY() >= (wizard.getPosition().position.centerY() - toPixels(criticalAreaRadius)))
+                        m.hit(m.getHealth());
             }
             s.updateHealth();
         }
@@ -448,22 +449,22 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         // North
         Monster m = new Monster(context, true, 350, 0, 0, 0, 100, 'S');
         m.setSpeedsToWizard(this.wizard.getPosition());
-        spawners.add(new Spawner(m, 200, rand.nextInt(50) + 20));
+        spawners.add(new Spawner(m, 100, rand.nextInt(50) + 20));
 
         // South
         Monster s = new Monster(context, true, 350, 400, 0, 0, 100, 'N');
         s.setSpeedsToWizard(this.wizard.getPosition());
-        spawners.add(new Spawner(s, 200, rand.nextInt(50) + 20));
+        spawners.add(new Spawner(s, 100, rand.nextInt(50) + 20));
 
         // East
         m = new Monster(context, true, 700, 200, 0, 0, 100, 'W');
         m.setSpeedsToWizard(this.wizard.getPosition());
-        spawners.add(new Spawner(m, 200, rand.nextInt(50) + 20));
+        spawners.add(new Spawner(m, 100, rand.nextInt(50) + 20));
 
         // West
         m = new Monster(context, true, 0, 200, 0, 0, 100, 'E');
         m.setSpeedsToWizard(this.wizard.getPosition());
-        spawners.add(new Spawner(m, 200, rand.nextInt(50) + 20));
+        spawners.add(new Spawner(m, 100, rand.nextInt(50) + 20));
 
     }
 

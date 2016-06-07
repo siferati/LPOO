@@ -94,8 +94,10 @@ public class Sprite {
      */
     public Sprite(Bitmap spriteSheet, int rows, int columns) {
         this.spriteSheet = spriteSheet;
-        height = spriteSheet.getHeight();
-        width = spriteSheet.getWidth();
+        if (spriteSheet != null) height = spriteSheet.getHeight();
+        else height = 0;
+        if (spriteSheet != null) width = spriteSheet.getWidth();
+        else width = 0;
         this.rows = rows;
         this.columns = columns;
         spriteHeight = height / rows;

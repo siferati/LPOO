@@ -153,7 +153,9 @@ public class Spawner {
             newx = r.nextInt(this.spawnRadius);
             newy = r.nextInt(this.spawnRadius);
         }
-        Monster m = prototype.cloneMonster(this.prototype.getPosition().position.left + newx, this.prototype.getPosition().position.top + newy);
+        Monster m = prototype.cloneMonster();
+        if (prototype.getPosition() != null)
+            m = prototype.cloneMonster(this.prototype.getPosition().position.left + newx, this.prototype.getPosition().position.top + newy);
         spawned.add(m);
         return m;
     }

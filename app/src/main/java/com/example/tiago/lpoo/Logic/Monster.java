@@ -56,7 +56,7 @@ public class Monster extends Entity {
         super(context);
         this.direction = direction;
         this.health = health;
-        this.corpseDur = 20;
+        this.corpseDur = 0;
         rooted = false;
         //initialize state
         switch (direction) {
@@ -85,7 +85,7 @@ public class Monster extends Entity {
     public Monster() {
         super();
         this.health = 0;
-        this.corpseDur = 20;
+        this.corpseDur = 0;
         rooted = false;
     }
 
@@ -202,7 +202,7 @@ public class Monster extends Entity {
         float dif_y = position.position.centerY() - wizard_position.position.centerY();
 
         Random rand = new Random();
-        int factor = rand.nextInt(50) + 50;
+        int factor = rand.nextInt(50) + 75;
 
         this.position.xSpeed = (int) (-dif_x / factor);
         this.position.ySpeed = (int) (-dif_y / factor);
