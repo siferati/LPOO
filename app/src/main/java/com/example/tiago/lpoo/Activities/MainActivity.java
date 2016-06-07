@@ -9,6 +9,7 @@ import android.view.View;
 
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.example.tiago.lpoo.R;
 
 import java.io.BufferedReader;
@@ -22,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * On Creation behavior. Shows menu buttons and text (with font)
-     * @param savedInstanceState
+     *
+     * @param savedInstanceState SavedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-        Button playButton =  (Button) findViewById(R.id.buttonPlay);
-        Button quitButton =  (Button) findViewById(R.id.buttonQuit);
+        Button playButton = (Button) findViewById(R.id.buttonPlay);
+        Button quitButton = (Button) findViewById(R.id.buttonQuit);
         Button aboutButton = (Button) findViewById(R.id.buttonAbout);
 
         TextView txtElementalWars = (TextView) findViewById(R.id.elementalWars);
@@ -70,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Listerner for aboutButton
+     *
      * @param view View
      */
     public void ButtonAboutListener(View view) {
@@ -79,7 +82,8 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Reads the high score and shows it on the bottom right corner. If it doesn't exist, sets it to 0.
-     * @return
+     *
+     * @return String read
      */
     public String readScoreFile() {
         FileInputStream instream;

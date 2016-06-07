@@ -53,7 +53,7 @@ public class EarthDestroyingHorizontalState implements SpellState {
     /**
      * Constructor
      *
-     * @param spell
+     * @param spell Spell
      */
     public EarthDestroyingHorizontalState(Spell spell) {
         //spriteSheet is only initialized once!

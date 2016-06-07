@@ -36,11 +36,13 @@ public abstract class Spell extends Entity {
     /**
      * Constructor
      *
-     * @param dps    TRUE if coordinates are in dps, FALSE if they are in pxls
-     * @param x      X coordinate
-     * @param y      Y coordinate
-     * @param xSpeed Speed along the X axis
-     * @param ySpeed Speed along the Y axis
+     * @param context   Context
+     * @param dps       TRUE if coordinates are in dps, FALSE if they are in pxls
+     * @param x         X coordinate
+     * @param y         Y coordinate
+     * @param xSpeed    Speed along the X axis
+     * @param ySpeed    Speed along the Y axis
+     * @param direction Direction
      */
     public Spell(Context context, boolean dps, int x, int y, int xSpeed, int ySpeed, char direction) {
         super(context);

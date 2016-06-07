@@ -55,7 +55,7 @@ public class WaterActiveRightState implements SpellState {
     /**
      * Constructor
      *
-     * @param spell
+     * @param spell Spell
      */
     public WaterActiveRightState(Spell spell) {
         //spriteSheet is only initialized once!

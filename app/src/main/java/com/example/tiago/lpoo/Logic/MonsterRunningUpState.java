@@ -41,6 +41,7 @@ public class MonsterRunningUpState implements MonsterState {
 
     /**
      * Constructor
+     *
      * @param monster Monster
      */
     public MonsterRunningUpState(Monster monster) {

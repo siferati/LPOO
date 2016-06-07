@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.TextView;
+
 import com.example.tiago.lpoo.R;
 
 /**
@@ -16,6 +17,7 @@ public class AboutActivity extends Activity {
 
     /**
      * Create activity and show it
+     *
      * @param savedInstanceState Last Instance
      */
     @Override
