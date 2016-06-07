@@ -2,6 +2,7 @@ package com.example.tiago.lpoo.Layouts;
 
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,13 +15,21 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.example.tiago.lpoo.Activities.GameLoopActivity;
+import com.example.tiago.lpoo.Logic.AirActiveState;
+import com.example.tiago.lpoo.Logic.AirSpell;
 import com.example.tiago.lpoo.Logic.CustomEvent;
+import com.example.tiago.lpoo.Logic.EarthSpell;
+import com.example.tiago.lpoo.Logic.FireSpell;
 import com.example.tiago.lpoo.Logic.Spawner;
 import com.example.tiago.lpoo.Logic.Spell;
+import com.example.tiago.lpoo.Logic.WaterSpell;
 import com.example.tiago.lpoo.Logic.Wizard;
 import com.example.tiago.lpoo.Logic.Monster;
+import com.example.tiago.lpoo.R;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -157,6 +166,26 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
      * Aux variable for processEvent
      */
     private char direction;
+
+    /**
+     * Image View of the Earth Spell "Button"
+     */
+    private ImageView earthButton = null;
+
+    /**
+     * Image View of the Fire Spell "Button"
+     */
+    private ImageView fireButton = null;
+
+    /**
+     * Image View of the Air Spell "Button"
+     */
+    private ImageView airButton = null;
+
+    /**
+     * Image View of the Water Spell "Button"
+     */
+    private ImageView waterButton = null;
 
     //Methods:
 
@@ -295,6 +324,79 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
      * Updates all game objects
      */
     private void update() {
+        //fire cooldown
+        if (FireSpell.cooldown == 0) {
+            FireSpell.canCast = true;
+            fireButton.getHandler().post(new Runnable() {
+                public void run() {
+                    fireButton.setAlpha(1.0f);
+                    fireButton.setEnabled(true);
+                }
+            });
+        } else {
+            fireButton.getHandler().post(new Runnable() {
+                public void run() {
+                    fireButton.setAlpha(.5f);
+                    fireButton.setEnabled(false);
+                }
+            });
+            FireSpell.cooldown--;
+        }
+        //air cooldown
+        if (AirSpell.cooldown == 0) {
+            AirSpell.canCast = true;
+            airButton.getHandler().post(new Runnable() {
+                public void run() {
+                    airButton.setAlpha(1.0f);
+                    airButton.setEnabled(true);
+                }
+            });
+        } else {
+            airButton.getHandler().post(new Runnable() {
+                public void run() {
+                    airButton.setAlpha(.5f);
+                    airButton.setEnabled(false);
+                }
+            });
+            AirSpell.cooldown--;
+        }
+        //earth cooldown
+        if (EarthSpell.cooldown == 0) {
+            EarthSpell.canCast = true;
+            earthButton.getHandler().post(new Runnable() {
+                public void run() {
+                    earthButton.setAlpha(1.0f);
+                    earthButton.setEnabled(true);
+                }
+            });
+        } else {
+            earthButton.getHandler().post(new Runnable() {
+                public void run() {
+                    earthButton.setAlpha(.5f);
+                    earthButton.setEnabled(false);
+                }
+            });
+            EarthSpell.cooldown--;
+        }
+        //water cooldown
+        if (WaterSpell.cooldown == 0) {
+            WaterSpell.canCast = true;
+            waterButton.getHandler().post(new Runnable() {
+                public void run() {
+                    waterButton.setAlpha(1.0f);
+                    waterButton.setEnabled(true);
+                }
+            });
+        } else {
+            waterButton.getHandler().post(new Runnable() {
+                public void run() {
+                    waterButton.setAlpha(.5f);
+                    waterButton.setEnabled(false);
+                }
+            });
+            WaterSpell.cooldown--;
+        }
+
         ArrayList<Monster> inCriticalArea = monstersInCriticalAreaList();
         if (criticalMonsters <= 0) {
             lost = true;
@@ -388,8 +490,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
             canvas.drawText(lostText, (float) (context.getResources().getDisplayMetrics().widthPixels / 2 - 0.5 * lostText.length() * textSize), (float) (context.getResources().getDisplayMetrics().heightPixels / 2), p);
         //unlock and post the canvas
         surfaceHolder.unlockCanvasAndPost(canvas);
-        if (lost)
-        {
+        if (lost) {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
@@ -545,4 +646,35 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         return scoreMessage;
     }
 
+    public ImageView getEarthButton() {
+        return earthButton;
+    }
+
+    public void setEarthButton(ImageView earthButton) {
+        this.earthButton = earthButton;
+    }
+
+    public ImageView getFireButton() {
+        return fireButton;
+    }
+
+    public void setFireButton(ImageView fireButton) {
+        this.fireButton = fireButton;
+    }
+
+    public ImageView getAirButton() {
+        return airButton;
+    }
+
+    public void setAirButton(ImageView airButton) {
+        this.airButton = airButton;
+    }
+
+    public ImageView getWaterButton() {
+        return waterButton;
+    }
+
+    public void setWaterButton(ImageView waterButton) {
+        this.waterButton = waterButton;
+    }
 }

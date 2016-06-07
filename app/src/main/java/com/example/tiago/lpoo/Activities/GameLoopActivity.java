@@ -85,6 +85,10 @@ public class GameLoopActivity extends Activity {
                 return true;
             }
         });
+        layout.setAirButton(airButton);
+        layout.setFireButton(fireButton);
+        layout.setEarthButton(earthButton);
+        layout.setWaterButton(waterButton);
     }
 
     @Override
