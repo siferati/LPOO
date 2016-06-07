@@ -15,7 +15,7 @@ public class AirSpell extends Spell {
     /**
      * Cooldown in seconds!
      */
-    private static final float COOLDOWN = (float) 3.0;
+    private static final float COOLDOWN = (float) 2.0;
 
     /**
      * Cooldown in frames!!

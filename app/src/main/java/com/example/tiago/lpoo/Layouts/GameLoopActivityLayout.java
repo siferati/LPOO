@@ -41,6 +41,7 @@ import java.util.Random;
 
 /**
  * A class that represents the Custom View where the game is running (game loop is located here)
+ * Everything related to the game itself runs here.
  */
 public class GameLoopActivityLayout extends SurfaceView implements Runnable {
 
@@ -57,6 +58,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
     Thread thread = null;
 
     /**
+     * Flag to check if the game is currently running
      * TRUE - the game is running | FALSE - the game is NOT running
      */
     boolean running = false;
@@ -72,17 +74,17 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
     SurfaceHolder surfaceHolder;
 
     /**
-     * Wizard (player's char)
+     * Wizard (player's character)
      */
     Wizard wizard;
 
     /**
-     * Spawner for a monster
+     * Spawners for the monsters
      */
     ArrayList<Spawner> spawners;
 
     /**
-     * Total score
+     * Total current score (not highscore)
      */
     int score;
 
@@ -211,7 +213,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         lost = false;
         //initialize wizard
         wizard = new Wizard(context, false, context.getResources().getDisplayMetrics().widthPixels / 2, context.getResources().getDisplayMetrics().heightPixels / 2, 0, 0);
-        spawners = new ArrayList<Spawner>();
+        spawners = new ArrayList<>();
         createCardialSpawners();
         surfaceHolder = getHolder();
         motionEvents = new ArrayList<>();
@@ -229,6 +231,9 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
 
     /**
      * Runs the game loop (thread.run())
+     * - Reads the highScore
+     * - Manages the updating of the characters on the screen
+     * - Renders the characters on the screen onto the canvas
      */
     @Override
     public void run() {
@@ -282,7 +287,8 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
     }
 
     /**
-     * Process motion events
+     * Process Motion Events.
+     * If the user slides on the spell buttons, a behavior is set: launches a spell in that direction.
      */
     private void processEvents() {
         while (!motionEvents.isEmpty()) {
@@ -321,7 +327,13 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
     }
 
     /**
-     * Updates all game objects
+     * Updates all game objects (wizard, spells, spawners, monsters, waves, score)
+     * Monsters die when they reach the red critical area
+     * Score is incremented on monster kill
+     * Wave increases difficulty with time
+     * Player has 5 lives only
+     * All spells have a cooldown
+     * Checks collisions on the screen
      */
     private void update() {
         //fire cooldown
@@ -413,7 +425,6 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
             }
             s.updateHealth();
         }
-        //check collisions
         checkCollisions();
         criticalMonsters -= loseLives(inCriticalArea, monstersInCriticalAreaList());
         if (newWave && waveTimeCounter < 5000) {
@@ -422,7 +433,6 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
             waveTimeCounter = 0;
             if (spawnedCounter < monstersToSpawn) {
                 int index = r.nextInt(spawners.size());
-                int spawned = 0;
                 spawners.get(index).incrementCounter();
                 if (spawners.get(index).getSpawnCounter() == spawners.get(index).getSpawnRate()) {
                     spawners.get(index).spawnMonster();
@@ -439,10 +449,9 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
     }
 
     /**
-     * Checks for collisions
+     * Checks for collisions. Compares every monster to every spell. It's not pretty, but gets the job done!
      */
     private void checkCollisions() {
-        //Compare every monster to every spell. It's not pretty, but gets the job done!
         for (Spell spell : wizard.getSpells()) {
             for (Spawner spawner : spawners) {
                 for (Monster monster : spawner.getSpawned()) {
@@ -453,11 +462,10 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
     }
 
     /**
-     * Renders all game objects
+     * Renders all game objects (monsters, spells, text, wizard, etc.)
      *
      * @param interpolation How far into the next frame we are (in percentage)
      */
-
     private void render(float interpolation) {
         //if the surface is NOT valid, exit rendering
         if (!surfaceHolder.getSurface().isValid()) {
@@ -501,7 +509,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
     }
 
     /**
-     * Pause the game
+     * Pause the game thread
      */
     public void pause() {
         //game is NOT running
@@ -520,7 +528,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
     }
 
     /**
-     * Resume the game
+     * Resume the game thread
      */
     public void resume() {
         //game is running
@@ -531,58 +539,61 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         thread.start();
     }
 
-    public void createRandomSpawners(int spawnerNumber) {
-        int x, y;
-        Random rand = new Random();
-        for (int i = 0; i < spawnerNumber; i++) {
-            x = rand.nextInt(500);
-            y = rand.nextInt(200);
-            Monster m = new Monster(context, true, x, y, 0, 0, 20, 'E');
-            m.setSpeedsToWizard(this.wizard.getPosition()); // TODO
-            spawners.add(new Spawner(m, 200, rand.nextInt(50)));
-        }
-    }
-
+    /**
+     * Creates 4 spawners, on the north, south, east and west borders.
+     */
     public void createCardialSpawners() {
-        int x, y;
         Random rand = new Random();
+
+        int widthPixels, heightPixels;
+
+        widthPixels = context.getResources().getDisplayMetrics().widthPixels;
+        heightPixels = context.getResources().getDisplayMetrics().heightPixels;
 
         // North
-        Monster m = new Monster(context, true, 350, 0, 0, 0, 100, 'S');
+        Monster m = new Monster(context, false, widthPixels / 2, 0, 0, 0, 100, 'S');
         m.setSpeedsToWizard(this.wizard.getPosition());
         spawners.add(new Spawner(m, 0, rand.nextInt(50) + 20));
 
         // South
-        Monster s = new Monster(context, true, 350, 400, 0, 0, 100, 'N');
+        Monster s = new Monster(context, false, widthPixels / 2, heightPixels, 0, 0, 100, 'N');
         s.setSpeedsToWizard(this.wizard.getPosition());
         spawners.add(new Spawner(s, 0, rand.nextInt(50) + 20));
 
         // East
-        m = new Monster(context, true, 700, 200, 0, 0, 100, 'W');
+        m = new Monster(context, false, widthPixels, heightPixels/2, 0, 0, 100, 'W');
         m.setSpeedsToWizard(this.wizard.getPosition());
         spawners.add(new Spawner(m, 0, rand.nextInt(50) + 20));
 
         // West
-        m = new Monster(context, true, 0, 200, 0, 0, 100, 'E');
+        m = new Monster(context, false, 0, heightPixels / 2, 0, 0, 100, 'E');
         m.setSpeedsToWizard(this.wizard.getPosition());
         spawners.add(new Spawner(m, 0, rand.nextInt(50) + 20));
 
     }
 
+    /**
+     * Returns the number of monsters to spawn in the current wave
+     * @return the number of monsters for the current wave
+     */
     public int toSpawn() {
         if (wave < 5) {
             return wave;
         } else return wave + score % 4;
     }
 
+    /**
+     * Convert dps coordinates to pixels
+     * @param dps the value to convert
+     * @return the converted value
+     */
     public int toPixels(float dps) {
         return (int) (dps * context.getResources().getDisplayMetrics().density + 0.5f);
     }
 
-    public float toDps(int pixels) {
-        return (float) ((pixels - 0.5f) / context.getResources().getDisplayMetrics().density);
-    }
-
+    /**
+     * Draw The Critical Area around the Wizard
+     */
     public void drawCriticalArea() {
         Paint p = new Paint();
         p.setStyle(Paint.Style.STROKE);
@@ -591,8 +602,12 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         canvas.drawCircle(wizard.getPosition().position.centerX(), wizard.getPosition().position.centerY(), toPixels(criticalAreaRadius), p);
     }
 
+    /**
+     * Checks how many monsters are currently in the critical area
+     * @return the monsters in the critical area
+     */
     public ArrayList<Monster> monstersInCriticalAreaList() {
-        ArrayList<Monster> retorno = new ArrayList<Monster>();
+        ArrayList<Monster> retorno = new ArrayList<>();
         for (Spawner s : spawners) {
             for (Monster m : s.getSpawned()) {
                 if (m.getPosition().position.centerX() <= (wizard.getPosition().position.centerX() + toPixels(criticalAreaRadius)) && m.getPosition().position.centerX() >= (wizard.getPosition().position.centerX() - toPixels(criticalAreaRadius)))
@@ -603,6 +618,12 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         return retorno;
     }
 
+    /**
+     * Lose Lives based on if monsters entered the area
+     * @param last last frame's monsters
+     * @param now curent monsters
+     * @return lives to lose
+     */
     public int loseLives(ArrayList<Monster> last, ArrayList<Monster> now) {
         int retorno = 0;
         for (Monster m : now) {
@@ -617,9 +638,13 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         return retorno;
     }
 
+    /**
+     * Write to any file on internal storage
+     * @param filename File's name
+     * @param message  Message to write
+     */
     public void writeToFile(String filename, String message) {
         File path = context.getFilesDir();
-        File file = new File(path, filename);
         try {
             FileOutputStream outputStream = new FileOutputStream(path + "/" + filename);
             outputStream.write(message.getBytes());
@@ -629,6 +654,10 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         }
     }
 
+    /**
+     * Read the Internal High Score file
+     * @return the file's contents
+     */
     public String readScoreFile() {
         FileInputStream instream;
         String scoreMessage = "";
@@ -647,34 +676,34 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         return scoreMessage;
     }
 
-    public ImageView getEarthButton() {
-        return earthButton;
-    }
-
+    /**
+     * Sets the Earth Spell's button to a new one
+     * @param earthButton new earth spell button
+     */
     public void setEarthButton(ImageView earthButton) {
         this.earthButton = earthButton;
     }
 
-    public ImageView getFireButton() {
-        return fireButton;
-    }
-
+    /**
+     * Sets the Fire Spell's button to a new one
+     * @param fireButton new fire spell button
+     */
     public void setFireButton(ImageView fireButton) {
         this.fireButton = fireButton;
     }
 
-    public ImageView getAirButton() {
-        return airButton;
-    }
-
+    /**
+     * Sets the Air Spell's button to a new one
+     * @param airButton new air spell button
+     */
     public void setAirButton(ImageView airButton) {
         this.airButton = airButton;
     }
 
-    public ImageView getWaterButton() {
-        return waterButton;
-    }
-
+    /**
+     * Sets the Water Spell's button to a new one
+     * @param waterButton new water spell button
+     */
     public void setWaterButton(ImageView waterButton) {
         this.waterButton = waterButton;
     }

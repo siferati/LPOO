@@ -14,7 +14,7 @@ public class FireSpell extends Spell {
     /**
      * Cooldown in seconds!
      */
-    private static final float COOLDOWN = (float) 5.0;
+    private static final float COOLDOWN = (float) 3.0;
 
     /**
      * Cooldown in frames!!

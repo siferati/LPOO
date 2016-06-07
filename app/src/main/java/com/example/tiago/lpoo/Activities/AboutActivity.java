@@ -8,12 +8,16 @@ import android.widget.TextView;
 import com.example.tiago.lpoo.R;
 
 /**
- * About Activity
+ * The About screen's Activity
  */
 public class AboutActivity extends Activity {
 
     //Methods:
 
+    /**
+     * Create activity and show it
+     * @param savedInstanceState Last Instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,11 +40,17 @@ public class AboutActivity extends Activity {
 
     }
 
+    /**
+     * About Screen's Pause Behavior
+     */
     @Override
     protected void onPause() {
         super.onPause();
     }
 
+    /**
+     * About Screen's Resume Behavior
+     */
     @Override
     protected void onResume() {
         super.onResume();

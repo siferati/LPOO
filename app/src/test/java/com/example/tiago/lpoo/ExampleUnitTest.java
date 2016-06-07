@@ -2,7 +2,6 @@ package com.example.tiago.lpoo;
 
 import android.graphics.Rect;
 
-import com.example.tiago.lpoo.Layouts.GameLoopActivityLayout;
 import com.example.tiago.lpoo.Logic.Monster;
 import com.example.tiago.lpoo.Logic.Position;
 import com.example.tiago.lpoo.Logic.Spawner;
@@ -18,7 +17,7 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     
     @Test
-    public void MonsterDies() throws Exception {
+    public void MonsterDiesTest() throws Exception {
         Monster m = new Monster();
         m.setHealth(1);
 
@@ -31,13 +30,53 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void SpawnerSpawns() throws Exception {
+    public void SpawnerSpawnsTest() throws Exception {
         Monster m = new Monster();
         Spawner sp = new Spawner(m, 10, 10);
 
         Monster sm = sp.spawnMonster();
 
         assertNotNull(sm);
+    }
+
+    @Test
+    public void MonsterSpawnedWithinRadiusTest() throws Exception {
+        Monster m = new Monster();
+        m.setPosition(new Position(new Rect (0,0,0,0), 0, 0));
+        Spawner sp = new Spawner(m, 10, 10);
+
+        Monster sm = sp.spawnMonster();
+
+        assertTrue( java.lang.Math.abs(sm.getPosition().position.left - m.getPosition().position.left) <= 1 );
+        assertTrue( java.lang.Math.abs(sm.getPosition().position.top - m.getPosition().position.top) <= 1 );
+        assertTrue( java.lang.Math.abs(sm.getPosition().position.right - m.getPosition().position.right) <= 1 );
+        assertTrue( java.lang.Math.abs(sm.getPosition().position.bottom - m.getPosition().position.bottom) <= 1 );
+
+    }
+
+    @Test
+    public void MonsterCorpseTest() throws Exception{
+        Monster m = new Monster();
+        m.setPosition(new Position(new Rect (0,0,0,0), 0, 0));
+        m.setCorpseDur(1);
+        m.setHealth(0);
+        m.decrementCorpseDur();
+        assertTrue(m.checkDoneCorpse());
+    }
+
+    @Test
+    public void SpawnerRateTest() throws Exception {
+        Monster m = new Monster();
+        Spawner s = new Spawner(m, 10, 1);
+
+        assertEquals(1, s.getSpawnRate());
+        assertEquals(0, s.getSpawnCounter());
+
+        int i = s.update();
+
+        assertEquals(1, s.getSpawnRate());
+        assertEquals(1, s.getSpawnCounter());
+        assertEquals(1, i);
     }
 
 

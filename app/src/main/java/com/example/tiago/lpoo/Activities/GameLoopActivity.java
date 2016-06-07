@@ -12,7 +12,7 @@ import com.example.tiago.lpoo.Logic.CustomEvent;
 import com.example.tiago.lpoo.R;
 
 /**
- * Main Game Activity
+ * Main Game Activity. Manages the main loop activity.
  */
 public class GameLoopActivity extends Activity {
 
@@ -45,6 +45,10 @@ public class GameLoopActivity extends Activity {
 
     //Methods:
 
+    /**
+     * On create method. Sets behavior to show spell buttons
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,12 +95,18 @@ public class GameLoopActivity extends Activity {
         layout.setWaterButton(waterButton);
     }
 
+    /**
+     * GameLoop Activity pause behavior
+     */
     @Override
     protected void onPause() {
         super.onPause();
         layout.pause();
     }
 
+    /**
+     * GameLoop Activity resume behavior
+     */
     @Override
     protected void onResume() {
         super.onResume();

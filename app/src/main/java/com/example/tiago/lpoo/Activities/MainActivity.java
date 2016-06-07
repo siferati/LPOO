@@ -20,6 +20,10 @@ import java.io.InputStreamReader;
  */
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * On Creation behavior. Shows menu buttons and text (with font)
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,11 +68,19 @@ public class MainActivity extends AppCompatActivity {
         System.exit(0);
     }
 
+    /**
+     * Listerner for aboutButton
+     * @param view View
+     */
     public void ButtonAboutListener(View view) {
         Intent intent = new Intent(this, AboutActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Reads the high score and shows it on the bottom right corner. If it doesn't exist, sets it to 0.
+     * @return
+     */
     public String readScoreFile() {
         FileInputStream instream;
         String scoreMessage = "";
