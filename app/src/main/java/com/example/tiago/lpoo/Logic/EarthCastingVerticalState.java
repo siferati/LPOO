@@ -9,7 +9,8 @@ import com.example.tiago.lpoo.R;
 /**
  * A class that represents the Earth spell's casting state
  */
-public class EarthCastingVerticalState implements SpellState{
+public class EarthCastingVerticalState implements SpellState {
+
     //Attributes:
 
     /**
@@ -25,7 +26,7 @@ public class EarthCastingVerticalState implements SpellState{
     /**
      * Order of the frames (index) of the animation
      */
-    private static final int[] FRAMES = new int[] {0, 1, 2, 3, 4, 5, 6};
+    private static final int[] FRAMES = new int[]{0, 1, 2, 3, 4, 5, 6};
 
     /**
      * How long this state lasts (in frames)
@@ -52,6 +53,8 @@ public class EarthCastingVerticalState implements SpellState{
 
     /**
      * Constructor
+     *
+     * @param spell
      */
     public EarthCastingVerticalState(Spell spell) {
         //spriteSheet is only initialized once!

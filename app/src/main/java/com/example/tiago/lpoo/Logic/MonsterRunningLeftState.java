@@ -41,6 +41,8 @@ public class MonsterRunningLeftState implements MonsterState {
 
     /**
      * Constructor
+     *
+     * @param monster Monster
      */
     public MonsterRunningLeftState(Monster monster) {
         //spriteSheet is only initialized once!

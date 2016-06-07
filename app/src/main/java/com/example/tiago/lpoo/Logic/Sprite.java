@@ -106,10 +106,11 @@ public class Sprite {
 
     /**
      * (Re)set certain sprite attributes
-     * @param fps
+     *
+     * @param fps     FPS
+     * @param sprites Indexes of Sprites
      */
-    public void init(int fps, int[] sprites)
-    {
+    public void init(int fps, int[] sprites) {
         this.sprites = sprites;
         currentSprite = 0;
         //aux variables
@@ -123,7 +124,9 @@ public class Sprite {
         nSprites = sprites.length;
     }
 
-
+    /**
+     * Update this Sprite
+     */
     public void update() {
         frameCount++;
         if (frameCount > frameDuration) {
@@ -132,6 +135,9 @@ public class Sprite {
         }
     }
 
+    /**
+     * Move onto next sprite
+     */
     public void nextSprite() {
         //aux variables
         int x = spriteWidth * (sprites[currentSprite] % columns);
@@ -143,86 +149,192 @@ public class Sprite {
             currentSprite = 0;
     }
 
+    /**
+     * render sprite
+     *
+     * @param canvas Canvas
+     * @param dest   Destination rectangle
+     */
     public void render(Canvas canvas, Rect dest) {
         canvas.drawBitmap(spriteSheet, src, dest, null);
     }
 
+    /**
+     * Getter
+     *
+     * @return Columns
+     */
     public int getColumns() {
         return columns;
     }
 
+    /**
+     * Setter
+     *
+     * @param columns Columns
+     */
     public void setColumns(int columns) {
         this.columns = columns;
     }
 
+    /**
+     * Getter
+     *
+     * @return How many frames passed
+     */
     public int getFrameCount() {
         return frameCount;
     }
 
+    /**
+     * Setter
+     *
+     * @param frameCount How many frames passed
+     */
     public void setFrameCount(int frameCount) {
         this.frameCount = frameCount;
     }
 
+    /**
+     * Getter
+     *
+     * @return Height
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Setter
+     *
+     * @param height Height
+     */
     public void setHeight(int height) {
         this.height = height;
     }
 
+    /**
+     * Getter
+     *
+     * @return Rows
+     */
     public int getRows() {
         return rows;
     }
 
+    /**
+     * Setter
+     *
+     * @param rows Rows
+     */
     public void setRows(int rows) {
         this.rows = rows;
     }
 
+    /**
+     * Getter
+     *
+     * @return Sprite's Height
+     */
     public int getSpriteHeight() {
         return spriteHeight;
     }
 
+    /**
+     * Setter
+     *
+     * @param spriteHeight Sprite's Height
+     */
     public void setSpriteHeight(int spriteHeight) {
         this.spriteHeight = spriteHeight;
     }
 
+    /**
+     * Getter
+     *
+     * @return Sprite Sheet
+     */
     public Bitmap getSpriteSheet() {
         return spriteSheet;
     }
 
+    /**
+     * Setter
+     *
+     * @param spriteSheet Sprite Sheet
+     */
     public void setSpriteSheet(Bitmap spriteSheet) {
         this.spriteSheet = spriteSheet;
     }
 
+    /**
+     * Getter
+     *
+     * @return Sprite's Width
+     */
     public int getSpriteWidth() {
         return spriteWidth;
     }
 
+    /**
+     * Setter
+     *
+     * @param spriteWidth Sprite's Width
+     */
     public void setSpriteWidth(int spriteWidth) {
         this.spriteWidth = spriteWidth;
     }
 
+    /**
+     * Getter
+     *
+     * @return Source rectangle
+     */
     public Rect getSrc() {
         return src;
     }
 
+    /**
+     * Setter
+     *
+     * @param src Source Rectangle
+     */
     public void setSrc(Rect src) {
         this.src = src;
     }
 
+    /**
+     * Getter
+     *
+     * @return Width
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Setter
+     *
+     * @param width Width
+     */
     public void setWidth(int width) {
         this.width = width;
     }
 
+    /**
+     * Getter
+     *
+     * @return Number of Sprites
+     */
     public int getNSprites() {
         return nSprites;
     }
 
+    /**
+     * Setter
+     *
+     * @param nSprites Number of Sprites
+     */
     public void setNSprites(int nSprites) {
         this.nSprites = nSprites;
     }

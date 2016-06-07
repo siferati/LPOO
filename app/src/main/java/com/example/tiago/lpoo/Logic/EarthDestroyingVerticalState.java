@@ -10,6 +10,7 @@ import com.example.tiago.lpoo.R;
  * A class that represents the Earth spell's destroying state
  */
 public class EarthDestroyingVerticalState implements SpellState {
+
     //Attributes:
 
     /**
@@ -51,6 +52,8 @@ public class EarthDestroyingVerticalState implements SpellState {
 
     /**
      * Constructor
+     *
+     * @param spell
      */
     public EarthDestroyingVerticalState(Spell spell) {
         //spriteSheet is only initialized once!

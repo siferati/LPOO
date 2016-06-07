@@ -52,6 +52,7 @@ public class AirActiveState implements SpellState {
 
     /**
      * Constructor
+     * @param spell Spell
      */
     public AirActiveState(Spell spell) {
         //spriteSheet is only initialized once!

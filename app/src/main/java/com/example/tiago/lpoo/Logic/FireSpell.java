@@ -36,6 +36,17 @@ public class FireSpell extends Spell {
         super();
     }
 
+    /**
+     *
+     * @param context Context
+     * @param dps TRUE if coords are in dps, FALSE otherwise
+     * @param x X coordinate
+     * @param y Y coordinate
+     * @param xSpeed Speed on X axis
+     * @param ySpeed Speed on Y axis
+     * @param spriteSheet Sprite Sheet
+     * @param direction Direction
+     */
     public FireSpell(Context context, boolean dps, int x, int y, int xSpeed, int ySpeed, Bitmap spriteSheet, char direction) {
         super(context, dps, x, y, xSpeed, ySpeed, direction);
         switch (direction)

@@ -20,8 +20,8 @@ public class CustomEvent {
     /**
      * Constructor
      *
-     * @param event
-     * @param button
+     * @param event Event
+     * @param button Button
      */
     public CustomEvent(MotionEvent event, char button)
     {

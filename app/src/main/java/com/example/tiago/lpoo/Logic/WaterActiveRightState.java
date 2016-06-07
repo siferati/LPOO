@@ -27,7 +27,7 @@ public class WaterActiveRightState implements SpellState {
     /**
      * Order of the frames (index) of the animation
      */
-    private static final int[] FRAMES = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+    private static final int[] FRAMES = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
 
     /**
      * Number of rows of animation spriteSheet
@@ -54,6 +54,8 @@ public class WaterActiveRightState implements SpellState {
 
     /**
      * Constructor
+     *
+     * @param spell
      */
     public WaterActiveRightState(Spell spell) {
         //spriteSheet is only initialized once!
