@@ -4,6 +4,9 @@ package com.example.tiago.lpoo.Logic;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * A class that represents a Spawner
+ */
 public class Spawner {
 
     // Attributes
@@ -33,12 +36,17 @@ public class Spawner {
      */
     private int spawnCounter;
 
+    /**
+     * TRUE if can spawn, FALSE otherwise
+     */
     private boolean canSpawn;
 
     /**
      * Constructor
      *
-     * @param prototype The monster that spawns.
+     * @param prototype   The monster that spawns.
+     * @param spawnRadius Spawn Radius
+     * @param spawnRate   Spawn Rate
      */
     public Spawner(Monster prototype, int spawnRadius, int spawnRate) {
         this.prototype = prototype;
@@ -72,44 +80,63 @@ public class Spawner {
      *
      * @return The Spawn Radius
      */
-    public int getSpawnRadius(){return  spawnRadius;}
+    public int getSpawnRadius() {
+        return spawnRadius;
+    }
 
     /**
      * Getter
      *
      * @return the spawn rate
      */
-    public int getSpawnRate(){return spawnRate;}
+    public int getSpawnRate() {
+        return spawnRate;
+    }
 
     /**
      * Getter
      *
      * @return Current spawn counter
      */
-    public int getSpawnCounter(){return spawnCounter;}
+    public int getSpawnCounter() {
+        return spawnCounter;
+    }
 
-    public boolean getCanSpawn() {return canSpawn;}
+    /**
+     * Getter
+     *
+     * @return Can Spawn
+     */
+    public boolean getCanSpawn() {
+        return canSpawn;
+    }
 
     /**
      * Setter
      *
      * @param spawnRadius new radius
      */
-    public void setSpawnRadius(int spawnRadius){ this.spawnRadius = spawnRadius;}
+    public void setSpawnRadius(int spawnRadius) {
+        this.spawnRadius = spawnRadius;
+    }
 
     /**
      * Setter
      *
      * @param spawnRate new rate
      */
-    public void setSpawnRate(int spawnRate) {this.spawnRate = spawnRate; }
+    public void setSpawnRate(int spawnRate) {
+        this.spawnRate = spawnRate;
+    }
 
     /**
      * Setter
      *
      * @param spawnCounter new counter
      */
-    public void setSpawnCounter(int spawnCounter) {this.spawnCounter = spawnCounter; }
+    public void setSpawnCounter(int spawnCounter) {
+        this.spawnCounter = spawnCounter;
+    }
 
     /**
      * Setter
@@ -129,10 +156,20 @@ public class Spawner {
         this.prototype = prototype;
     }
 
-    public void setCanSpawn(boolean didSpawn) { this.canSpawn = didSpawn; }
+    /**
+     * Setter
+     *
+     * @param didSpawn TRUE if spawned, FALSE otherwise
+     */
+    public void setCanSpawn(boolean didSpawn) {
+        this.canSpawn = didSpawn;
+    }
 
-    public void incrementCounter(){
-        this.spawnCounter ++;
+    /**
+     * Update counter
+     */
+    public void incrementCounter() {
+        this.spawnCounter++;
         if (this.spawnCounter > this.spawnRate) this.spawnCounter = 0;
     }
 
@@ -145,11 +182,10 @@ public class Spawner {
         Random r = new Random();
         int newx = 0;
         int newy = 0;
-        if (this.spawnRadius == 0){
+        if (this.spawnRadius == 0) {
             newx = 0;
             newy = 0;
-        }
-        else {
+        } else {
             newx = r.nextInt(this.spawnRadius);
             newy = r.nextInt(this.spawnRadius);
         }
@@ -163,7 +199,7 @@ public class Spawner {
     /**
      * Update Spawner
      */
-    public int update(){
+    public int update() {
         this.incrementCounter();
         if (this.spawnCounter == this.spawnRate) {
             this.canSpawn = true;
@@ -173,8 +209,11 @@ public class Spawner {
         return 0;
     }
 
-    public void updateHealth(){
-        for (Monster m : spawned){
+    /**
+     * Update health
+     */
+    public void updateHealth() {
+        for (Monster m : spawned) {
             if (m.getHealth() != 0) m.update();
         }
     }
@@ -182,9 +221,9 @@ public class Spawner {
     /**
      * Remove any dead monsters
      */
-    public int removeDead(){
+    public int removeDead() {
         int retorno = 0;
-        for (int i = 0; i < spawned.size(); i++){
+        for (int i = 0; i < spawned.size(); i++) {
             if (spawned.get(i).checkDead()) {
                 if (spawned.get(i).checkDoneCorpse()) {
                     retorno++;

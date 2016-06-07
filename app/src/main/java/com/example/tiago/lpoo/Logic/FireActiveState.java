@@ -9,7 +9,7 @@ import com.example.tiago.lpoo.R;
 /**
  * A class that represents the Fire spell's active state
  */
-public class FireActiveState implements SpellState{
+public class FireActiveState implements SpellState {
 
     //Attributes:
 
@@ -26,7 +26,7 @@ public class FireActiveState implements SpellState{
     /**
      * Order of the frames (index) of the animation
      */
-    private static final int[] FRAMES = new int[] {3, 4, 5, 6};
+    private static final int[] FRAMES = new int[]{3, 4, 5, 6};
 
     /**
      * Number of rows of animation spriteSheet
@@ -52,6 +52,8 @@ public class FireActiveState implements SpellState{
 
     /**
      * Constructor
+     *
+     * @param spell Spell
      */
     public FireActiveState(Spell spell) {
         //spriteSheet is only initialized once!

@@ -46,6 +46,15 @@ public abstract class Entity {
         this(null);
     }
 
+    /**
+     * Initialize Position
+     *
+     * @param dps    TRUE if coords are in dps, FALSE otherwise
+     * @param x      X coordinate
+     * @param y      Y coordinate
+     * @param xSpeed Speed on X axis
+     * @param ySpeed Speed on Y axis
+     */
     protected void initPosition(boolean dps, int x, int y, int xSpeed, int ySpeed) {
         if (dps) {
             int x_dps = toPixels(x);
@@ -102,10 +111,20 @@ public abstract class Entity {
         this.position = position;
     }
 
+    /**
+     * Getter
+     *
+     * @return Sprite
+     */
     public Sprite getSprite() {
         return sprite;
     }
 
+    /**
+     * Setter
+     *
+     * @param sprite Sprite
+     */
     public void setSprite(Sprite sprite) {
         this.sprite = sprite;
     }

@@ -46,6 +46,11 @@ public class Position {
         this.ySpeed = ySpeed;
     }
 
+    /**
+     * Constructor
+     *
+     * @param pos Position to copy
+     */
     public Position(Position pos) {
         this.position = pos.position;
         this.xSpeed = pos.xSpeed;

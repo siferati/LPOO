@@ -26,7 +26,7 @@ public class EarthCastingHorizontalState implements SpellState {
     /**
      * Order of the frames (index) of the animation
      */
-    private static final int[] FRAMES = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8};
+    private static final int[] FRAMES = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8};
 
     /**
      * How long this state lasts (in frames)
@@ -52,7 +52,9 @@ public class EarthCastingHorizontalState implements SpellState {
     //Methods:
 
     /**
-     * Constructor
+     * Construcotr
+     *
+     * @param spell
      */
     public EarthCastingHorizontalState(Spell spell) {
         //spriteSheet is only initialized once!

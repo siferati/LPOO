@@ -26,7 +26,7 @@ public class FireTravellingLeftState implements SpellState {
     /**
      * Order of the frames (index) of the animation
      */
-    private static final int[] FRAMES = new int[] {0, 1, 2};
+    private static final int[] FRAMES = new int[]{0, 1, 2};
 
     /**
      * Number of rows of animation spriteSheet
@@ -52,6 +52,8 @@ public class FireTravellingLeftState implements SpellState {
 
     /**
      * Constructor
+     *
+     * @param spell Spell
      */
     public FireTravellingLeftState(Spell spell) {
         //spriteSheet is only initialized once!

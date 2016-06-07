@@ -7,9 +7,9 @@ import com.example.tiago.lpoo.Layouts.GameLoopActivityLayout;
 import com.example.tiago.lpoo.R;
 
 /**
- * A class that represents the Earth spell's casting state
+ * A class that represents the Earth spell's active state
  */
-public class EarthActiveHorizontalState implements SpellState{
+public class EarthActiveHorizontalState implements SpellState {
 
     //Attributes:
 
@@ -26,7 +26,7 @@ public class EarthActiveHorizontalState implements SpellState{
     /**
      * Order of the frames (index) of the animation
      */
-    private static final int[] FRAMES = new int[] {9};
+    private static final int[] FRAMES = new int[]{9};
 
     /**
      * Number of rows of animation spriteSheet
@@ -52,6 +52,8 @@ public class EarthActiveHorizontalState implements SpellState{
 
     /**
      * Constructor
+     *
+     * @param spell Spell
      */
     public EarthActiveHorizontalState(Spell spell) {
         //spriteSheet is only initialized once!

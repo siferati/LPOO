@@ -40,6 +40,8 @@ public class MonsterRunningDownState implements MonsterState {
 
     /**
      * Constructor
+     *
+     * @param monster Monster
      */
     public MonsterRunningDownState(Monster monster) {
         //spriteSheet is only initialized once!

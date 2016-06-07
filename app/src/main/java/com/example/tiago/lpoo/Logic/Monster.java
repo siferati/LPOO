@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
 
 import java.util.Random;
 
@@ -21,7 +20,6 @@ public class Monster extends Entity {
      */
     protected int health;
 
-    //TODO fix all javadocs
     /*
      * How long to stay a corpse
      */
@@ -53,14 +51,14 @@ public class Monster extends Entity {
     protected MonsterState state;
 
     /**
-     * Constructor
-     *
-     * @param x       X coordinate (in dps)
-     * @param y       Y coordinate (in dps)
-     * @param xSpeed  Speed along the X axis (in dps)
-     * @param ySpeed  Speed along the Y axis (in dps)
-     * @param context Context
-     * @param health  Monster's health
+     * @param context   Context
+     * @param dps       TRUE if coords are in dps, FALSE otherwise
+     * @param x         X coordinate
+     * @param y         Y coordinate
+     * @param xSpeed    Speed on X axis
+     * @param ySpeed    Speed on Y axis
+     * @param health    Health
+     * @param direction Direction
      */
     public Monster(Context context, boolean dps, int x, int y, int xSpeed, int ySpeed, int health, char direction) {
         super(context);
@@ -155,16 +153,29 @@ public class Monster extends Entity {
             this.health = 0;
     }
 
+    /**
+     * Check if monster is dead
+     *
+     * @return TRUE if monster is dead, FALSE otherwise
+     */
     public boolean checkDead() {
         return this.health <= 0;
     }
 
+    /**
+     * Update corpse duration
+     */
     public void decrementCorpseDur() {
         this.corpseDur--;
         if (this.corpseDur < 0)
             this.corpseDur = 0;
     }
 
+    /**
+     * Check corpse duration (almost like a getter)
+     *
+     * @return corpse duration
+     */
     public boolean checkDoneCorpse() {
         return this.corpseDur == 0;
     }
@@ -209,6 +220,11 @@ public class Monster extends Entity {
 
     }
 
+    /**
+     * Set Speed toward Wizard
+     *
+     * @param wizard_position Wizard position
+     */
     public void setSpeedsToWizard(Position wizard_position) {
         float dif_x = position.position.centerX() - wizard_position.position.centerX();
         float dif_y = position.position.centerY() - wizard_position.position.centerY();
@@ -243,42 +259,92 @@ public class Monster extends Entity {
         sprite.update();
     }
 
+    /**
+     * Getter
+     *
+     * @return PushedXSPeed
+     */
     public int getPushedXSpeed() {
         return pushedXSpeed;
     }
 
+    /**
+     * Setter
+     *
+     * @param pushedXSpeed PushedXSpeed
+     */
     public void setPushedXSpeed(int pushedXSpeed) {
         this.pushedXSpeed = pushedXSpeed;
     }
 
+    /**
+     * Getter
+     *
+     * @return PushedYSpeed
+     */
     public int getPushedYSpeed() {
         return pushedYSpeed;
     }
 
+    /**
+     * Setter
+     *
+     * @param pushedYSpeed PushedYSpeed
+     */
     public void setPushedYSpeed(int pushedYSpeed) {
         this.pushedYSpeed = pushedYSpeed;
     }
 
+    /**
+     * Getter
+     *
+     * @return Direction
+     */
     public char getDirection() {
         return direction;
     }
 
+    /**
+     * Setter
+     *
+     * @param direction Direction
+     */
     public void setDirection(char direction) {
         this.direction = direction;
     }
 
+    /**
+     * Getter
+     *
+     * @return State
+     */
     public MonsterState getState() {
         return state;
     }
 
+    /**
+     * Setter
+     *
+     * @return Rooted
+     */
     public boolean isRooted() {
         return rooted;
     }
 
+    /**
+     * Setter
+     *
+     * @param rooted Rooted
+     */
     public void setRooted(boolean rooted) {
         this.rooted = rooted;
     }
 
+    /**
+     * Setter
+     *
+     * @param state State
+     */
     public void setState(MonsterState state) {
         this.state = state;
     }

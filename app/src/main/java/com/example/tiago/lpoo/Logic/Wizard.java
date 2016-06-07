@@ -77,13 +77,12 @@ public class Wizard extends Entity {
 
     /**
      * Casts a spell of nature type
-     * @param type
-     * @param direction
+     *
+     * @param type      Type of Spell
+     * @param direction Direction
      */
-    public void castSpell(char type, char direction)
-    {
-        switch (type)
-        {
+    public void castSpell(char type, char direction) {
+        switch (type) {
             case 'E':
                 castEarthSpell(direction);
                 break;
@@ -102,7 +101,9 @@ public class Wizard extends Entity {
     }
 
     /**
-     * Casts an Earth Spell
+     * Cast an Earth Spell
+     *
+     * @param direction Direction
      */
     private void castEarthSpell(char direction) {
         //coordinates given are already in pxls (from wizard constructor), so boolean dps = false
@@ -129,6 +130,8 @@ public class Wizard extends Entity {
 
     /**
      * Casts an Air Spell
+     *
+     * @param direction Direction
      */
     private void castAirSpell(char direction) {
         //coordinates given are already in pxls (from wizard constructor), so boolean dps = false
@@ -155,6 +158,8 @@ public class Wizard extends Entity {
 
     /**
      * Casts an Water Spell
+     *
+     * @param direction Direction
      */
     private void castWaterSpell(char direction) {
         //coordinates given are already in pxls (from wizard constructor), so boolean dps = false
@@ -180,7 +185,9 @@ public class Wizard extends Entity {
     }
 
     /**
-     * Casts an Fire Spell
+     * Casts a Fire Spell
+     *
+     * @param direction Direction
      */
     private void castFireSpell(char direction) {
         //coordinates given are already in pxls (from wizard constructor), so boolean dps = false
