@@ -16,6 +16,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.example.tiago.lpoo.Activities.GameLoopActivity;
+import com.example.tiago.lpoo.Logic.CustomEvent;
 import com.example.tiago.lpoo.Logic.Spawner;
 import com.example.tiago.lpoo.Logic.Spell;
 import com.example.tiago.lpoo.Logic.Wizard;
@@ -119,7 +120,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
     /**
      * Queue of inputs to process
      */
-    ArrayList<MotionEvent> motionEvents;
+    ArrayList<CustomEvent> motionEvents;
 
     /**
      * Updates Per Second (if the game ran at 30 FPS, it would be updated once every frame)
@@ -193,7 +194,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
      *
      * @param event Motion Event to be added to the queue
      */
-    public void addMotionEvent(MotionEvent event) {
+    public void addMotionEvent(CustomEvent event) {
         motionEvents.add(event);
     }
 
@@ -257,7 +258,8 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
     private void processEvents() {
         while (!motionEvents.isEmpty()) {
             //get event
-            MotionEvent event = motionEvents.get(0);
+            MotionEvent event = motionEvents.get(0).event;
+            char type = motionEvents.get(0).button;
             float x = (int) event.getRawX();
             float y = (int) event.getRawY();
             switch (event.getAction()) {
@@ -265,16 +267,8 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
                     startX = event.getRawX();
                     startY = event.getRawY();
                     direction = '\0';
-                    Log.w("StartPointX", "" + startX);
-                    Log.w("StartPointY", "" + startY);
-                    Log.w("X", "" + x);
-                    Log.w("Y", "" + y);
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    Log.w("StartPointX", "" + startX);
-                    Log.w("StartPointY", "" + startY);
-                    Log.w("X", "" + x);
-                    Log.w("Y", "" + y);
                     if (startX - x > SLIDE_RANGE) {
                         direction = 'W';
                     } else if (x - startX > SLIDE_RANGE) {
@@ -287,7 +281,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
                         direction = '\0';
                     break;
                 case MotionEvent.ACTION_UP:
-                    wizard.castEarthSpell(direction);
+                    wizard.castSpell(type, direction);
                     break;
                 default:
                     break;

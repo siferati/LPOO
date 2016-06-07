@@ -76,9 +76,35 @@ public class Wizard extends Entity {
     }
 
     /**
+     * Casts a spell of nature type
+     * @param type
+     * @param direction
+     */
+    public void castSpell(char type, char direction)
+    {
+        switch (type)
+        {
+            case 'E':
+                castEarthSpell(direction);
+                break;
+            case 'A':
+                castAirSpell(direction);
+                break;
+            case 'F':
+                castEarthSpell(direction);
+                break;
+            case 'W':
+                castAirSpell(direction);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
      * Casts an Earth Spell
      */
-    public void castEarthSpell(char direction) {
+    private void castEarthSpell(char direction) {
         //coordinates given are already in pxls (from wizard constructor), so boolean dps = false
         Spell earthSpell = null;
         switch (direction) {
@@ -99,6 +125,32 @@ public class Wizard extends Entity {
         }
         if (earthSpell != null)
             spells.add(earthSpell);
+    }
+
+    /**
+     * Casts an Air Spell
+     */
+    private void castAirSpell(char direction) {
+        //coordinates given are already in pxls (from wizard constructor), so boolean dps = false
+        Spell airSpell = null;
+        switch (direction) {
+            case 'N':
+                airSpell = new AirSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(0), 0, toPixels(-4), spellsSpriteSheet, direction);
+                break;
+            case 'S':
+                airSpell = new AirSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(0), 0, toPixels(4), spellsSpriteSheet, direction);
+                break;
+            case 'E':
+                airSpell = new AirSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(0), toPixels(4), 0, spellsSpriteSheet, direction);
+                break;
+            case 'W':
+                airSpell = new AirSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(0), toPixels(-4), 0, spellsSpriteSheet, direction);
+                break;
+            default:
+                break;
+        }
+        if (airSpell != null)
+            spells.add(airSpell);
     }
 
     @Override

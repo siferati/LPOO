@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.tiago.lpoo.Layouts.GameLoopActivityLayout;
+import com.example.tiago.lpoo.Logic.CustomEvent;
 import com.example.tiago.lpoo.R;
 
 /**
@@ -56,7 +57,7 @@ public class GameLoopActivity extends Activity {
         earthButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                layout.addMotionEvent(event);
+                layout.addMotionEvent(new CustomEvent(event, 'E'));
                 return true;
             }
         });
@@ -64,7 +65,7 @@ public class GameLoopActivity extends Activity {
         fireButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                layout.addMotionEvent(event);
+                layout.addMotionEvent(new CustomEvent(event, 'F'));
                 return true;
             }
         });
@@ -72,7 +73,7 @@ public class GameLoopActivity extends Activity {
         airButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                layout.addMotionEvent(event);
+                layout.addMotionEvent(new CustomEvent(event, 'A'));
                 return true;
             }
         });
@@ -80,7 +81,7 @@ public class GameLoopActivity extends Activity {
         waterButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                layout.addMotionEvent(event);
+                layout.addMotionEvent(new CustomEvent(event, 'W'));
                 return true;
             }
         });
