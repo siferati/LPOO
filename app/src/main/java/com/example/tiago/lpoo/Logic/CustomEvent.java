@@ -20,11 +20,10 @@ public class CustomEvent {
     /**
      * Constructor
      *
-     * @param event Event
+     * @param event  Event
      * @param button Button
      */
-    public CustomEvent(MotionEvent event, char button)
-    {
+    public CustomEvent(MotionEvent event, char button) {
         this.button = button;
         this.event = event;
     }

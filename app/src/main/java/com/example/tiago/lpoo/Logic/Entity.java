@@ -62,9 +62,9 @@ public abstract class Entity {
             int xSpeed_dps = toPixels(xSpeed);
             int ySpeed_dps = toPixels(ySpeed);
             position = new Position(new Rect(x_dps, y_dps, x_dps + sprite.getSpriteWidth(), y_dps + sprite.getSpriteHeight()), xSpeed_dps, ySpeed_dps);
-        } else
-            if (sprite != null) position = new Position(new Rect(x, y, x + sprite.getSpriteWidth(), y + sprite.getSpriteHeight()), xSpeed, ySpeed);
-            else position = new Position(new Rect(x, y, x, y), xSpeed, ySpeed);
+        } else if (sprite != null)
+            position = new Position(new Rect(x, y, x + sprite.getSpriteWidth(), y + sprite.getSpriteHeight()), xSpeed, ySpeed);
+        else position = new Position(new Rect(x, y, x, y), xSpeed, ySpeed);
     }
 
     /**

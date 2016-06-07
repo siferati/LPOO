@@ -26,7 +26,7 @@ public class AirActiveState implements SpellState {
     /**
      * Order of the frames (index) of the animation
      */
-    private static final int[] FRAMES = new int[] {0, 1, 2, 3, 4, 6, 7};
+    private static final int[] FRAMES = new int[]{0, 1, 2, 3, 4, 6, 7};
 
     /**
      * Number of rows of animation spriteSheet
@@ -52,6 +52,7 @@ public class AirActiveState implements SpellState {
 
     /**
      * Constructor
+     *
      * @param spell Spell
      */
     public AirActiveState(Spell spell) {

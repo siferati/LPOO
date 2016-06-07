@@ -2,7 +2,7 @@ package com.example.tiago.lpoo.Logic;
 
 /**
  * An interface that represents a spell's state
- * State order: Casting State > Active State > Destroying State
+ * State order: Casting State - Active State - Destroying State
  */
 public interface SpellState {
 

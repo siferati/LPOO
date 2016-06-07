@@ -198,6 +198,8 @@ public class Spawner {
 
     /**
      * Update Spawner
+     *
+     * @return Int (works like a boolean 0 or 1)
      */
     public int update() {
         this.incrementCounter();
@@ -219,7 +221,9 @@ public class Spawner {
     }
 
     /**
-     * Remove any dead monsters
+     * Remove dead monsters
+     *
+     * @return Number of dead monsters removed
      */
     public int removeDead() {
         int retorno = 0;

@@ -52,9 +52,9 @@ public class EarthCastingHorizontalState implements SpellState {
     //Methods:
 
     /**
-     * Construcotr
+     * Constructor
      *
-     * @param spell
+     * @param spell Spell
      */
     public EarthCastingHorizontalState(Spell spell) {
         //spriteSheet is only initialized once!

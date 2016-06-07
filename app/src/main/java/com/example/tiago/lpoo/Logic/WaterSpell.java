@@ -8,7 +8,7 @@ import com.example.tiago.lpoo.Layouts.GameLoopActivityLayout;
 /**
  * A class that represents an Water Spell
  */
-public class WaterSpell extends Spell{
+public class WaterSpell extends Spell {
 
     //Attributes:
 
@@ -32,26 +32,23 @@ public class WaterSpell extends Spell{
     /**
      * Default Constructor
      */
-    public WaterSpell()
-    {
+    public WaterSpell() {
         super();
     }
 
     /**
-     *
-     * @param context Context
-     * @param dps TRUE if coords are in dps, FALSE otherwise
-     * @param x X coordinate
-     * @param y Y coordinate
-     * @param xSpeed Speed on X axis
-     * @param ySpeed Speed on Y axis
+     * @param context     Context
+     * @param dps         TRUE if coords are in dps, FALSE otherwise
+     * @param x           X coordinate
+     * @param y           Y coordinate
+     * @param xSpeed      Speed on X axis
+     * @param ySpeed      Speed on Y axis
      * @param spriteSheet Sprite Sheet
-     * @param direction Direction
+     * @param direction   Direction
      */
     public WaterSpell(Context context, boolean dps, int x, int y, int xSpeed, int ySpeed, Bitmap spriteSheet, char direction) {
         super(context, dps, x, y, xSpeed, ySpeed, direction);
-        switch (direction)
-        {
+        switch (direction) {
             case 'N':
                 state = new WaterActiveRightState(this);
                 break;

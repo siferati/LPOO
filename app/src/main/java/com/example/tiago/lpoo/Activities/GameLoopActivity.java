@@ -47,7 +47,8 @@ public class GameLoopActivity extends Activity {
 
     /**
      * On create method. Sets behavior to show spell buttons
-     * @param savedInstanceState
+     *
+     * @param savedInstanceState SavedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {

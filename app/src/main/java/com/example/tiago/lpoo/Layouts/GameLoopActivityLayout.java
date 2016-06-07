@@ -561,7 +561,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         spawners.add(new Spawner(s, 0, rand.nextInt(50) + 20));
 
         // East
-        m = new Monster(context, false, widthPixels, heightPixels/2, 0, 0, 100, 'W');
+        m = new Monster(context, false, widthPixels, heightPixels / 2, 0, 0, 100, 'W');
         m.setSpeedsToWizard(this.wizard.getPosition());
         spawners.add(new Spawner(m, 0, rand.nextInt(50) + 20));
 
@@ -574,6 +574,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
 
     /**
      * Returns the number of monsters to spawn in the current wave
+     *
      * @return the number of monsters for the current wave
      */
     public int toSpawn() {
@@ -584,6 +585,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
 
     /**
      * Convert dps coordinates to pixels
+     *
      * @param dps the value to convert
      * @return the converted value
      */
@@ -604,6 +606,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
 
     /**
      * Checks how many monsters are currently in the critical area
+     *
      * @return the monsters in the critical area
      */
     public ArrayList<Monster> monstersInCriticalAreaList() {
@@ -620,8 +623,9 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
 
     /**
      * Lose Lives based on if monsters entered the area
+     *
      * @param last last frame's monsters
-     * @param now curent monsters
+     * @param now  curent monsters
      * @return lives to lose
      */
     public int loseLives(ArrayList<Monster> last, ArrayList<Monster> now) {
@@ -640,6 +644,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
 
     /**
      * Write to any file on internal storage
+     *
      * @param filename File's name
      * @param message  Message to write
      */
@@ -656,6 +661,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
 
     /**
      * Read the Internal High Score file
+     *
      * @return the file's contents
      */
     public String readScoreFile() {
@@ -678,6 +684,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
 
     /**
      * Sets the Earth Spell's button to a new one
+     *
      * @param earthButton new earth spell button
      */
     public void setEarthButton(ImageView earthButton) {
@@ -686,6 +693,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
 
     /**
      * Sets the Fire Spell's button to a new one
+     *
      * @param fireButton new fire spell button
      */
     public void setFireButton(ImageView fireButton) {
@@ -694,6 +702,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
 
     /**
      * Sets the Air Spell's button to a new one
+     *
      * @param airButton new air spell button
      */
     public void setAirButton(ImageView airButton) {
@@ -702,6 +711,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
 
     /**
      * Sets the Water Spell's button to a new one
+     *
      * @param waterButton new water spell button
      */
     public void setWaterButton(ImageView waterButton) {
