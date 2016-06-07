@@ -33,6 +33,16 @@ public class Monster extends Entity {
     protected boolean rooted;
 
     /**
+     * Speed of push back
+     */
+    protected int pushedXSpeed;
+
+    /**
+     * Speed of push back
+     */
+    protected int pushedYSpeed;
+
+    /**
      * Direction: N, S, E, W
      */
     protected char direction;
@@ -58,6 +68,8 @@ public class Monster extends Entity {
         this.health = health;
         this.corpseDur = 0;
         rooted = false;
+        pushedXSpeed = 0;
+        pushedYSpeed = 0;
         //initialize state
         switch (direction) {
             case 'E':
@@ -210,13 +222,53 @@ public class Monster extends Entity {
 
     @Override
     public void update() {
-        //TODO this won't work cause of sprite.update on super.update. Change sprite.update onto state.update!!
-        if (!rooted)
+        boolean updated = false;
+        if (pushedYSpeed != 0 || pushedXSpeed != 0) {
+            int oldXSpeed = position.xSpeed;
+            int oldYSpeed = position.ySpeed;
+            position.xSpeed = pushedXSpeed;
+            position.ySpeed = pushedYSpeed;
+            super.update();
+            updated = true;
+            position.xSpeed = oldXSpeed;
+            position.ySpeed = oldYSpeed;
+        }
+        if (!rooted && !updated)
             super.update();
         //reset rooted
         rooted = false;
+        pushedXSpeed = 0;
+        pushedYSpeed = 0;
         state.update(this);
         sprite.update();
+    }
+
+    public int getPushedXSpeed() {
+        return pushedXSpeed;
+    }
+
+    public void setPushedXSpeed(int pushedXSpeed) {
+        this.pushedXSpeed = pushedXSpeed;
+    }
+
+    public int getPushedYSpeed() {
+        return pushedYSpeed;
+    }
+
+    public void setPushedYSpeed(int pushedYSpeed) {
+        this.pushedYSpeed = pushedYSpeed;
+    }
+
+    public char getDirection() {
+        return direction;
+    }
+
+    public void setDirection(char direction) {
+        this.direction = direction;
+    }
+
+    public MonsterState getState() {
+        return state;
     }
 
     public boolean isRooted() {

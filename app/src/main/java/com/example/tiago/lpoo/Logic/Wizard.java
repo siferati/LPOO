@@ -94,7 +94,7 @@ public class Wizard extends Entity {
                 castEarthSpell(direction);
                 break;
             case 'W':
-                castAirSpell(direction);
+                castWaterSpell(direction);
                 break;
             default:
                 break;
@@ -151,6 +151,32 @@ public class Wizard extends Entity {
         }
         if (airSpell != null)
             spells.add(airSpell);
+    }
+
+    /**
+     * Casts an Water Spell
+     */
+    private void castWaterSpell(char direction) {
+        //coordinates given are already in pxls (from wizard constructor), so boolean dps = false
+        Spell waterSpell = null;
+        switch (direction) {
+            case 'N':
+                waterSpell = new WaterSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(0), 0, toPixels(-5), spellsSpriteSheet, direction);
+                break;
+            case 'S':
+                waterSpell = new WaterSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(0), 0, toPixels(5), spellsSpriteSheet, direction);
+                break;
+            case 'E':
+                waterSpell = new WaterSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(0), toPixels(5), 0, spellsSpriteSheet, direction);
+                break;
+            case 'W':
+                waterSpell = new WaterSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(0), toPixels(-5), 0, spellsSpriteSheet, direction);
+                break;
+            default:
+                break;
+        }
+        if (waterSpell != null)
+            spells.add(waterSpell);
     }
 
     @Override
