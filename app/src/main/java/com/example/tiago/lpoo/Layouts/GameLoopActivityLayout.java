@@ -550,22 +550,22 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
         // North
         Monster m = new Monster(context, true, 350, 0, 0, 0, 100, 'S');
         m.setSpeedsToWizard(this.wizard.getPosition());
-        spawners.add(new Spawner(m, 100, rand.nextInt(50) + 20));
+        spawners.add(new Spawner(m, 0, rand.nextInt(50) + 20));
 
         // South
         Monster s = new Monster(context, true, 350, 400, 0, 0, 100, 'N');
         s.setSpeedsToWizard(this.wizard.getPosition());
-        spawners.add(new Spawner(s, 100, rand.nextInt(50) + 20));
+        spawners.add(new Spawner(s, 0, rand.nextInt(50) + 20));
 
         // East
         m = new Monster(context, true, 700, 200, 0, 0, 100, 'W');
         m.setSpeedsToWizard(this.wizard.getPosition());
-        spawners.add(new Spawner(m, 100, rand.nextInt(50) + 20));
+        spawners.add(new Spawner(m, 0, rand.nextInt(50) + 20));
 
         // West
         m = new Monster(context, true, 0, 200, 0, 0, 100, 'E');
         m.setSpeedsToWizard(this.wizard.getPosition());
-        spawners.add(new Spawner(m, 100, rand.nextInt(50) + 20));
+        spawners.add(new Spawner(m, 0, rand.nextInt(50) + 20));
 
     }
 
@@ -639,6 +639,7 @@ public class GameLoopActivityLayout extends SurfaceView implements Runnable {
             InputStreamReader inputreader = new InputStreamReader(instream);
             BufferedReader buffreader = new BufferedReader(inputreader);
             scoreMessage = buffreader.readLine();
+            if (scoreMessage == null) return "High Score: 0";
 
         } catch (Exception e) {
             e.printStackTrace();
