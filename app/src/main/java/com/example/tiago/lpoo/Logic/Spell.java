@@ -69,8 +69,7 @@ public abstract class Spell extends Entity {
      *
      * @param monster Monster to check collisions with
      */
-    public void checkCollision(Monster monster)
-    {
+    public void checkCollision(Monster monster) {
         if (position.intersects(monster.getPosition()))
             handleCollision(monster);
     }

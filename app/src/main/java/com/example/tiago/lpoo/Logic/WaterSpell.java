@@ -3,12 +3,29 @@ package com.example.tiago.lpoo.Logic;
 import android.content.Context;
 import android.graphics.Bitmap;
 
+import com.example.tiago.lpoo.Layouts.GameLoopActivityLayout;
+
 /**
  * A class that represents an Water Spell
  */
 public class WaterSpell extends Spell{
 
     //Attributes:
+
+    /**
+     * Cooldown in seconds!
+     */
+    private static final float COOLDOWN = (float) 2.0;
+
+    /**
+     * Cooldown in frames!!
+     */
+    public static int cooldown = 0;
+
+    /**
+     * TRUE if off cooldow, FALSE otherwise
+     */
+    public static boolean canCast = true;
 
     //Methods:
 
@@ -40,6 +57,8 @@ public class WaterSpell extends Spell{
                 break;
         }
         initPosition(dps, x, y, xSpeed, ySpeed);
+        cooldown = (int) COOLDOWN * GameLoopActivityLayout.UPS;
+        canCast = false;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.tiago.lpoo.Logic;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import com.example.tiago.lpoo.Layouts.GameLoopActivityLayout;
 
 /**
  * A class that represents an Fire Spell
@@ -9,6 +10,21 @@ import android.graphics.Bitmap;
 public class FireSpell extends Spell {
 
     //Attributes:
+
+    /**
+     * Cooldown in seconds!
+     */
+    private static final float COOLDOWN = (float) 5.0;
+
+    /**
+     * Cooldown in frames!!
+     */
+    public static int cooldown = 0;
+
+    /**
+     * TRUE if off cooldow, FALSE otherwise
+     */
+    public static boolean canCast = true;
 
     //Methods:
 
@@ -40,6 +56,8 @@ public class FireSpell extends Spell {
                 break;
         }
         initPosition(dps, x, y, xSpeed, ySpeed);
+        cooldown = (int) COOLDOWN * GameLoopActivityLayout.UPS;
+        canCast = false;
     }
 
     @Override
