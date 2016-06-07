@@ -66,6 +66,12 @@ public class Monster extends Entity {
             case 'W':
                 state = new MonsterRunningLeftState(this);
                 break;
+            case 'N':
+                state = new MonsterRunningUpState(this);
+                break;
+            case 'S':
+                state = new MonsterRunningDownState(this);
+                break;
             default:
                 break;
         }

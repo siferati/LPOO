@@ -6,9 +6,9 @@ import android.graphics.BitmapFactory;
 import com.example.tiago.lpoo.R;
 
 /**
- * A class that represents the Monster running left state
+ * A class that represents the Monster running up state
  */
-public class MonsterRunningLeftState implements MonsterState {
+public class MonsterRunningUpState implements MonsterState {
 
     //Attributes:
 
@@ -20,17 +20,17 @@ public class MonsterRunningLeftState implements MonsterState {
     /**
      * Animation frames (ordered by index)
      */
-    private static final int[] FRAMES = new int[]{9, 8, 11, 10, 13, 12, 15, 14};
+    private static final int[] FRAMES = new int[]{0, 1, 2, 3, 4, 5, 6, 7};
 
     /**
      * Number of rows of animation spriteSheet
      */
-    private static final int ROWS = 8;
+    private static final int ROWS = 2;
 
     /**
      * Number of columns of animation spriteSheet
      */
-    private static final int COLS = 2;
+    private static final int COLS = 8;
 
     /**
      * Sprite sheet of Animation
@@ -42,10 +42,10 @@ public class MonsterRunningLeftState implements MonsterState {
     /**
      * Constructor
      */
-    public MonsterRunningLeftState(Monster monster) {
+    public MonsterRunningUpState(Monster monster) {
         //spriteSheet is only initialized once!
         if (spriteSheet == null)
-            spriteSheet = BitmapFactory.decodeResource(monster.context.getResources(), R.drawable.monster);
+            spriteSheet = BitmapFactory.decodeResource(monster.context.getResources(), R.drawable.monster_vertical);
         monster.sprite = new Sprite(spriteSheet, ROWS, COLS);
         enter(monster);
     }
