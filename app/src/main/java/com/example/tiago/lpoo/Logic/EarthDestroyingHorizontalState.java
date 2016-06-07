@@ -6,15 +6,10 @@ import android.graphics.BitmapFactory;
 import com.example.tiago.lpoo.Layouts.GameLoopActivityLayout;
 import com.example.tiago.lpoo.R;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 /**
- * A class that represents the Earth spell's casting state
+ * A class that represents the Earth spell's destroying state
  */
-public class EarthActiveState implements SpellState{
+public class EarthDestroyingHorizontalState implements SpellState {
 
     //Attributes:
 
@@ -26,12 +21,17 @@ public class EarthActiveState implements SpellState{
     /**
      * Speed of the animation
      */
-    private static final int FPS = 1;
+    private static final int FPS = 10;
 
     /**
      * Order of the frames (index) of the animation
      */
-    private static final int[] FRAMES = new int[] {9};
+    private static final int[] FRAMES = new int[]{8, 7, 6, 5, 4, 3, 2, 1, 0};
+
+    /**
+     * How long this state lasts (in frames)
+     */
+    private static final float STATE_DURATION = FRAMES.length * GameLoopActivityLayout.UPS / FPS;
 
     /**
      * Number of rows of animation spriteSheet
@@ -48,17 +48,12 @@ public class EarthActiveState implements SpellState{
      */
     private static Bitmap spriteSheet;
 
-    /**
-     * How long this state lasts (in seconds!)
-     */
-    private static final float STATE_DURATION = (float) 2.0;
-
     //Methods:
 
     /**
      * Constructor
      */
-    public EarthActiveState(Spell spell) {
+    public EarthDestroyingHorizontalState(Spell spell) {
         //spriteSheet is only initialized once!
         if (spriteSheet == null)
             spriteSheet = BitmapFactory.decodeResource(spell.context.getResources(), R.drawable.earth_spell);
@@ -79,8 +74,8 @@ public class EarthActiveState implements SpellState{
         //update frameCount
         frameCount++;
         //if the entire animation as been played
-        if (frameCount > STATE_DURATION * GameLoopActivityLayout.UPS)
-            return new EarthDestroyingState(spell);
+        if (frameCount > STATE_DURATION)
+            spell.setActive(false);
         return null;
     }
 }

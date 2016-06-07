@@ -83,18 +83,16 @@ public class Wizard extends Entity {
         Spell earthSpell = null;
         switch (direction) {
             case 'N':
-                earthSpell = new EarthSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(-100), 0, 0, spellsSpriteSheet);
+                earthSpell = new EarthSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(-100), 0, 0, spellsSpriteSheet, direction);
                 break;
             case 'S':
-                earthSpell = new EarthSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(100), 0, 0, spellsSpriteSheet);
+                earthSpell = new EarthSpell(context, false, position.position.left + toPixels(0), position.position.top + toPixels(100), 0, 0, spellsSpriteSheet, direction);
                 break;
             case 'E':
-                if (context == null)
-                    Log.w("ADEEEEUSSSS", "!!!!");
-                earthSpell = new EarthSpell(context, false, position.position.left + toPixels(100), position.position.top + toPixels(0), 0, 0, spellsSpriteSheet);
+                earthSpell = new EarthSpell(context, false, position.position.left + toPixels(100), position.position.top + toPixels(0), 0, 0, spellsSpriteSheet, direction);
                 break;
             case 'W':
-                earthSpell = new EarthSpell(context, false, position.position.left + toPixels(-100), position.position.top + toPixels(0), 0, 0, spellsSpriteSheet);
+                earthSpell = new EarthSpell(context, false, position.position.left + toPixels(-100), position.position.top + toPixels(0), 0, 0, spellsSpriteSheet, direction);
                 break;
             default:
                 break;
